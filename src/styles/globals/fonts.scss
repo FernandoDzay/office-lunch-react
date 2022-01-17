@@ -1,0 +1,23 @@
+/*============ Fonts */
+@font-face {
+    font-family: 'RobotoCondensedLight';
+    src: url('../../libraries/fonts/robotocondensed-light.eot');
+    src: url('../../libraries/fonts/robotocondensed-light.eot?#iefix') format('embedded-opentype'),
+         url('../../libraries/fonts/robotocondensed-light.woff2') format('woff2'),
+         url('../../libraries/fonts/robotocondensed-light.woff') format('woff'),
+         url('../../libraries/fonts/robotocondensed-light.ttf') format('truetype'),
+         url('../../libraries/fonts/robotocondensed-light.svg#roboto_condensedlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'RobotoCondensed';
+    src: url('../../libraries/fonts/robotocondensed-regular.eot');
+    src: url('../../libraries/fonts/robotocondensed-regular.eot?#iefix') format('embedded-opentype'),
+         url('../../libraries/fonts/robotocondensed-regular.woff2') format('woff2'),
+         url('../../libraries/fonts/robotocondensed-regular.woff') format('woff'),
+         url('../../libraries/fonts/robotocondensed-regular.ttf') format('truetype'),
+         url('../../libraries/fonts/robotocondensed-regular.svg#roboto_condensedregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

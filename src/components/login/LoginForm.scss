@@ -1,0 +1,117 @@
+.login-form {
+    width: 300px;
+    max-width: 300px;
+    padding: 15px;
+    box-shadow: 0 0 3px rgb(0 0 0 / 70%);
+    border-radius: 0 0 2px 2px;
+    background-color: rgba(0, 0, 0, .7);
+    display: flex;
+    flex-direction: column;
+    
+    .zmdi-account-circle {
+        color: white;
+        align-self: center;
+        margin-bottom: 10px;
+    }
+    .title {
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+        font-size: 16px;
+        margin-bottom: 30px;
+
+    }
+    label {
+        font-size: 16px;
+        color: white;
+        position: absolute;
+        left: 0;
+        bottom: 7px;
+        transition: .3s ease;
+        transition-property: font-size, bottom, color;
+    }
+    input {
+        background: none;
+        border: none;
+        outline: none;
+        color: white;
+        padding: 7px 0;
+        height: 38px;
+    }
+    .message {
+        position: absolute;
+        bottom: -25px;
+        color: white;
+        font-size: 12px;
+        display: none;
+    }
+
+    button {
+        margin-top: 10px;
+        font-family: 'RobotoCondensed';
+        background-color: #f44336;
+        width: 148px;
+        height: 36px;
+        border: none;
+        outline: none;
+        color: white;
+        border-radius: 2px;
+        font-weight: 500;
+        line-height: 1.42857143;
+        cursor: pointer;
+        font-size: 14px;
+        text-transform: uppercase;
+        transition: .3s background-color;
+        align-self: center;
+        margin-bottom: 20px;
+        &:hover, &:focus {
+            background-color: #f55549;
+        }
+    }
+
+
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #D2D2D2;
+        position: relative;
+        margin-bottom: 40px;
+        border-radius: 1px;
+
+        &::before {
+            content: "";
+            position: absolute;
+            height: 0px;
+            width: 0;
+            background-color: #009688;
+            bottom: -1px;
+            transition: .3s ease width, height;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            border-radius: 1px;
+        }
+    }
+
+    .form-group.focused {
+        label {
+            font-size: 12px;
+            color: #009688;
+            bottom: 37px;
+        }
+        &::before {
+            width: 100%;
+            height: 2px;
+        }
+        .message {
+            display: block;
+        }
+    }
+    .form-group:not(.empty) {
+        label {
+            font-size: 12px;
+            bottom: 37px;
+        }
+    }
+}
