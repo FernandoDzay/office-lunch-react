@@ -73,12 +73,14 @@ class LoginForm extends React.Component {
                     <FormGroup label={"Password"} name={"password"} message="Escribe tu Password" value={ password } onChangeHandler={ this.passwordOnChangeHandler } />
                     <FormGroup label={"Confirma tu password"} name={"confirm"} message="Confirma tu Password" value={ confirm } onChangeHandler={ this.confirmOnChangeHandler } />
 
-                    <FormGroup label={"Mes de nacimiento"} name={"month"} message="Elige" type="select" value={ month } onChangeHandler={ this.monthOnChangeHandler }>
-                        { months.map( (month, i) => <option value={i + 1}>{month}</option> ) }
-                    </FormGroup>
-                    <FormGroup label={"Día de nacimiento"} name={"day"} message="Elige" type="select" value={ day } onChangeHandler={ this.dayOnChangeHandler }>
-                        { days.map( (i) => <option value={i}>{i}</option> ) }
-                    </FormGroup>
+                    <div className="grid-container">
+                        <FormGroup label={"Mes de nacimiento"} name={"month"} message="Elige" type="select" value={ month } onChangeHandler={ this.monthOnChangeHandler }>
+                            { months.map( (month, i) => <option value={i + 1}>{month}</option> ) }
+                        </FormGroup>
+                        <FormGroup label={"Día de nacimiento"} name={"day"} message="Elige" type="select" value={ day } onChangeHandler={ this.dayOnChangeHandler }>
+                            { days.map( (i) => <option value={i}>{i}</option> ) }
+                        </FormGroup>
+                    </div>
 
                     
                     <a href="/login" className="link">Inicia sesión</a>
@@ -94,8 +96,8 @@ class LoginForm extends React.Component {
                     <i className="zmdi zmdi-account-circle zmdi-hc-5x"></i>
                     <p className="title">Inicia sesión con tu cuenta</p>
     
-                    <FormGroup name={"Username"} message="Escribe tu Username" value={ username } onChangeHandler={ this.userOnChangeHandler } />
-                    <FormGroup name={"Password"} message="Escribe tu Password" value={ password } onChangeHandler={ this.passwordOnChangeHandler } />
+                    <FormGroup label={"Username"} name={"Username"} message="Escribe tu Username" value={ username } onChangeHandler={ this.userOnChangeHandler } />
+                    <FormGroup label={"Password"} name={"Password"} message="Escribe tu Password" value={ password } onChangeHandler={ this.passwordOnChangeHandler } />
                     
                     <a href="/register" className="link">Regístrate</a>
     
@@ -161,6 +163,7 @@ class FormGroup extends React.Component {
                 <div className={classes.join('')}>
                     <label htmlFor={ name }>{ label }</label>
                     <select
+                        label={ label }
                         name={ name }
                         value={ value }
                         onChange={ onChangeHandler }

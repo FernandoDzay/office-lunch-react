@@ -1,0 +1,91 @@
+.notifications {
+    position: fixed;
+    padding-bottom: 20px;
+    right: 0;
+    top: 0;
+    width: 100%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: white;
+    overflow-y: auto;
+    z-index: 3;
+
+    .top {
+        height: 50px;
+        background-color: #FF5722;
+        position: relative;
+        display: grid;
+        place-content: center;
+
+        > p {
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            font-family: 'RobotoCondensedLight';
+        }
+        button {
+            width: 50px;
+            height: inherit;
+            background-color: inherit;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            i {
+                color: white;
+            }
+        }
+    }
+    .content { 
+        padding: 0 16px;
+    }
+}
+
+.notification {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    column-gap: 20px;
+    align-items: center;
+
+    .title {
+        color: rgba(0,0,0,.77);
+        font-size: 20px;
+        line-height: 29px;
+        margin-bottom: 5px;
+        padding-right: 30px;
+    }
+    .text {
+        line-height: 1.3;
+        font-weight: 300;
+        color: #333;
+    }
+    > .right {
+        position: relative;
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(0,0,0,.1);
+    }
+    .time {
+        position: absolute;
+        right: 0;
+        top: 15px;
+        color: rgba(0,0,0,.54);
+        font-size: 14px;
+    }
+
+    .icon-container {
+        width: 56px;
+        height: 56px;
+        background-color: #f44336;
+        border-radius: 50%;
+        display: grid;
+        place-content: center;
+        i {
+            color: white;
+        }
+    }
+}
+.block {
+    width: 300px;
+    height: 500px;
+    background-color: red;
+}

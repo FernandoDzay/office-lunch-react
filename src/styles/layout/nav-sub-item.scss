@@ -1,0 +1,33 @@
+.side-bar .nav-sub-item {
+    text-decoration: none;
+    position: relative;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    padding-left: 23px;
+    i {
+        position: absolute;
+        left: 0;
+        top: 10px;
+    }
+    i, p, &::before {
+        transition: .3s all ease-in-out;
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        left: -1px;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background-color: transparent;
+    }
+    &:hover {
+        i, p {
+            color: #FF5722;
+        }
+        &::before {
+            background-color: #FF5722;
+        }
+    }
+}

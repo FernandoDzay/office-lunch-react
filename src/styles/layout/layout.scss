@@ -1,0 +1,46 @@
+.layout {
+    z-index: 0;
+    transition: .3s background-color;
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    grid-template-rows: 50px 1fr;
+    i {
+        font-size: 20px;
+    }
+}
+
+
+body header {
+    height: 50px;
+    width: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+
+    > .left, > .right {
+        height: inherit;
+    }
+
+    .header-btn {
+        height: inherit;
+        width: 50px;
+        background-color: black;
+        transition: .3s all ease-in-out;
+
+        i {
+            transition: inherit;
+            color: white;
+        }
+        &:hover {
+            background-color: rgba(255, 255, 255, .1);
+            i {
+                color: #FF5722; 
+            }
+        }
+    }
+}
+
+.main {
+    display: flex;
+    height: 100%;
+}

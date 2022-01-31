@@ -62,13 +62,10 @@
         background-color: #f44336;
         width: 148px;
         height: 36px;
-        border: none;
-        outline: none;
         color: white;
         border-radius: 2px;
         font-weight: 500;
         line-height: 1.42857143;
-        cursor: pointer;
         font-size: 14px;
         text-transform: uppercase;
         transition: .3s background-color;
@@ -80,7 +77,11 @@
     }
 
 
-
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 30px;
+    }
     .form-group {
         display: flex;
         flex-direction: column;

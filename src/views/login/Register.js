@@ -1,9 +1,11 @@
 import LoginForm from "../../components/login/LoginForm";
-import "../../styles/Login.scss";
+import LoginLayout from "../layout/LoginLayout";
 
 export default function Register() {
 
     return (
-        <LoginForm mode="register" />
+        <LoginLayout>
+            <LoginForm mode="register" />
+        </LoginLayout>
     );
 }

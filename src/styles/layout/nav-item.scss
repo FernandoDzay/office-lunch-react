@@ -1,0 +1,57 @@
+.side-bar .nav-item {
+    color: white;
+    
+    .main-item {
+
+        &:hover {
+            background-color: rgba(255, 255, 255, .1);
+        }
+    }
+
+    p {
+        color: white;
+        font-size: 16px;
+    }
+    i {
+        color: white;
+    }
+    .main-item {
+        display: grid;
+        grid-template-columns: 21px 1fr;
+        position: relative;
+        height: 50px;
+        border-radius: 4px;
+        padding-left: 40px;
+        align-items: center;
+        text-decoration: none;
+        cursor: pointer;
+        display: flex;
+        transition: .3s all ease-in-out;
+        background-color: transparent;
+        i {
+            position: absolute;
+            left: 13px;
+            top: 14px;
+        }
+        .dropdown-icon {
+            left: initial;
+            right: 14px;
+            transition: .3s all ease-in-out;
+        }
+
+        &.rotate {
+            .dropdown-icon {
+                transform: rotate(180deg);
+            }
+        }
+    }
+    .dropdown-container {
+        padding-left: 28px;
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 3px;
+    }
+    .hidden {
+        display: none;
+    }
+}
