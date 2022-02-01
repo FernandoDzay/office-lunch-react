@@ -1,6 +1,5 @@
 import {Component} from 'react';
 import "../../styles/layout/notifications.scss";
-// import Timer from "../../class/Timer";
 import Animation from "../../class/Animation";
 
 import FullScreenShadow from '../../components/globals/FullScreenShadow/FullScreenShadow';
@@ -28,20 +27,23 @@ class Notifications extends Component {
                 to: 0
             }
         ];
-        this.Animation = new Animation(this.config, .1, true);
+        this.Animation = new Animation(this.config, .2, true);
     }
 
     componentDidUpdate(prevProps) {
 
-        if(this.props.active !== prevProps.active) {
-            if(this.Animation.isRuning()) this.Animation.setClockwise(false);
-            else this.Animation = new Animation(this.config, .1, this.props.active);
+        if(this.props.active !== prevProps.active || this.Animation.isRuning()) {
+            if(this.props.active !== prevProps.active) {
+                if(this.Animation.isRuning()) this.Animation.setClockwise(false);
+                else this.Animation = new Animation(this.config, .2, this.props.active);
+            }
+    
+            if( !this.Animation.hasEnd() ) {
+                this.Animation.run()
+                    .then(styles => this.setState({styles}))
+            }
         }
 
-        if( !this.Animation.hasEnd() ) {
-            this.Animation.run()
-                .then(styles => this.setState({styles}))
-        }
     }
 
     render() {

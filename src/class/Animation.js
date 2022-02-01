@@ -8,7 +8,6 @@ class Animation {
         this.duration = duration;
         this.styles = this.stylesInit();
         this.clockwise = clockwise;
-        // this.animationIsRuning = false;
 
         this.Timer = new Timer(duration);
     }
@@ -28,7 +27,6 @@ class Animation {
         this.config.forEach( item => {
             styles[item.style] = item.from;
         });
-        styles.transition = `${this.duration}s all linear`;
         return styles;
     }
 

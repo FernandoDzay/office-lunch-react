@@ -1,14 +1,14 @@
 .layout {
     z-index: 0;
     transition: .3s background-color;
-    display: grid;
-    grid-template-columns: 270px 1fr;
-    grid-template-rows: 50px 1fr;
+    display: flex;
+    > .right {
+        width: 100%;
+    }
     i {
         font-size: 20px;
     }
 }
-
 
 body header {
     height: 50px;
