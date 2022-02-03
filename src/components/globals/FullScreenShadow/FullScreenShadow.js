@@ -8,13 +8,15 @@ class FullScreenShadow extends Component {
         this.state = { styles: {display: 'none'} }
     }
 
-    /* componentDidMount() {
-        document.getElementById("layout").classList.add("blocked");
-    } */
+    handleAnimationEnd = () => !this.props.active ? this.setState({styles: {display: 'none'}}) : null;
 
-    handleAnimationEnd = () => this.setState( (state, props) => {
-        return { styles: {display: props.active ? "block" : "none"} };
-    });
+    componentDidMount() {
+        if(this.props.active) {
+            this.setState({
+                styles: {display: "block"}
+            });
+        }
+    }
 
     componentDidUpdate (prevProps) {
         if(this.props.active !== prevProps.active) {
@@ -34,10 +36,10 @@ class FullScreenShadow extends Component {
 
 
         return (
-            <div onAnimationEnd={ this.handleAnimationEnd }
+            <div onAnimationEnd={this.handleAnimationEnd} 
                 className={"full-screen-shadow" + className}
                 style={styles}
-                onClick={onClick}>
+                onClick={onClick} >
             </div>
         );
     }

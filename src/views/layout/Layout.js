@@ -1,6 +1,8 @@
 import {Component} from 'react';
 import SideBar from './SideBar';
 import Notifications from './Notifications';
+import Modal from '../../components/globals/Modal/Modal';
+import Button from '../../components/globals/Button/Button';
 
 import "../../styles/layout/layout.scss";
 
@@ -9,17 +11,22 @@ class Layout extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {showNotifications: false, showSideBar: true};
+        this.state = {
+            showNotifications: false, 
+            showSideBar: true,
+            showModal: false
+        };
     }
 
     handleOpenNotifications = () => this.setState({showNotifications: true});
     handleCloseNotifications = () => this.setState({showNotifications: false});
-    // handleToggleSideBar = () => this.setState({showSideBar: !this.state.showSideBar});
+    handleOpenModal = () => this.setState({showModal: true});
+    handleCloseModal = () => this.setState({showModal: false});
     handleToggleSideBar = () => this.setState({showSideBar: !this.state.showSideBar});
 
     render() {
 
-        const { showNotifications, showSideBar } = this.state;
+        const { showNotifications, showSideBar, showModal } = this.state;
 
         return (
             <>
@@ -39,7 +46,7 @@ class Layout extends Component {
                                 </button>
                             </div>
                             <div className="right">
-                                <button className="header-btn">
+                                <button className="header-btn" onClick={this.handleOpenModal}>
                                     <i className="zmdi zmdi-cutlery"></i>
                                 </button>
                                 <button className="header-btn" onClick={this.handleOpenNotifications}>
@@ -55,6 +62,15 @@ class Layout extends Component {
                         </main>
 
                     </div>
+
+                    
+                    <Modal active={showModal} handleCloseModal={this.handleCloseModal} >
+                        
+                        <div className="bot">
+                            <Button color="blue" icon="copy" text="Copiar" />
+                            <Button color="red" icon="close-circle" text="Cerrar" onClick={this.handleCloseModal} />
+                        </div>
+                    </Modal>
 
                 </div>
             </>
