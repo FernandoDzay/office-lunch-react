@@ -1,44 +1,50 @@
-import {Component} from 'react';
+import React from 'react';
 import FullScreenShadow from '../FullScreenShadow/FullScreenShadow';
-import Button from '../Button/Button';
+import NextStep from './NextStep';
 
 import './modal.scss';
 
 
-class Modal extends Component {
+class Modal extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
             active: false,
-            animationClass: "modalShow"
-        }
+            animationClass: "modalShow",
+            nextStep: null
+        };
+        this.animationRef = React.createRef();
     }
 
     
     componentDidUpdate(prevProps) {
-        if( this.props.active !== prevProps.active && !this.props.active ) {
+        const {nextStep, active} = this.props;
+
+        if( active !== prevProps.active && !active ) {
             this.setState({animationClass: "modalHide"});
         }
-        else if(this.props.active !== prevProps.active  && this.props.active) {
-            this.setState({active: true})
-            this.setState({animationClass: "modalShow"});
+        else if(active !== prevProps.active  && active) {
+            this.setState({active: true, animationClass: "modalShow"});
+        }
+        if( nextStep !== prevProps.nextStep ) {
+            if(nextStep !== null) this.setState({nextStep: nextStep, animationClass: 'modalShow'});
         }
     }
 
-    handleAnimationEnd = () => !this.props.active ? this.setState({active: false}) : null;
+    handleAnimationEnd = () => !this.props.active ? this.setState({active: false, nextStep: null}) : this.setState({animationClass: ""});
 
     render() {
 
-        const {handleCloseModal, nextStep, nextStepTitle, nextStepDescription } = this.props;
-        const {animationClass} = this.state;
+        const {handleCloseModal, nextStepTitle, nextStepDescription, children } = this.props;
+        const {animationClass, nextStep} = this.state;
 
         if(this.state.active) {
             return (
                 <>
-                    <div className={`modal ${animationClass}`} onAnimationEnd={ this.handleAnimationEnd } >
-                        {this.props.children}
+                    <div className={`modal ${animationClass}`} onAnimationEnd={ this.handleAnimationEnd } ref={this.animationRef} >
+                        { nextStep === null && children}
                         <NextStep 
                             nextStep={nextStep}
                             title={nextStepTitle}
@@ -53,37 +59,5 @@ class Modal extends Component {
         else return null;
     }
 }
-
-const NextStep = ({nextStep, nextStepTitle, nextStepDescription, onClick}) => {
-
-    if(nextStep !== 'success' && nextStep !== 'fail') return null;
-
-    return (
-        <div className="next-step">
-            <div className={"top " + nextStep}>
-                {
-                    nextStep === 'success' ?
-                    <>
-                        <span className="short"></span>
-                        <span className="long"></span>
-                        <div className='circle'></div>
-                        <span className="fix"></span>
-                    </>
-                    :
-                    <>
-                        <div className="lines-container">
-                            <span className="left-line"></span>
-                            <span className="right-line"></span>
-                        </div>
-                    </>
-                }
-            </div>
-            <p className="title">{nextStepTitle}</p>
-            <p className="description">{nextStepDescription}</p>
-            <Button color="blue" icon="check" text="OK" onClick={onClick} />
-        </div>
-    );
-}
-
 
 export default Modal;
