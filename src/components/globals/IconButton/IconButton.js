@@ -1,9 +1,9 @@
-import "./button.scss";
+import "./icon-button.scss";
 import Loader from "../Loader/Loader";
 
-export default function Button({color, icon, text, onClick, loading}) {
+export default function IconButton({color, icon, onClick, loading}) {
 
-    const classes = ['button', color].join(' ');
+    const classes = ['icon-button', color].join(' ');
 
     if(loading) {
         return (
@@ -15,7 +15,6 @@ export default function Button({color, icon, text, onClick, loading}) {
 
     return (
         <button className={classes} onClick={onClick} >
-            {text}
             <i className={`zmdi zmdi-${icon}`}></i>
         </button>
     );

@@ -1,0 +1,13 @@
+.view-title {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    font-family: 'RobotoCondensedLight';
+    font-size: 36px;
+
+    & + .view-description {
+        margin-top: -30px;
+    }
+}
