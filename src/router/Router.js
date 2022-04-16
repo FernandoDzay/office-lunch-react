@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Login from "../views/login/Login";
 import Register from "../views/login/Register";
 import Index from "../views/site/Index";
+import Test from "../views/site/Test";
 
 
 export default function Router() {
@@ -17,6 +18,7 @@ export default function Router() {
 
             {/* SITE */}
             <Route path="/" element={ <Index /> } />
+            <Route path="/food" element={ <Test /> } />
 
 
             {/* NOT FOUND */}

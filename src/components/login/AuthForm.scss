@@ -1,0 +1,44 @@
+.auth-form {
+    width: 300px;
+    max-width: 300px;
+    padding: 15px;
+    box-shadow: 0 0 3px rgb(0 0 0 / 70%);
+    border-radius: 0 0 2px 2px;
+    background-color: rgba(0, 0, 0, .7);
+    display: flex;
+    flex-direction: column;
+    
+    .zmdi-account-circle {
+        color: white;
+        align-self: center;
+        margin-bottom: 10px;
+    }
+    .title {
+        text-align: center;
+        color: white;
+        text-transform: uppercase;
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+    .link {
+        text-align: center;
+        color: white;
+        margin-bottom: 20px;
+    }
+    .button {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        font-family: 'RobotoCondensed';
+        width: 148px;
+        height: 36px;
+        line-height: 1.42857143;
+        font-size: 14px;
+        text-transform: uppercase;
+        align-self: center;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 30px;
+    }
+}

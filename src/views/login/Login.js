@@ -6,7 +6,7 @@ export default function Login() {
 
     return (
         <LoginLayout>
-            <LoginForm mode="login" />
+            <LoginForm />
         </LoginLayout>
     );
 }
