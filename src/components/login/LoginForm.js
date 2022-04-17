@@ -10,21 +10,17 @@ class LoginForm extends Component {
         super(props);
 
         this.state = {
-            username: "",
-            password: ""
+            values: {
+                username: "",
+                password: ""
+            }
         }
     }
 
-    userOnChangeHandler = (e) => {
-        this.setState({
-            username: e.target.value
-        });
-    }
-
-    passwordOnChangeHandler = (e) => {
-        this.setState({
-            password: e.target.value
-        });
+    changeHandler = (e) => {
+        const values = {...this.state.values};
+        values[e.target.name] = e.target.value;
+        this.setState({values});
     }
 
     onSubmitHandler = (e) => {
@@ -33,19 +29,19 @@ class LoginForm extends Component {
     }
 
     render() {
-        const {username, password} = this.state;
+        const {username, password} = this.state.values;
          
         return (
             <AuthForm title="Inicia sesión con tu cuenta" href="/register" linkText="Regístrate" submitText="Iniciar sesión" submitHandler={this.onSubmitHandler}>
 
                 <FormGroup message="Escribe tu Username">
                     <label htmlFor="username">Username</label>
-                    <Input value={ username } onChangeHandler={ this.userOnChangeHandler } name="username" />
+                    <Input value={ username } onChangeHandler={ this.changeHandler } name="username" />
                 </FormGroup>
 
                 <FormGroup message="Escribe tu Password">
                     <label htmlFor="password">Password</label>
-                    <Input value={ password } onChangeHandler={ this.passwordOnChangeHandler } name="password" type="password" />
+                    <Input value={ password } onChangeHandler={ this.changeHandler } name="password" type="password" />
                 </FormGroup>
 
             </AuthForm>

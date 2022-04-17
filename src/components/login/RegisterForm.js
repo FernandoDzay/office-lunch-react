@@ -11,53 +11,30 @@ class RegisterForm extends Component {
         super(props);
 
         this.state = {
-            username: "",
-            password: "",
-            confirm: "",
-            month: "1",
-            day: "1",
+            values: {
+                username: "",
+                password: "",
+                confirm: "",
+                month: "1",
+                day: "1",
+            }
         }
-
     }
 
-    userOnChangeHandler = (e) => {
-        this.setState({
-            username: e.target.value
-        });
-    }
-
-    passwordOnChangeHandler = (e) => {
-        this.setState({
-            password: e.target.value
-        });
-    }
-
-    confirmOnChangeHandler = (e) => {
-        this.setState({
-            confirm: e.target.value
-        });
-    }
-
-    monthOnChangeHandler = (e) => {
-        this.setState({
-            month: e.target.value
-        });
-    }
-
-    dayOnChangeHandler = (e) => {
-        this.setState({
-            day: e.target.value
-        });
+    changeHandler = (e) => {
+        const values = {...this.state.values};
+        values[e.target.name] = e.target.value;
+        this.setState({values});
     }
 
     onSubmitHandler = (e) => {
         e.preventDefault();
-        console.log("click!!");
+        
     }
 
     render() {
 
-        const {username, password, confirm, month, day} = this.state;
+        const {username, password, confirm, month, day} = this.state.values;
         
         const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
         const days = [];
@@ -70,29 +47,29 @@ class RegisterForm extends Component {
 
                 <FormGroup message="Escribe tu Username">
                     <label htmlFor="username">Username</label>
-                    <Input value={ username } onChangeHandler={ this.userOnChangeHandler } name="username" />
+                    <Input value={ username } onChangeHandler={ this.changeHandler } name="username" />
                 </FormGroup>
 
                 <FormGroup message="Escribe tu Password">
                     <label htmlFor="password">Password</label>
-                    <Input value={ password } onChangeHandler={ this.passwordOnChangeHandler } name="password" type="password" />
+                    <Input value={ password } onChangeHandler={ this.changeHandler } name="password" type="password" />
                 </FormGroup>
 
                 <FormGroup message="Confirma tu password">
                     <label htmlFor="confirm">Confirma tu password</label>
-                    <Input value={ confirm } onChangeHandler={ this.confirmOnChangeHandler } name="confirm" type="password" />
+                    <Input value={ confirm } onChangeHandler={ this.changeHandler } name="confirm" type="password" />
                 </FormGroup>
 
                 <div className="grid-container">
                     <FormGroup message="Elige">
                         <label htmlFor="month">Mes de nacimiento</label>
-                        <Select name="month" value={month} onChangeHandler={ this.monthOnChangeHandler}>
+                        <Select name="month" value={month} onChangeHandler={ this.changeHandler}>
                             { months.map( (month, i) => <option key={i} value={i + 1}>{month}</option> ) }
                         </Select>
                     </FormGroup>
                     <FormGroup message="Elige">
                         <label htmlFor="day">Día de nacimiento</label>
-                        <Select name="day" value={day} onChangeHandler={ this.dayOnChangeHandler}>
+                        <Select name="day" value={day} onChangeHandler={ this.changeHandler}>
                             { days.map( (i) => <option key={i} value={i}>{i}</option> ) }
                         </Select>
                     </FormGroup>
