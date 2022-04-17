@@ -1,8 +1,7 @@
 import {Component} from "react";
 import AuthForm from "./AuthForm";
 import FormGroup from "../globals/Inputs/FormGroup";
-import Input from "../globals/Inputs/FormGroup";
-import FormGroup from "../globals/Inputs/FormGroup";
+import Input from "../globals/Inputs/Input";
 
 
 class LoginForm extends Component {
@@ -35,18 +34,18 @@ class LoginForm extends Component {
 
     render() {
         const {username, password} = this.state;
-        
+         
         return (
             <AuthForm title="Inicia sesión con tu cuenta" href="/register" linkText="Regístrate" submitText="Iniciar sesión" submitHandler={this.onSubmitHandler}>
 
                 <FormGroup message="Escribe tu Username">
-                    <Label>Username</Label>
+                    <label htmlFor="username">Username</label>
                     <Input value={ username } onChangeHandler={ this.userOnChangeHandler } name="username" />
                 </FormGroup>
 
                 <FormGroup message="Escribe tu Password">
-                    <Label>Password</Label>
-                    <Input value={ password } onChangeHandler={ this.passwordOnChangeHandler } name="password" />
+                    <label htmlFor="password">Password</label>
+                    <Input value={ password } onChangeHandler={ this.passwordOnChangeHandler } name="password" type="password" />
                 </FormGroup>
 
             </AuthForm>

@@ -1,6 +1,5 @@
 import React from 'react';
 import './form-group.scss';
-import Input from './Input';
 
 
 class FormGroup extends React.Component {
@@ -9,21 +8,74 @@ class FormGroup extends React.Component {
         super(props);
 
         this.state = {
-            isFocused: false
+            isFocused: false,
+            isEmpty: true,
         }
     }
 
     handleFocus = () => this.setState({ isFocused: true });
     handleBlur = () => this.setState({ isFocused: false });
+    handleChange = (e) => {
+        this.getInputChildFunction()(e);
+        if(e.target.value.length > 0) this.setState({ isEmpty: false });
+        else this.setState({ isEmpty: true });
+    };
+
+    componentDidMount() {
+        const {children} = this.props;
+        const numberOfChildren = React.Children.count(children);
+
+        if(numberOfChildren === 0) return null;
+        if(numberOfChildren === 1) {
+            if(this.childIsInputType(children) && children.props.value.length > 0) {
+                this.setState({isEmpty: false});
+            }
+        } 
+        React.Children.forEach(children, (child) => {
+            if(this.childIsInputType(child) && child.props.value.length > 0) {
+                this.setState({isEmpty: false});
+            }
+        });
+    }
+
+    renderChildren = () => {
+        const {children} = this.props;
+        const numberOfChildren = React.Children.count(children);
+        if(numberOfChildren === 0) return null;
+        if(numberOfChildren === 1) {
+            return this.childIsInputType(children) ?
+            <children.type {...children.props} onFocus={this.handleFocus} onBlur={this.handleBlur} onChangeHandler={this.handleChange} /> :
+            children; 
+        }
+        return React.Children.map(children, (child) => {
+            return this.childIsInputType(child) ?
+            <child.type {...child.props} onFocus={this.handleFocus} onBlur={this.handleBlur} onChangeHandler={this.handleChange} /> :
+            child;
+        });
+    }
+
+    childIsInputType = (child) => {
+        const componentName = child.type.name;
+        return (componentName === 'Input' || componentName === 'Select');
+    }
+
+    getInputChildFunction = () => {
+        const {children} = this.props;
+        const numberOfChildren = React.Children.count(children);
+        let childFunction = null;
+
+        if(numberOfChildren === 0) return null;
+        if(numberOfChildren === 1) {
+            return this.childIsInputType(children) ? children.props.onChangeHandler: null;
+        } 
+        React.Children.forEach(children, (child) => {
+            if(this.childIsInputType(child)) childFunction = child.props.onChangeHandler;
+        });
+        return childFunction;
+    }
 
     render() {
-
-        let isEmpty;
-        const {name, label, type, children, message, value, onChangeHandler} = this.props;
-        const {isFocused} = this.state;
-
-        if(value === '') isEmpty = true;
-        else isEmpty = false;
+        const {isFocused, isEmpty} = this.state;
 
         let classes = [
             'form-group',
@@ -31,44 +83,12 @@ class FormGroup extends React.Component {
             isEmpty ? ' empty' : ''
         ];
 
-        if(this.props.type != null && this.props.type === "select") {
-            classes[2] = '';
-        }
-
-        if(type === "input" || type === "password" || type == null) {
-            return (
-                <div className={classes.join('')}>
-                    <label htmlFor={ name }>{ label }</label>
-                    <Input 
-                        label={ label } 
-                        name={ name } 
-                        value={ value } 
-                        onChangeHandler={ onChangeHandler }
-                        onFocus={ this.handleFocus }
-                        onBlur={ this.handleBlur }
-                    />
-                    <p className={"message"}>{ message }</p>
-                </div>
-            );
-        }
-        if(type === "select") {
-            return (
-                <div className={classes.join('')}>
-                    <label htmlFor={ name }>{ label }</label>
-                    <select
-                        label={ label }
-                        name={ name }
-                        value={ value }
-                        onChange={ onChangeHandler }
-                        onFocus={ this.handleFocus }
-                        onBlur={ this.handleBlur }
-                    >
-                        { children }
-                    </select>
-                    <p className={"message"}>{ message }</p>
-                </div>
-            );
-        }
+        return (
+            <div className={classes.join('')}>
+                {this.renderChildren()}
+                <p className={"message"}>{ this.props.message }</p>
+            </div>
+        );
     }
 }
 

@@ -1,6 +1,8 @@
 import {Component} from "react";
 import AuthForm from "./AuthForm";
 import FormGroup from "../globals/Inputs/FormGroup";
+import Input from "../globals/Inputs/Input";
+import Select from "../globals/Inputs/Select";
 
 
 class RegisterForm extends Component {
@@ -12,8 +14,8 @@ class RegisterForm extends Component {
             username: "",
             password: "",
             confirm: "",
-            month: "",
-            day: "",
+            month: "1",
+            day: "1",
         }
 
     }
@@ -65,18 +67,37 @@ class RegisterForm extends Component {
 
         return (
             <AuthForm title="Regístrate" href="/login" linkText="Inicia sesión" submitText="Registrarme" submitHandler={this.onSubmitHandler}>
-                <FormGroup label={"Username"} name={"username"} message="Escribe tu Username" value={ username } onChangeHandler={ this.userOnChangeHandler } />
-                <FormGroup label={"Password"} name={"password"} message="Escribe tu Password" value={ password } onChangeHandler={ this.passwordOnChangeHandler } />
-                <FormGroup label={"Confirma tu password"} name={"confirm"} message="Confirma tu Password" value={ confirm } onChangeHandler={ this.confirmOnChangeHandler } />
+
+                <FormGroup message="Escribe tu Username">
+                    <label htmlFor="username">Username</label>
+                    <Input value={ username } onChangeHandler={ this.userOnChangeHandler } name="username" />
+                </FormGroup>
+
+                <FormGroup message="Escribe tu Password">
+                    <label htmlFor="password">Password</label>
+                    <Input value={ password } onChangeHandler={ this.passwordOnChangeHandler } name="password" type="password" />
+                </FormGroup>
+
+                <FormGroup message="Confirma tu password">
+                    <label htmlFor="confirm">Confirma tu password</label>
+                    <Input value={ confirm } onChangeHandler={ this.confirmOnChangeHandler } name="confirm" type="password" />
+                </FormGroup>
 
                 <div className="grid-container">
-                    <FormGroup label={"Mes de nacimiento"} name={"month"} message="Elige" type="select" value={ month } onChangeHandler={ this.monthOnChangeHandler }>
-                        { months.map( (month, i) => <option value={i + 1}>{month}</option> ) }
+                    <FormGroup message="Elige">
+                        <label htmlFor="month">Mes de nacimiento</label>
+                        <Select name="month" value={month} onChangeHandler={ this.monthOnChangeHandler}>
+                            { months.map( (month, i) => <option key={i} value={i + 1}>{month}</option> ) }
+                        </Select>
                     </FormGroup>
-                    <FormGroup label={"Día de nacimiento"} name={"day"} message="Elige" type="select" value={ day } onChangeHandler={ this.dayOnChangeHandler }>
-                        { days.map( (i) => <option value={i}>{i}</option> ) }
+                    <FormGroup message="Elige">
+                        <label htmlFor="day">Día de nacimiento</label>
+                        <Select name="day" value={day} onChangeHandler={ this.dayOnChangeHandler}>
+                            { days.map( (i) => <option key={i} value={i}>{i}</option> ) }
+                        </Select>
                     </FormGroup>
                 </div>
+
             </AuthForm>
         );
     }

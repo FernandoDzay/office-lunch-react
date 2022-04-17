@@ -1,7 +1,7 @@
-export default function Input({name, value, onFocus, onBlur, onChangeHandler}) {
+export default function Input({name, type, value, onFocus, onBlur, onChangeHandler}) {
 
     return (
-        <input type="text"
+        <input type={type}
             name={name}
             value={value}
             autoComplete="off"
@@ -10,8 +10,4 @@ export default function Input({name, value, onFocus, onBlur, onChangeHandler}) {
             onChange={ onChangeHandler }
         />
     );
-}
-
-Input.defaultProps = {
-    classes: ""
 }
