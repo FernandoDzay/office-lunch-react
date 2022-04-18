@@ -44,13 +44,13 @@ class Modal extends React.Component {
             return (
                 <>
                     <div className={`modal ${animationClass}`} onAnimationEnd={ this.handleAnimationEnd } ref={this.animationRef} >
-                        { nextStep === null && children}
+                        { nextStep === null && children }
                         <NextStep 
                             nextStep={nextStep}
                             title={nextStepTitle}
                             description={nextStepDescription}
                             onClick={handleCloseModal}
-                            />
+                        />
                     </div>
                     <FullScreenShadow active={this.state.active} onClick={handleCloseModal} />
                 </>

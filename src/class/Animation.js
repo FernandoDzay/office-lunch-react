@@ -48,10 +48,10 @@ class Animation {
         return new Promise((resolve, reject) => {
             if( !this.hasEnd() ) {
                 this.Timer.next()
-                    .then(factor => {
-                        this.styles = this.updateStyles(factor);
-                        resolve(this.styles);
-                    });
+                .then(factor => {
+                    this.styles = this.updateStyles(factor);
+                    resolve(this.styles);
+                });
             }   
         })
     }

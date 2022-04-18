@@ -55,6 +55,12 @@
             bottom: 37px;
         }
     }
+    &.has-errors {
+        .message {
+            display: block;
+            color: #ff6060;
+        }
+    }
 
     &::before {
         content: "";

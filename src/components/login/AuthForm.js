@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import Button from '../globals/Button/Button';
 
 
-export default function AuthForm({title, href, linkText, submitText, submitHandler, children}) {
+export default function AuthForm({title, href, linkText, submitText, submitHandler, loading, children}) {
 
     return (
         <form className="auth-form">
@@ -13,7 +13,7 @@ export default function AuthForm({title, href, linkText, submitText, submitHandl
             {children}
 
             <Link to={href} className="link">{linkText}</Link>
-            <Button color="red" onClick={submitHandler}>{submitText}</Button>
+            <Button color="red" loading={loading} onClick={submitHandler}>{submitText}</Button>
         </form>
     );
 

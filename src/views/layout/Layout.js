@@ -47,8 +47,8 @@ class Layout extends Component {
                 </div>
                 <Modal active={showModal} nextStep={nextStep} handleCloseModal={this.handleCloseModal} >
                     <div className="bot">
-                        <Button color="blue" icon="copy" text="Copiar" onClick={this.handleNextStep} />
-                        <Button color="red" icon="close-circle" text="Cerrar" onClick={this.handleCloseModal} />
+                        <Button color="blue" icon="copy" onClick={this.handleNextStep}>Copiar</Button>
+                        <Button color="red" icon="close-circle" onClick={this.handleCloseModal}>Cerrar</Button>
                     </div>
                 </Modal>
             </div>

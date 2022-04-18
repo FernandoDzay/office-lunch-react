@@ -1,6 +1,6 @@
 import Button from '../Button/Button';
 
-const NextStep = ({nextStep, nextStepTitle, nextStepDescription, onClick}) => {
+const NextStep = ({nextStep, title, description, onClick}) => {
 
     if(nextStep !== 'success' && nextStep !== 'fail') return null;
 
@@ -24,9 +24,9 @@ const NextStep = ({nextStep, nextStepTitle, nextStepDescription, onClick}) => {
                     </>
                 }
             </div>
-            <p className="title">{nextStepTitle}</p>
-            <p className="description">{nextStepDescription}</p>
-            <Button color="blue" icon="check" text="OK" onClick={onClick} />
+            <p className="title">{title}</p>
+            <p className="description">{description}</p>
+            <Button color="blue" icon="check" onClick={onClick}>OK</Button>
         </div>
     );
 
