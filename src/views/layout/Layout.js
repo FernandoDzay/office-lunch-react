@@ -1,5 +1,5 @@
 import {Component} from 'react';
-import SideBar from './SideBar';
+import SideBar from './SideBar/SideBar';
 import Header from './Header';
 import Modal from '../../components/globals/Modal/Modal';
 import Button from '../../components/globals/Button/Button';

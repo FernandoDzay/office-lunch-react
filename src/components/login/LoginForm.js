@@ -63,6 +63,7 @@ class LoginForm extends Component {
         .then(r => r.json())
         .then(data => {
             if(data.error) return this.setState({loading: false, openModal: true, modalError: data.error});
+            if(!data.token) throw new Error('Ocurrió un error inseperado');
             localStorage.setItem('token', data.token);
             this.setState({loading: false, goToApplication: true});
         })

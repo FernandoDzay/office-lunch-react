@@ -1,10 +1,8 @@
 import {Component} from 'react';
-import NavItem from './NavItem';
-import NavSubItem from './NavSubItem';
-import Animation from "../../class/Animation";
-
-import "../../styles/layout/side-bar.scss";
-import avatar from "../../libraries/assets/img/avatar.jpg";
+import Mid from './Mid';
+import Bot from './Bot';
+import Animation from "../../../class/Animation";
+import "../../../styles/layout/side-bar.scss";
 
 
 class SideBar extends Component {
@@ -40,7 +38,6 @@ class SideBar extends Component {
     }
 
     componentDidUpdate(prevProps) {
-
         if(this.props.active !== prevProps.active || this.Animation.isRuning()) {
             if(this.props.active !== prevProps.active) {
                 if(this.Animation.isRuning()) this.Animation.setClockwise(false);
@@ -49,7 +46,7 @@ class SideBar extends Component {
     
             if( !this.Animation.hasEnd() ) {
                 this.Animation.run()
-                    .then(styles => this.setState({styles}));
+                .then(styles => this.setState({styles}));
             }
         }
     }
@@ -69,35 +66,11 @@ class SideBar extends Component {
         return (
             <>
                 <div className="side-bar" style={sideBarStyles}>
-
                     <div className="top">
                         <h1>COMPANY</h1>
                     </div>
-
-                    <div className="mid">
-                        <img src={ avatar } alt="Avatar" title="Avatar" />
-                        <p className="name">luis</p>
-                        <p className="schedule">Horario: 13:45 - 14:15</p>
-                        <div className="icons">
-                            <button>
-                                <i className="zmdi zmdi-settings"></i>
-                            </button>
-                            <button>
-                                <i className="zmdi zmdi-power"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <nav className="bot">
-                        <NavItem icon="zmdi-view-dashboard" text="Dashboard" href="#" />
-                        <NavItem icon="zmdi-view-dashboard" text="Dashboard">
-                            <NavSubItem icon="zmdi-timer" text="Insertar comidas del día" href="#" />
-                            <NavSubItem icon="zmdi-timer" text="Insertar comidas del día" href="#" />
-                            <NavSubItem icon="zmdi-timer" text="Insertar comidas del día" href="#" />
-                        </NavItem>
-                        <NavItem icon="zmdi-view-dashboard" text="Dashboard" href="#" />
-                    </nav>
-
+                    <Mid />
+                    <Bot />
                 </div>
                 <div className="padding-right" style={paddingRightStyles}></div>
             </>
