@@ -22,6 +22,10 @@
         color: white;
         padding: 7px 0;
         height: 38px;
+
+        &[type="file"] {
+            display: none;
+        }
     }
     select option {
         background-color: transparent;

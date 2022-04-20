@@ -44,7 +44,7 @@
         font-size: 100px;
         color: grey;
     }
-    button {
+    .icons button {
         background-color: transparent;
         width: 30px;
         height: 42px;
@@ -60,9 +60,13 @@
         }
     }
     .icons {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 4px;
+        display: flex;
+        justify-content: center;
+        width: 64px;
+
+        button:nth-child(2) {
+            margin-left: 4px;
+        }
     }
     > .top {
         padding-top: 14px;
@@ -76,7 +80,7 @@
         flex-direction: column;
         align-items: center;
     }
-    .bot {
+    > .bot {
         display: grid;
         grid-template-columns: 1fr;
         row-gap: 3px;
@@ -96,6 +100,9 @@
         height: inherit;
         opacity: .23;
     }
+    /* input[type="file"] {
+        display: none;
+    } */
 }
 
 .padding-right {

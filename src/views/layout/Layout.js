@@ -10,12 +10,44 @@ class Layout extends Component {
 
     constructor(props) {
         super(props);
+
+        this.api_url = process.env.REACT_APP_API_URL;
+        this.token = localStorage.getItem('token');
+
         this.state = {
             showNotifications: false,
             showSideBar: true,
             showModal: false,
-            nextStep: null
+            nextStep: null,
+            username: null,
+            avatar: null,
+            isAdminUser: 0,
         };
+    }
+
+    componentDidMount() {
+        this.getUser();
+    }
+
+    getUser = () => {
+        fetch(`${this.api_url}/users/logged`, {
+            headers: {
+                Authorization: `bearer ${this.token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(r => r.json())
+        .then(data => {
+            if(data.error || !data.id) throw new Error('error!');
+            if(data.authError) return this.setState({sessionExpired: true});
+            
+            this.setState({
+                username: data.username,
+                avatar: data.image && `${this.api_url}/images/users/${data.image}`,
+                isAdminUser: data.is_admin,
+            });
+        })
+        .catch(e => this.setState({username: 'Ocurrió un error al obtener tu nombre'}));
     }
 
     handleOpenNotifications = () => this.setState({showNotifications: true});
@@ -26,12 +58,12 @@ class Layout extends Component {
     handleNextStep = () => this.setState({nextStep: 'success'});
 
     render() {
-        const { showNotifications, showSideBar, showModal, nextStep } = this.state;
+        const { showNotifications, showSideBar, showModal, nextStep, username, avatar, isAdminUser } = this.state;
 
         return (
             <div className="layout" id="layout">
                 <div className="left">
-                    <SideBar active={showSideBar} />
+                    <SideBar active={showSideBar} username={username} avatar={avatar} isAdminUser={isAdminUser} refreshUser={this.getUser} />
                 </div>
                 <div className="right">
                     <Header 
@@ -40,6 +72,7 @@ class Layout extends Component {
                         handleOpenNotifications={this.handleOpenNotifications}
                         showNotifications={showNotifications}
                         handleCloseNotifications={this.handleCloseNotifications}
+                        isAdminUser={isAdminUser}
                     />
                     <main className="main">
                         { this.props.children }

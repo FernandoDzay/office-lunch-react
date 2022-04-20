@@ -1,4 +1,4 @@
-export default function Input({name, type, value, onFocus, onBlur, onChangeHandler}) {
+export default function Input({name, type, value, onFocus, onBlur, onClick, onChangeHandler, id}) {
 
     return (
         <input type={type}
@@ -7,6 +7,7 @@ export default function Input({name, type, value, onFocus, onBlur, onChangeHandl
             autoComplete="off"
             onFocus={ onFocus }
             onBlur={ onBlur }
+            onClick={ onClick }
             onChange={ onChangeHandler }
         />
     );

@@ -1,4 +1,9 @@
 import { Component } from "react";
+import {Navigate} from "react-router-dom";
+import Modal from "../../../components/globals/Modal/Modal";
+import Button from "../../../components/globals/Button/Button";
+import UserImage from "./UserImage";
+
 
 class Mid extends Component {
 
@@ -9,20 +14,17 @@ class Mid extends Component {
         this.token = localStorage.getItem('token');
 
         this.state = {
-            username: null,
-            avatar: null,
             schedule: 'Horario: ',
-            sessionExpired: false,
+            logout: false,
+            modal: false,
         }
     }
 
     componentDidMount() {
         this.getGroup();
-        this.getUser();
     }
 
     getGroup = () => {
-        // console.log('getting group from header');
         fetch(`${this.api_url}/groups/get-user-group`, {
             headers: {
                 Authorization: `bearer ${this.token}`,
@@ -37,46 +39,49 @@ class Mid extends Component {
         .catch(e => this.setState({schedule: 'Ocurrió un error al obtener tu horario'}));
     }
 
-    getUser = () => {
-        // console.log('getting user from header');
-        fetch(`${this.api_url}/users/logged`, {
-            headers: {
-                Authorization: `bearer ${this.token}`,
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(r => r.json())
-        .then(data => {
-            if(data.error || !data.id) throw new Error('error!');
-            if(data.authError) return this.setState({sessionExpired: true});
-            
-            this.setState({
-                username: data.username,
-                avatar: data.image && `${this.api_url}/public/img/users/${data.image}`
-            });
-        })
-        .catch(e => this.setState({username: 'Ocurrió un error al obtener tu nombre'}));
+    handleLogoutClick = () => {
+        this.setState({modal: true});
     }
 
-    render() {
-        const {schedule, avatar, username} = this.state;
+    logout = () => {
+        localStorage.clear();
+        this.setState({modal: false});
+        setTimeout(() => { this.setState({logout: true}) }, 250);
+    }
 
+    handleCloseModal = () => this.setState({modal: false});
+
+    render() {
+        const {schedule, logout, modal} = this.state;
+        const {avatar, username, isAdminUser, refreshUser} = this.props;
+        const {handleLogoutClick, handleCloseModal} = this;
+
+        if(logout) return <Navigate to="/login" />
         return (
             <div className="mid">
-                { 
-                    avatar ? <img src={ avatar } alt="Avatar" title="Avatar" /> :
-                    <i className="zmdi zmdi-account-circle zmdi-hc-5x"></i>
-                }
+                <UserImage avatar={avatar} refreshUser={refreshUser} />
                 <p className="name">{ username }</p>
                 <p className="schedule">{ schedule }</p>
                 <div className="icons">
-                    <button>
-                        <i className="zmdi zmdi-settings"></i>
-                    </button>
-                    <button>
+                    {
+                        isAdminUser ?
+                        <button>
+                            <i className="zmdi zmdi-settings"></i>
+                        </button> : null
+                    }
+                    <button onClick={handleLogoutClick}>
                         <i className="zmdi zmdi-power"></i>
                     </button>
                 </div>
+
+                <Modal active={modal} handleCloseModal={handleCloseModal}>
+                    <p className="title center">Cerrar sesión</p>
+                    <p className="description center">¿Estás seguro que deseas cerrar tu sesión?</p>
+                    <div className="bot">
+                        <Button color="blue" onClick={this.logout}>Sí</Button>
+                        <Button color="red" onClick={handleCloseModal}>No</Button>
+                    </div>
+                </Modal>
             </div>
         );
     }

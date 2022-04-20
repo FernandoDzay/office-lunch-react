@@ -35,6 +35,9 @@ class FormGroup extends React.Component {
             if(this.childIsInputType(child) && child.props.value.length > 0) {
                 this.setState({isEmpty: false});
             }
+            if(this.childIsInputType(child) && child.type.name === 'InputFile' && child.value && child.value.name.length > 0) {
+                this.setState({isEmpty: false});
+            }
         });
     }
 
@@ -45,7 +48,7 @@ class FormGroup extends React.Component {
         if(numberOfChildren === 1) {
             return this.childIsInputType(children) ?
             <children.type {...children.props} onFocus={this.handleFocus} onBlur={this.handleBlur} onChangeHandler={this.handleChange} /> :
-            children; 
+            children;
         }
         return React.Children.map(children, (child) => {
             return this.childIsInputType(child) ?
@@ -56,7 +59,7 @@ class FormGroup extends React.Component {
 
     childIsInputType = (child) => {
         const componentName = child.type.name;
-        return (componentName === 'Input' || componentName === 'Select');
+        return (componentName === 'Input' || componentName === 'Select' || componentName === 'InputFile');
     }
 
     getInputChildFunction = () => {

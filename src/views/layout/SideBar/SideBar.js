@@ -12,7 +12,7 @@ class SideBar extends Component {
         this.state = {
             styles: {
                 opacity: 1,
-                transform: "0",
+                transform: 0,
                 paddingRight: "270"
             }
         }
@@ -52,16 +52,18 @@ class SideBar extends Component {
     }
     
     render() {
-        const display = this.state.styles.opacity === 0 ? 'none' : 'block';
+        const {styles} = this.state;
+        const {username, avatar, isAdminUser, refreshUser} = this.props;
+        const display = styles.opacity === 0 ? 'none' : 'block';
         let sideBarStyles = {};
         let paddingRightStyles = {};
 
         sideBarStyles.display = display;
-        sideBarStyles.opacity = this.state.styles.opacity;
-        sideBarStyles.transform = `translateX(${this.state.styles.transform}px)`;
+        sideBarStyles.opacity = styles.opacity;
+        sideBarStyles.transform = styles.transform === 0 ? '' : `translateX(${styles.transform}px)`;
         
         paddingRightStyles.display = display;
-        paddingRightStyles.paddingRight = this.state.styles.paddingRight;
+        paddingRightStyles.paddingRight = styles.paddingRight;
         
         return (
             <>
@@ -69,8 +71,8 @@ class SideBar extends Component {
                     <div className="top">
                         <h1>COMPANY</h1>
                     </div>
-                    <Mid />
-                    <Bot />
+                    <Mid username={username} avatar={avatar} isAdminUser={isAdminUser} refreshUser={refreshUser} />
+                    <Bot isAdminUser={isAdminUser} />
                 </div>
                 <div className="padding-right" style={paddingRightStyles}></div>
             </>
