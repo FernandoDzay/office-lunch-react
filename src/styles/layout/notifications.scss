@@ -7,7 +7,7 @@
     max-width: 300px;
     height: 100vh;
     background-color: white;
-    overflow-y: auto;
+    overflow-y: hidden;
     z-index: 3;
 
     .top {
@@ -36,8 +36,9 @@
             }
         }
     }
-    .content { 
-        padding: 0 16px;
+    .notifications-container {
+        height: calc(99vh - 50px);
+        overflow: auto;
     }
 }
 
@@ -46,6 +47,7 @@
     grid-template-columns: 56px 1fr;
     column-gap: 20px;
     align-items: center;
+    padding: 0 16px;
 
     .title {
         color: rgba(0,0,0,.77);
@@ -67,7 +69,7 @@
     .time {
         position: absolute;
         right: 0;
-        top: 15px;
+        top: 5px;
         color: rgba(0,0,0,.54);
         font-size: 14px;
     }
@@ -75,12 +77,24 @@
     .icon-container {
         width: 56px;
         height: 56px;
-        background-color: #f44336;
+        background-color: #060606;
         border-radius: 50%;
         display: grid;
         place-content: center;
         i {
             color: white;
+            font-size: 30px;
         }
+
+        &.warning {
+            background-color: #f44336;
+        }
+        &.danger {
+            background-color: red;
+        }
+    }
+
+    &.has-not-been-read {
+        background-color: #d9d5d5;
     }
 }

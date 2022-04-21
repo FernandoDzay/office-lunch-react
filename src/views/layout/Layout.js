@@ -16,6 +16,8 @@ class Layout extends Component {
 
         this.state = {
             showNotifications: false,
+            loadingNotifications: false,
+            notifications: [],
             showSideBar: true,
             showModal: false,
             nextStep: null,
@@ -27,6 +29,9 @@ class Layout extends Component {
 
     componentDidMount() {
         this.getUser();
+        this.getNotifications();
+
+        setInterval(this.getNotifications, 60000);
     }
 
     getUser = () => {
@@ -50,6 +55,18 @@ class Layout extends Component {
         .catch(e => this.setState({username: 'Ocurrió un error al obtener tu nombre'}));
     }
 
+    getNotifications = () => {
+        if(this.state.notifications.length === 0) this.setState({loadingNotifications: true});
+        fetch(`${this.api_url}/notifications/get`, {headers: {Authorization: `bearer ${this.token}`}})
+        .then(r => r.json())
+        .then(data => {
+            const newState = {loadingNotifications: false};
+            newState.notifications = data.length > 0 ? data : [];
+            this.setState({...newState});
+        })
+        .catch(e => {console.log(e); this.setState({loadingNotifications: false})});
+    }
+
     handleOpenNotifications = () => this.setState({showNotifications: true});
     handleCloseNotifications = () => this.setState({showNotifications: false});
     handleOpenModal = () => this.setState({showModal: true});
@@ -58,7 +75,7 @@ class Layout extends Component {
     handleNextStep = () => this.setState({nextStep: 'success'});
 
     render() {
-        const { showNotifications, showSideBar, showModal, nextStep, username, avatar, isAdminUser } = this.state;
+        const { showNotifications, showSideBar, showModal, nextStep, username, avatar, isAdminUser, loadingNotifications, notifications } = this.state;
 
         return (
             <div className="layout" id="layout">
@@ -66,13 +83,16 @@ class Layout extends Component {
                     <SideBar active={showSideBar} username={username} avatar={avatar} isAdminUser={isAdminUser} refreshUser={this.getUser} />
                 </div>
                 <div className="right">
-                    <Header 
+                    <Header
                         handleToggleSideBar={this.handleToggleSideBar}
                         handleOpenModal={this.handleOpenModal}
                         handleOpenNotifications={this.handleOpenNotifications}
                         showNotifications={showNotifications}
                         handleCloseNotifications={this.handleCloseNotifications}
                         isAdminUser={isAdminUser}
+                        loadingNotifications = {loadingNotifications}
+                        notifications = {notifications}
+                        refreshNotifications = {this.getNotifications}
                     />
                     <main className="main">
                         { this.props.children }

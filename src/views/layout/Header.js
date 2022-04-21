@@ -1,4 +1,4 @@
-import Notifications from './Notifications';
+import Notifications from './Notifications/Notifications';
 
 
 export default function Header({
@@ -7,7 +7,13 @@ export default function Header({
     handleOpenNotifications,
     showNotifications,
     handleCloseNotifications,
+    loadingNotifications,
+    notifications,
+    refreshNotifications,
 }) {
+
+    const notificationsWithoutReadCount = notifications.filter(notification => !notification.has_been_read).length;
+
 
     return (
         <header>
@@ -20,11 +26,26 @@ export default function Header({
                 <button className="header-btn" onClick={handleOpenModal}>
                     <i className="zmdi zmdi-cutlery"></i>
                 </button>
-                <button className="header-btn" onClick={handleOpenNotifications}>
-                    <i className="zmdi zmdi-notifications-none"></i>
-                </button>
+                <button className="header-btn" onClick={handleOpenNotifications}>{
+                    notificationsWithoutReadCount > 0 ? 
+                        <>
+                            <i className="zmdi zmdi-notifications"></i>
+                            <div className="number-of-notifications">{notificationsWithoutReadCount}</div>
+                        </>
+                    :
+                        <>
+                            <i className="zmdi zmdi-notifications-none"></i>
+                            <div className="number-of-notifications without"></div>
+                        </>
+                }</button>
             </div>
-            <Notifications active={showNotifications} handleCloseNotifications={handleCloseNotifications} />
+            <Notifications
+                active={showNotifications}
+                handleCloseNotifications={handleCloseNotifications}
+                loadingNotifications={loadingNotifications}
+                notifications={notifications}
+                refreshNotifications={refreshNotifications}
+            />
         </header>
     );
 }

@@ -26,17 +26,41 @@ body header {
         width: 50px;
         background-color: black;
         transition: .3s all ease-in-out;
+        position: relative;
 
         i {
             transition: inherit;
             color: white;
+        }
+        .number-of-notifications {
+            position: absolute;
+            background-color: #FF5722;
+            color: white;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            top: 5px;
+            display: grid;
+            place-content: center;
+            transition: .3s all ease-in-out;
+            opacity: 1;
+            &.without {
+                opacity: 0;
+            }
         }
         &:hover {
             background-color: rgba(255, 255, 255, .1);
             i {
                 color: #FF5722; 
             }
+            .number-of-notifications {
+                color: #FF5722;
+                background-color: white;
+            }
         }
+        
     }
 }
 .main {
