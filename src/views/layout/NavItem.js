@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import "../../styles/layout/nav-item.scss";
+import {Link} from 'react-router-dom';
 
 
 class NavItem extends Component {
@@ -23,17 +24,14 @@ class NavItem extends Component {
     
             <div className="nav-item">
                 <MainItem isDropDown={isDropDown}
-                className={rotate}
-                icon={icon}
-                href={href}
-                onClick={onClickHandler}>
+                    className={rotate}
+                    icon={icon}
+                    href={href}
+                    onClick={onClickHandler}
+                >
                     <p>{text}</p>
                 </MainItem>
-                { 
-                    isDropDown 
-                    ? <div className={"dropdown-container" + hidden}>{ children }</div>
-                    : ""
-                }
+                { isDropDown && <div className={"dropdown-container" + hidden}>{ children }</div> }
             </div>
         );
     }
@@ -53,10 +51,10 @@ function MainItem({isDropDown, href, icon, children, className, onClick}) {
     }
     else {
         return (
-            <a className="main-item icon-container" href={href}>
+            <Link className="main-item icon-container" to={href}>
                 <i className={"zmdi zmdi-hc-fw " + icon}></i>
                 { children }
-            </a>
+            </Link>
         );
     }
 }

@@ -12,13 +12,15 @@ class Bot extends Component {
     } */
 
     render() {
+        // const {isAdminUser} = this.props;
+
         return (
             <nav className="bot">
-                <NavItem icon="zmdi-view-dashboard" text="Dashboard" href="#" />
-                <NavItem icon="zmdi-view-dashboard" text="Dashboard">
-                    <NavSubItem icon="zmdi-timer" text="Insertar comidas del día" href="#" />
-                    <NavSubItem icon="zmdi-timer" text="Insertar comidas del día" href="#" />
-                    <NavSubItem icon="zmdi-timer" text="Insertar comidas del día" href="#" />
+                <NavItem icon="zmdi-view-dashboard" text="Dashboard" href="/" />
+                <NavItem icon="zmdi-shield-security" text="Administración">
+                    <NavSubItem icon="zmdi-cutlery" text="Insertar comidas del día" href="/add-menu" />
+                    <NavSubItem icon="zmdi-local-pizza" text="Crear comida" href="/create-food" />
+                    <NavSubItem icon="zmdi-local-cafe" text="Crear extra" href="/create-extra" />
                 </NavItem>
                 <NavItem icon="zmdi-view-dashboard" text="Dashboard" href="#" />
             </nav>

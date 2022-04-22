@@ -15,6 +15,15 @@
         height: 200px;
         object-fit: cover;
         width: 100%;
+
+    }
+    .admin-buttons {
+        display: flex;
+        justify-content: center;
+
+        > :nth-child(1) {
+            margin-right: 18px;
+        }
     }
 }
 
@@ -23,6 +32,9 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     column-gap: 30px;
     row-gap: 30px;
+    min-height: 328px;
+    width: 100%;
+    position: relative;
 }
 
 .submit-button {
@@ -96,4 +108,3 @@
         }
     }
 }
-  

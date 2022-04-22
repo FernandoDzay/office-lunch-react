@@ -5,6 +5,8 @@ import Login from "../views/login/Login";
 import Register from "../views/login/Register";
 import Index from "../views/site/Index";
 import Test from "../views/site/Test";
+import AddMenu from "../views/administration/AddMenu";
+import CreateFood from "../views/administration/CreateFood";
 
 
 export default function Router() {
@@ -19,6 +21,11 @@ export default function Router() {
             {/* SITE */}
             <Route path="/" element={ <Index /> } />
             <Route path="/food" element={ <Test /> } />
+
+
+            {/* ADMINISTRATION */}
+            <Route path="/add-menu" element={ <AddMenu /> } />
+            <Route path="/create-food" element={ <CreateFood /> } />
 
 
             {/* NOT FOUND */}

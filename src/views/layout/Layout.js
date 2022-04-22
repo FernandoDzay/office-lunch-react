@@ -31,7 +31,7 @@ class Layout extends Component {
         this.getUser();
         this.getNotifications();
 
-        setInterval(this.getNotifications, 60000);
+        // setInterval(this.getNotifications, 60000);
     }
 
     getUser = () => {

@@ -31,6 +31,15 @@
         }
     }
 
+    .content {
+        position: relative;
+
+        &.loading {
+            min-height: 100px;
+            width: 100%;
+        }
+    }
+
     .tab-content {
         transition: .15s all linear;
     }
