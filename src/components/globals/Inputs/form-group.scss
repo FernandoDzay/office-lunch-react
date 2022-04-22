@@ -4,11 +4,12 @@
     border-bottom: 1px solid #D2D2D2;
     position: relative;
     margin-bottom: 40px;
+    width: 100%;
 
     label {
         font-size: 16px;
         pointer-events: none;
-        color: white;
+        color: #636363;
         position: absolute;
         left: 0;
         bottom: 7px;
@@ -19,7 +20,7 @@
         background: none;
         border: none;
         outline: none;
-        color: white;
+        color: black;
         padding: 7px 0;
         height: 38px;
 
@@ -34,7 +35,7 @@
     .message {
         position: absolute;
         bottom: -25px;
-        color: white;
+        color: #636363;
         font-size: 12px;
         display: none;
     }

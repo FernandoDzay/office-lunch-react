@@ -103,8 +103,6 @@ class AddMenu extends Component {
                 
                 <ViewTitle>Agregar al menú</ViewTitle>
                 <ViewDescription>En esta sección puedes agregar las comidas disponibles que hayas configurado.</ViewDescription>
-
-                <ViewTitle>Menú</ViewTitle>
                 <Tabs
                     loading={menuLoading}
                     tabsText={['Comidas agregadas al menú']}

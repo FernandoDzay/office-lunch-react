@@ -41,4 +41,15 @@
         grid-template-columns: 1fr 1fr;
         column-gap: 30px;
     }
+    .form-group {
+        label {
+            color: white;
+        }
+        .message {
+            color: white;
+        }
+        input, select {
+            color: white;
+        }
+    }
 }

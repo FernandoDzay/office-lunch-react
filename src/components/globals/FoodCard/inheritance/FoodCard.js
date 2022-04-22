@@ -5,7 +5,7 @@ import Button from '../FoodCardComponents/Button';
 export default function FoodCard({full_name, image, loading, children, mainClick, btnText}) {
     
     const api_url = process.env.REACT_APP_API_URL;
-    let foodImage = image === 'default.jpg' ? defaultImg : `${api_url}/images/food/${image}`;
+    let foodImage = image === 'default.jpg' ? defaultImg : `${api_url}/images/foods/${image}`;
     if(image === undefined) foodImage = defaultImg;
     
     return (

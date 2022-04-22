@@ -7,6 +7,8 @@ import Index from "../views/site/Index";
 import Test from "../views/site/Test";
 import AddMenu from "../views/administration/AddMenu";
 import CreateFood from "../views/administration/CreateFood";
+import EditFood from "../views/administration/EditFood";
+import CreateExtra from "../views/administration/CreateExtra";
 
 
 export default function Router() {
@@ -26,6 +28,8 @@ export default function Router() {
             {/* ADMINISTRATION */}
             <Route path="/add-menu" element={ <AddMenu /> } />
             <Route path="/create-food" element={ <CreateFood /> } />
+            <Route path="/edit-food" element={ <EditFood /> } />
+            <Route path="/create-extra" element={ <CreateExtra /> } />
 
 
             {/* NOT FOUND */}

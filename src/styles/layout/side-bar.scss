@@ -38,6 +38,9 @@
         margin-bottom: 10px;
         cursor: pointer;
     }
+    img {
+        object-fit: cover;
+    }
     .zmdi-account-circle {
         display: grid;
         place-content: center;
