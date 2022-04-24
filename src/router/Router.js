@@ -9,6 +9,8 @@ import AddMenu from "../views/administration/AddMenu";
 import CreateFood from "../views/administration/CreateFood";
 import EditFood from "../views/administration/EditFood";
 import CreateExtra from "../views/administration/CreateExtra";
+import EditExtra from "../views/administration/EditExtra";
+import Layout from "../views/layout/Layout";
 
 
 export default function Router() {
@@ -20,17 +22,19 @@ export default function Router() {
             <Route path="/register" element={ <Register /> } />
 
 
-            {/* SITE */}
-            <Route path="/" element={ <Index /> } />
-            <Route path="/food" element={ <Test /> } />
+            <Route element={<Layout />}>
+                {/* SITE */}
+                <Route path="/" element={ <Index /> } />
+                <Route path="/food" element={ <Test /> } />
 
 
-            {/* ADMINISTRATION */}
-            <Route path="/add-menu" element={ <AddMenu /> } />
-            <Route path="/create-food" element={ <CreateFood /> } />
-            <Route path="/edit-food" element={ <EditFood /> } />
-            <Route path="/create-extra" element={ <CreateExtra /> } />
-
+                {/* ADMINISTRATION */}
+                <Route path="/add-menu" element={ <AddMenu /> } />
+                <Route path="/create-food" element={ <CreateFood /> } />
+                <Route path="/edit-food" element={ <EditFood /> } />
+                <Route path="/create-extra" element={ <CreateExtra /> } />
+                <Route path="/edit-extra" element={ <EditExtra /> } />
+            </Route>
 
             {/* NOT FOUND */}
             <Route path="*" element={ <h1>Not Found</h1> } />

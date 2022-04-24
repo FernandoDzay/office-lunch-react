@@ -12,7 +12,7 @@ import {Navigate} from "react-router-dom";
 class Index extends Component {
 
     constructor(props) {
-        super(props);
+        super(props);console.log("asdas");
 
         this.api_url = process.env.REACT_APP_API_URL;
         this.token = localStorage.getItem('token');
@@ -100,7 +100,7 @@ class Index extends Component {
     
         if(goLogin) return <Navigate to={`/login?${new URLSearchParams({error: 'Tu sesión ha expirado'}).toString()}`} />;
         return (
-            <Layout>
+            <>
     
                 <ViewTitle>{viewText.title}</ViewTitle>
                 <ViewDescription>{viewText.description}</ViewDescription>
@@ -129,7 +129,7 @@ class Index extends Component {
                     </>
                 }
         
-            </Layout>
+            </>
         );
     }
 }

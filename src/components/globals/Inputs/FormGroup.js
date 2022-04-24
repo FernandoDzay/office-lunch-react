@@ -22,15 +22,16 @@ class FormGroup extends React.Component {
     };
 
     componentDidMount() {
-        const {children} = this.props;
+        const {children, forceNotEmpty} = this.props;
         const numberOfChildren = React.Children.count(children);
-
+        
+        if(forceNotEmpty) return this.setState({isEmpty: false});
         if(numberOfChildren === 0) return null;
         if(numberOfChildren === 1) {
             if(this.childIsInputType(children) && children.props.value.length > 0) {
                 this.setState({isEmpty: false});
             }
-        } 
+        }
         React.Children.forEach(children, (child) => {
             if(this.childIsInputType(child) && child.props.value.length > 0) {
                 this.setState({isEmpty: false});

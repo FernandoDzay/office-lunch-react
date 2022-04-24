@@ -32,7 +32,7 @@ class AdminFoodCard extends Component {
     }
 
     editFood = () => {
-        this.setState({editFoodPath: `/edit-food/?${this.props.id}`});
+        this.setState({editFoodPath: `/edit-food/?id=${this.props.id}`});
     }
     
     deleteFood = () => {

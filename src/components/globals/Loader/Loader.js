@@ -1,6 +1,6 @@
 import "./loader.scss";
 
-export default function Loader({color, size}) {
+export default function Loader({color, size, withContainer}) {
 
     const classes = ['loader'];
     const sizeClass = size ? `x${size}` : 'x1';
@@ -9,5 +9,12 @@ export default function Loader({color, size}) {
     classes.push(sizeClass);
 
 
-    return <div className={classes.join(' ')}></div>;
+    return (
+        withContainer ? 
+            <div className={`loader-container ${sizeClass}`} >
+                <div className={classes.join(' ')}></div>
+            </div>
+        :
+            <div className={classes.join(' ')}></div>
+    );
 }

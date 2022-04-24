@@ -4,6 +4,7 @@ import Header from './Header';
 import Modal from '../../components/globals/Modal/Modal';
 import Button from '../../components/globals/Button/Button';
 import "../../styles/layout/layout.scss";
+import { Outlet } from 'react-router-dom';
 
 
 class Layout extends Component {
@@ -95,7 +96,7 @@ class Layout extends Component {
                         refreshNotifications = {this.getNotifications}
                     />
                     <main className="main">
-                        { this.props.children }
+                        <Outlet />
                     </main>
                 </div>
                 <Modal active={showModal} nextStep={nextStep} handleCloseModal={this.handleCloseModal} >

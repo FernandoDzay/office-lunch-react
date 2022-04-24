@@ -2,13 +2,13 @@ import {Component} from 'react';
 import ViewTitle from '../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../components/globals/ViewDescription/ViewDescription';
 import Layout from '../layout/Layout';
-import FoodForm from './components/FoodForm';
+import ExtraForm from './components/ExtraForm';
 import Loader from '../../components/globals/Loader/Loader';
 import Modal from '../../components/globals/Modal/InfoModal';
 import { Navigate } from 'react-router-dom';
 
 
-class EditFood extends Component {
+class EditExtra extends Component {
 
     constructor(props) {
         super(props);
@@ -29,11 +29,11 @@ class EditFood extends Component {
     componentDidMount() {
         const searchParams = new URLSearchParams(window.location.search);
         const id = searchParams.get('id');
-        const foodNotFoundState = {
+        const extraNotFoundState = {
             modal: {
                 active: true,
                 title: 'Error',
-                description: 'Comida no encontrada',
+                description: 'Extra no encontrada',
             }
         };
         const errorState = {
@@ -44,12 +44,12 @@ class EditFood extends Component {
             }
         };
 
-        if(!(id >= 0)) return this.setState(foodNotFoundState);
+        if(!(id >= 0)) return this.setState(extraNotFoundState);
 
-        fetch(`${this.api_url}/foods/${id}`, {headers: {Authorization: `bearer ${this.token}`}})
+        fetch(`${this.api_url}/extras/${id}`, {headers: {Authorization: `bearer ${this.token}`}})
         .then(r => r.json())
         .then(data => {
-            if(!data.id) return this.setState(foodNotFoundState);
+            if(!data.id) return this.setState(extraNotFoundState);
             return this.setState({initialFormState: data, loading: false});
         })
         .catch(e => this.setState(errorState));
@@ -67,10 +67,10 @@ class EditFood extends Component {
         if(goBack) return <Navigate to="/add-menu" />;
         return (
             <>
-                <ViewTitle>Editar Comida</ViewTitle>
-                <ViewDescription>En esta sección puedes editar una comida</ViewDescription>
+                <ViewTitle>Editar Extra</ViewTitle>
+                <ViewDescription>En esta sección puedes editar un extra</ViewDescription>
 
-                { loading ? <Loader color="blue" size="3" withContainer={true} /> : <FoodForm initialState={{food: initialFormState}} forceNotEmpty={true} /> }
+                { loading ? <Loader color="blue" size="3" withContainer={true} /> : <ExtraForm initialState={{extra: initialFormState}} forceNotEmpty={true} /> }
     
                 <Modal active={active} type='fail' title={title} description={description} handleCloseModal={this.handleCloseModal} />
             </>
@@ -79,4 +79,4 @@ class EditFood extends Component {
 
 }
 
-export default EditFood;
+export default EditExtra;

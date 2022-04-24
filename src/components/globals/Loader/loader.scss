@@ -32,6 +32,21 @@
     }
 }
 
+.loader-container {
+    position: relative;
+    width: 100%;
+
+    &.x1 {
+        min-height: 50px;
+    }
+    &.x2 {
+        min-height: 125px;
+    }
+    &.x3 {
+        min-height: 300px;
+    }
+}
+
 @keyframes loader {
     0% {
         transform: rotate(0deg);

@@ -5,9 +5,9 @@ import ViewDescription from '../../components/globals/ViewDescription/ViewDescri
 import FoodCard from '../../components/globals/FoodCard/AdminFoodCard';
 import {Navigate} from "react-router-dom";
 import Loader from '../../components/globals/Loader/Loader';
-import Table from '../../components/globals/Table/Table';
 import Tabs from '../../components/globals/Tabs/Tabs';
-import IconButton from '../../components/globals/IconButton/IconButton';
+import MenuTable from './components/MenuTable';
+import ExtrasTable from './components/ExtrasTable';
 
 
 class AddMenu extends Component {
@@ -35,6 +35,7 @@ class AddMenu extends Component {
     }
 
     transformMenuState = (menu, clickedIndex) => menu.map((data, index) => ({...data, loading: index === clickedIndex}));
+    transformExtraState = (extras, clickedIndex) => extras.map((extra, index) => ({...extra, loading: index === clickedIndex}));
 
     getMenu = () => {
         if(this.state.menu.length === 0) this.setState({menuLoading: true});
@@ -43,8 +44,6 @@ class AddMenu extends Component {
         .then(data => {
             if(data.error) throw new Error('Ocurrió un error inesperado');
             if(data.authError !== undefined) return this.setState({goLogin: true});
-
-            // const menuState = data.menu.map(data => ({id: data.id, loading: false, food: {...data.food}}));
             this.setState({menuLoading: false, menu: data.menu});
         })
         .catch(e => this.setState({menuLoading: false}));
@@ -78,35 +77,30 @@ class AddMenu extends Component {
         await this.getMenu();
     }
 
+    handleDeleteExtra = async (clickedIndex, id) => {
+        const extras = this.transformExtraState(this.state.extras, clickedIndex);
+        this.setState({extras});
+        await fetch(`${this.api_url}/extras/delete/${id}`, {method: 'DELETE', headers: {Authorization: `bearer ${this.token}`}});
+        await this.getExtras();
+    }
+
 
     render() {
-        const {goLogin, foodsLoading, menuLoading, foods, menu} = this.state;
-        const tableData = {
-            thead: ['#', 'Nombre', 'Precio', 'Descuento', 'Quitar'],
-            tbody: 
-            menu.map(
-                (menu, index) => 
-                [
-                    index + 1,
-                    menu.food.full_name,
-                    menu.food.price,
-                    menu.food.discount,
-                    <IconButton key={menu.id} loading={menu.loading} onClick={() => this.handleDeleteMenu(index, menu.id)} icon="delete" color="red" />
-                ]
-            )
-        };
-
+        const {goLogin, foodsLoading, menuLoading, foods, menu, extras} = this.state;
 
         if(goLogin) return <Navigate to={`/login?${new URLSearchParams({error: 'Tu sesión ha expirado'}).toString()}`} />;
         return (
-            <Layout>
+            <>
                 
                 <ViewTitle>Agregar al menú</ViewTitle>
                 <ViewDescription>En esta sección puedes agregar las comidas disponibles que hayas configurado.</ViewDescription>
                 <Tabs
                     loading={menuLoading}
-                    tabsText={['Comidas agregadas al menú']}
-                    tabsContent={[<Table data={tableData} />]}
+                    tabsText={['Comidas agregadas al menú', 'Extras']}
+                    tabsContent={[
+                        <MenuTable menu={menu} handleDeleteMenu={this.handleDeleteMenu} />,
+                        <ExtrasTable extras={extras} handleDeleteExtra={this.handleDeleteExtra} />,
+                    ]}
                 />
 
                 <ViewTitle>Comidas</ViewTitle>
@@ -117,7 +111,7 @@ class AddMenu extends Component {
                         foods.map(food => <FoodCard key={food.id} mainClick={this.getMenu} deleteClick={this.getFoods} {...food} />)
                 }</div>
 
-            </Layout>
+            </>
         );
     }
 }
