@@ -2,7 +2,7 @@ import React from 'react';
 import Input from './Input';
 
 
-export default function InputFile(props) {
+function InputFile(props) {
     const {name, value, onChangeHandler} = props;
     const inputFileRef = React.createRef()
     
@@ -17,3 +17,9 @@ export default function InputFile(props) {
         </>
     );
 }
+
+InputFile.defaultProps = {
+    displayName: 'InputFile'
+};
+
+export default InputFile;

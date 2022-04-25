@@ -1,4 +1,4 @@
-export default function Input({name, type, value, onFocus, onBlur, onClick, onChangeHandler, id}) {
+const Input = ({name, type, value, onFocus, onBlur, onClick, onChangeHandler}) => {
 
     return (
         <input type={type}
@@ -12,3 +12,9 @@ export default function Input({name, type, value, onFocus, onBlur, onClick, onCh
         />
     );
 }
+
+Input.defaultProps = {
+    displayName: 'Input'
+};
+
+export default Input;

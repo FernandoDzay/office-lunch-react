@@ -12,8 +12,6 @@ import {Navigate} from "react-router-dom";
 class Index extends Component {
 
     constructor(props) {
-        super(props);console.log("asdas");
-
         this.api_url = process.env.REACT_APP_API_URL;
         this.token = localStorage.getItem('token');
 

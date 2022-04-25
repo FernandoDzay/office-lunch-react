@@ -1,4 +1,4 @@
-export default function Select({name, value, onFocus, onBlur, children, onChangeHandler}) {
+function Select({name, value, onFocus, onBlur, children, onChangeHandler}) {
 
     return (
         <select
@@ -12,3 +12,9 @@ export default function Select({name, value, onFocus, onBlur, children, onChange
         </select>
     );
 }
+
+Select.defaultProps = {
+    displayName: 'Select'
+};
+
+export default Select;
