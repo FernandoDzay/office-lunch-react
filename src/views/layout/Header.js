@@ -1,17 +1,9 @@
 import Notifications from './Notifications/Notifications';
+import {connect} from 'react-redux';
+import {toggleSideBar, openNotifications, openMakeOrdersModal} from '../../redux/actions/layoutActions';
 
 
-export default function Header({
-    handleToggleSideBar,
-    handleOpenModal,
-    handleOpenNotifications,
-    showNotifications,
-    handleCloseNotifications,
-    loadingNotifications,
-    notifications,
-    refreshNotifications,
-}) {
-
+function Header({handleToggleSideBar, handleOpenNotifications, handleOpenMakeOrdersModal, notifications, user}) {
     const notificationsWithoutReadCount = notifications.filter(notification => !notification.has_been_read).length;
 
 
@@ -23,9 +15,12 @@ export default function Header({
                 </button>
             </div>
             <div className="right">
-                <button className="header-btn" onClick={handleOpenModal}>
-                    <i className="zmdi zmdi-cutlery"></i>
-                </button>
+                {
+                    user.is_admin &&
+                    <button className="header-btn" onClick={handleOpenMakeOrdersModal}>
+                        <i className="zmdi zmdi-cutlery"></i>
+                    </button>
+                }
                 <button className="header-btn" onClick={handleOpenNotifications}>{
                     notificationsWithoutReadCount > 0 ? 
                         <>
@@ -39,13 +34,16 @@ export default function Header({
                         </>
                 }</button>
             </div>
-            <Notifications
-                active={showNotifications}
-                handleCloseNotifications={handleCloseNotifications}
-                loadingNotifications={loadingNotifications}
-                notifications={notifications}
-                refreshNotifications={refreshNotifications}
-            />
+            <Notifications />
         </header>
     );
 }
+
+
+const mapStateToProps = state => ({notifications: state.layoutReducers.notifications, user: state.layoutReducers.user});
+const mapDispatchToProps = (dispatch) => ({
+    handleToggleSideBar: () => dispatch(toggleSideBar()),
+    handleOpenNotifications: () => dispatch(openNotifications()),
+    handleOpenMakeOrdersModal: () => dispatch(openMakeOrdersModal())
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,7 +1,7 @@
 import './view-form.scss';
 
 
-export default function ({children}) {
+export default function ViewForm({children}) {
     
 
     return (

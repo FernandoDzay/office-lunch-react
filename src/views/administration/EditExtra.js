@@ -1,7 +1,6 @@
 import {Component} from 'react';
 import ViewTitle from '../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../components/globals/ViewDescription/ViewDescription';
-import Layout from '../layout/Layout';
 import ExtraForm from './components/ExtraForm';
 import Loader from '../../components/globals/Loader/Loader';
 import Modal from '../../components/globals/Modal/InfoModal';

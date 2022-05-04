@@ -3,6 +3,8 @@ import Modal from "../../../components/globals/Modal/Modal";
 import Button from "../../../components/globals/Button/Button";
 import FormGroup from "../../../components/globals/Inputs/FormGroup";
 import InputFile from "../../../components/globals/Inputs/InputFile";
+import {connect} from 'react-redux';
+import {getLoggedUser} from '../../../redux/actions/layoutActions';
 
 
 class UserImage extends Component {
@@ -47,7 +49,7 @@ class UserImage extends Component {
         .then(r => r.json())
         .then(data => {
             if(!data.message) throw new Error('No se pudo guardar la imagen');
-            this.props.refreshUser();
+            this.props.getUser();
             this.setState({modal: false, file: ''});
         })
         .catch(e => this.setState({modal: false, file: ''}));
@@ -58,6 +60,7 @@ class UserImage extends Component {
         const {modal, file, errorMessage} = this.state;
         const {avatar} = this.props;
 
+        
         return (
             <>
                 <div onClick={this.handleClick}>{
@@ -81,4 +84,7 @@ class UserImage extends Component {
     }
 }
 
-export default UserImage;
+
+const mapStateToProps = state => ({avatar: state.layoutReducers.user.image, loading: state.layoutReducers.loadingUser});
+const mapDispatchToProps = dispatch => ({getUser: () => dispatch(getLoggedUser())})
+export default connect(mapStateToProps, mapDispatchToProps)(UserImage);

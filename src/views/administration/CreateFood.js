@@ -1,6 +1,5 @@
 import ViewTitle from '../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../components/globals/ViewDescription/ViewDescription';
-import Layout from '../layout/Layout';
 import FoodForm from './components/FoodForm';
 
 

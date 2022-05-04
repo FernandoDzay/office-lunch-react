@@ -1,23 +1,31 @@
-import React from "react";
+import {Component} from "react";
+import Loader from "../Loader/Loader";
 import './table.scss';
 
-class Table extends React.Component {
-
+class Table extends Component {
 
 
     render () {
-        const {thead, tbody} = this.props.data;
+        const {thead, loading} = this.props;
 
+        if(loading) return <Loader withContainer={true} size="2" color="blue" />;
         return (
             <table className="table">
-                <thead>
-                    <tr>{ thead.map((th, i) => <th key={i}>{th}</th>) }</tr>
-                </thead>
-                <tbody>
-                    { tbody.map((tr, i) => {
-                        return <tr key={i}>{ tr.map((td, j) => <td key={j}>{td}</td>) }</tr>
-                    }) }
-                </tbody>
+                {
+                    thead !== undefined ?
+                    <>
+                        <thead>
+                            <tr>
+                                {thead.map((th, index) => <th key={index}>{th}</th>)}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.props.children}
+                        </tbody>
+                    </>
+                    :
+                    this.props.children
+                }
             </table>
         );
     }

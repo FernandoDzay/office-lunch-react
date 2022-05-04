@@ -4,6 +4,8 @@ import Animation from "../../../class/Animation";
 import FullScreenShadow from '../../../components/globals/FullScreenShadow/FullScreenShadow';
 import Loader from '../../../components/globals/Loader/Loader';
 import Notification from './Notification';
+import {connect} from 'react-redux';
+import {closeNotifications, getNotifications} from '../../../redux/actions/layoutActions';
 
 
 class Notifications extends Component {
@@ -35,6 +37,10 @@ class Notifications extends Component {
         this.Animation = new Animation(this.config, .2, true);
     }
 
+    componentDidMount() {
+        this.props.getNotifications();
+    }
+
     componentDidUpdate = async (prevProps) => {
 
         if(this.props.active !== prevProps.active || this.Animation.isRuning()) {
@@ -53,7 +59,7 @@ class Notifications extends Component {
             const notificationsWithoutReadCount = this.props.notifications.filter(notification => !notification.has_been_read).length;
             if(notificationsWithoutReadCount > 0) {
                 await this.markReadAllNotifications();
-                await this.props.refreshNotifications();
+                await this.props.getNotifications();
             }
         }
     }
@@ -70,7 +76,7 @@ class Notifications extends Component {
     }
 
     render() {
-        const {active, handleCloseNotifications, loadingNotifications, notifications} = this.props;
+        const {active, handleCloseNotifications, loading, notifications} = this.props;
         const display = this.state.styles.opacity === '0' ? 'none' : 'block';
         let styles = {};
         styles.display = display;
@@ -78,7 +84,7 @@ class Notifications extends Component {
         styles.transform = `translateX(${this.state.styles.transform}px)`;
 
         let titleText = 'Cargando notificaciones';
-        if(!loadingNotifications) titleText = notifications.length > 0 ? 'Notificaciones' : 'Sin notificaciones';
+        if(!loading) titleText = notifications.length > 0 ? 'Notificaciones' : 'Sin notificaciones';
 
 
         return (
@@ -92,7 +98,7 @@ class Notifications extends Component {
                     </div>
                     <div className="content">
                         <div className="notifications-container">{
-                            loadingNotifications ?
+                            loading ?
                                 <Loader color="blue" size="3" />
                             :
                                 notifications.map(notification =>
@@ -113,4 +119,13 @@ class Notifications extends Component {
     }
 }
 
-export default Notifications;
+const mapStateToProps = state => ({
+    active: state.layoutReducers.activeNotifications,
+    notifications: state.layoutReducers.notifications,
+    loading: state.layoutReducers.loadingNotifications
+});
+const mapDispatchToProps = dispatch => ({
+    handleCloseNotifications: () => dispatch(closeNotifications()),
+    getNotifications: () => dispatch(getNotifications())
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

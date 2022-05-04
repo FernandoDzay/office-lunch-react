@@ -3,6 +3,8 @@ import {Navigate} from "react-router-dom";
 import Modal from "../../../components/globals/Modal/Modal";
 import Button from "../../../components/globals/Button/Button";
 import UserImage from "./UserImage";
+import {connect} from 'react-redux';
+import {getLoggedUser} from '../../../redux/actions/layoutActions';
 
 
 class Mid extends Component {
@@ -22,6 +24,7 @@ class Mid extends Component {
 
     componentDidMount() {
         this.getGroup();
+        this.props.getLoggedUser();
     }
 
     getGroup = () => {
@@ -51,27 +54,23 @@ class Mid extends Component {
 
     handleCloseModal = () => this.setState({modal: false});
 
+
     render() {
         const {schedule, logout, modal} = this.state;
-        const {avatar, username, isAdminUser, refreshUser} = this.props;
+        const {loading, user: {username, is_admin}} = this.props;
         const {handleLogoutClick, handleCloseModal} = this;
 
+        
         if(logout) return <Navigate to="/login" />
         return (
             <div className="mid">
-                <UserImage avatar={avatar} refreshUser={refreshUser} />
-                <p className="name">{ username }</p>
+                <UserImage />
+                <p className="name">{loading ? '...' : username}</p>
                 <p className="schedule">{ schedule }</p>
+
                 <div className="icons">
-                    {
-                        isAdminUser ?
-                        <button>
-                            <i className="zmdi zmdi-settings"></i>
-                        </button> : null
-                    }
-                    <button onClick={handleLogoutClick}>
-                        <i className="zmdi zmdi-power"></i>
-                    </button>
+                    {is_admin && <button><i className="zmdi zmdi-settings"></i></button>}
+                    <button onClick={handleLogoutClick}><i className="zmdi zmdi-power"></i></button>
                 </div>
 
                 <Modal active={modal} handleCloseModal={handleCloseModal}>
@@ -87,4 +86,7 @@ class Mid extends Component {
     }
 }
 
-export default Mid;
+
+const mapStateToProps = state => ({user: state.layoutReducers.user, loading: state.layoutReducers.loadingUser});
+const mapDispatchToProps = dispatch => ({ getLoggedUser: () => dispatch(getLoggedUser()) });
+export default connect(mapStateToProps, mapDispatchToProps)(Mid);

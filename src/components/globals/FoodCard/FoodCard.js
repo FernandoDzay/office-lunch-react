@@ -1,5 +1,7 @@
 import {Component} from 'react';
 import GenericFoodCard from './inheritance/FoodCard';
+import {connect} from 'react-redux';
+import {getUserOrders} from '../../../redux/actions/layoutActions';
 
 class FoodCard extends Component {
 
@@ -24,9 +26,7 @@ class FoodCard extends Component {
             body: JSON.stringify({food_id: this.props.id})
         })
         .then(r => r.json())
-        .then(r => {
-            // this.props.refreshOrders();
-        })
+        .then(r => this.props.getUserOrders())
         .catch(e => console.log(e))
         .finally(r => this.setState({loading: false}));
     }
@@ -42,4 +42,5 @@ class FoodCard extends Component {
 }
 
 
-export default FoodCard;
+const mapDispatchToProps = dispatch => ({getUserOrders: () => dispatch(getUserOrders())});
+export default connect(null, mapDispatchToProps)(FoodCard);

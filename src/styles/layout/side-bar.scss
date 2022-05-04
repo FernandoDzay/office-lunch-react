@@ -19,11 +19,14 @@
         font-family: 'RobotoCondensedLight';
         text-align: center;
     }
-    p {
+    p, li {
         color: white;
         font-family: 'RobotoCondensedLight';
         font-size: 14px;
         user-select: none;
+    }
+    li {
+        margin-bottom: 5px;
     }
     .schedule {
         align-self: center;
@@ -103,9 +106,6 @@
         height: inherit;
         opacity: .23;
     }
-    /* input[type="file"] {
-        display: none;
-    } */
 }
 
 .padding-right {

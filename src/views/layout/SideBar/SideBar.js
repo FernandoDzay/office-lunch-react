@@ -3,6 +3,7 @@ import Mid from './Mid';
 import Bot from './Bot';
 import Animation from "../../../class/Animation";
 import "../../../styles/layout/side-bar.scss";
+import {connect} from 'react-redux';
 
 
 class SideBar extends Component {
@@ -72,7 +73,7 @@ class SideBar extends Component {
                         <h1>COMPANY</h1>
                     </div>
                     <Mid username={username} avatar={avatar} isAdminUser={isAdminUser} refreshUser={refreshUser} />
-                    <Bot isAdminUser={isAdminUser} />
+                    <Bot />
                 </div>
                 <div className="padding-right" style={paddingRightStyles}></div>
             </>
@@ -80,4 +81,6 @@ class SideBar extends Component {
     }
 }
 
-export default SideBar;
+
+const mapStateToProps = state => ({active: state.layoutReducers.activeSideBar});
+export default connect(mapStateToProps)(SideBar);

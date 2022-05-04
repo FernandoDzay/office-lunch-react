@@ -4,7 +4,6 @@ import { Route, Routes } from "react-router-dom";
 import Login from "../views/login/Login";
 import Register from "../views/login/Register";
 import Index from "../views/site/Index";
-import Test from "../views/site/Test";
 import AddMenu from "../views/administration/AddMenu";
 import CreateFood from "../views/administration/CreateFood";
 import EditFood from "../views/administration/EditFood";
@@ -25,7 +24,6 @@ export default function Router() {
             <Route element={<Layout />}>
                 {/* SITE */}
                 <Route path="/" element={ <Index /> } />
-                <Route path="/food" element={ <Test /> } />
 
 
                 {/* ADMINISTRATION */}
