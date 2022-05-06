@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {useState, useEffect} from 'react';
 import ViewTitle from '../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../components/globals/ViewDescription/ViewDescription';
 import ExtraForm from './components/ExtraForm';
@@ -7,75 +7,64 @@ import Modal from '../../components/globals/Modal/InfoModal';
 import { Navigate } from 'react-router-dom';
 
 
-class EditExtra extends Component {
+const EditExtra = () => {
+    const api_url = process.env.REACT_APP_API_URL;
+    const token = localStorage.getItem('token');
 
-    constructor(props) {
-        super(props);
+    const [initialFormState, setInitialFormState] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [goBack, setGoBack] = useState(false);
+    const [modal, setModal] = useState({
+        active: false,
+        title: '',
+        description: '',
+    });
 
-        this.api_url = process.env.REACT_APP_API_URL;
-        this.token = localStorage.getItem('token');
-        this.state = {
-            initialFormState: {},
-            loading: true,
-            modal: {
-                active: false,
-                title: '',
-                description: '',
-            },
-        };
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
         const id = searchParams.get('id');
         const extraNotFoundState = {
-            modal: {
-                active: true,
-                title: 'Error',
-                description: 'Extra no encontrada',
-            }
+            active: true,
+            title: 'Error',
+            description: 'Extra no encontrada',
         };
         const errorState = {
-            modal: {
-                active: true,
-                title: 'Error',
-                description: 'Ocurrió un error inesperado',
-            }
+            active: true,
+            title: 'Error',
+            description: 'Ocurrió un error inesperado',
         };
 
-        if(!(id >= 0)) return this.setState(extraNotFoundState);
+        if(!(id >= 0)) return setModal(extraNotFoundState);
 
-        fetch(`${this.api_url}/extras/${id}`, {headers: {Authorization: `bearer ${this.token}`}})
+        fetch(`${api_url}/extras/${id}`, {headers: {Authorization: `bearer ${token}`}})
         .then(r => r.json())
         .then(data => {
-            if(!data.id) return this.setState(extraNotFoundState);
-            return this.setState({initialFormState: data, loading: false});
+            if(!data.id) return setModal(extraNotFoundState);
+            setInitialFormState(data);
+            setLoading(false);
         })
-        .catch(e => this.setState(errorState));
+        .catch(e => setModal(errorState));
+    }, [token, api_url])
+
+    const handleCloseModal = () => {
+        setModal({...modal, active: false});
+        setGoBack(true);
     }
 
-    handleCloseModal = () => {
-        this.setState({modal: {active: false}, goBack: true});
-    }
+    const {active, title, description} = modal;
 
 
-    render() {
-        const {loading, initialFormState, goBack, modal: {active, title, description}} = this.state;
+    if(goBack) return <Navigate to="/add-menu" />;
+    return (
+        <>
+            <ViewTitle>Editar Extra</ViewTitle>
+            <ViewDescription>En esta sección puedes editar un extra</ViewDescription>
 
+            { loading ? <Loader color="blue" size="3" withContainer={true} /> : <ExtraForm initialState={initialFormState} forceNotEmpty={true} /> }
 
-        if(goBack) return <Navigate to="/add-menu" />;
-        return (
-            <>
-                <ViewTitle>Editar Extra</ViewTitle>
-                <ViewDescription>En esta sección puedes editar un extra</ViewDescription>
-
-                { loading ? <Loader color="blue" size="3" withContainer={true} /> : <ExtraForm initialState={{extra: initialFormState}} forceNotEmpty={true} /> }
-    
-                <Modal active={active} type='fail' title={title} description={description} handleCloseModal={this.handleCloseModal} />
-            </>
-        );
-    }
-
+            <Modal active={active} type='fail' title={title} description={description} handleCloseModal={handleCloseModal} />
+        </>
+    );
 }
 
 export default EditExtra;

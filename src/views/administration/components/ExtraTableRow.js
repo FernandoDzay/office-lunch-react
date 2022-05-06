@@ -1,49 +1,36 @@
-import {Component} from 'react';
+import {useState} from 'react';
 import {connect} from 'react-redux';
 import {getExtras} from '../../container/actions';
 import IconButton from '../../../components/globals/IconButton/IconButton';
 import { Navigate } from 'react-router-dom';
 
 
-class ExtraTableRow extends Component {
+const ExtraTableRow = ({index, extra, getExtras}) => {
+    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [goEditExtra, setGoEditExtra] = useState(false);
 
-    constructor(props) {
-        super(props);
+    const api_url = process.env.REACT_APP_API_URL;
+    const token = localStorage.getItem('token');
 
-        this.api_url = process.env.REACT_APP_API_URL;
-        this.token = localStorage.getItem('token');
-
-        this.state = {
-            deleteLoading: false,
-            goEditExtra: false
-        }
-    }
-
-    handleEditExtra = () => this.setState({goEditExtra: true});
-    handleDeleteExtra = async () => {
-        this.setState({deleteLoading: true});
-        await fetch(`${this.api_url}/extras/delete/${this.props.extra.id}`, {method: 'DELETE', headers: {Authorization: `bearer ${this.token}`}});
-        await this.props.getExtras();
-        this.setState({deleteLoading: false});
+    const handleEditExtra = () => setGoEditExtra(true);
+    const handleDeleteExtra = async () => {
+        setDeleteLoading(true);
+        await fetch(`${api_url}/extras/delete/${extra.id}`, {method: 'DELETE', headers: {Authorization: `bearer ${token}`}});
+        await getExtras();
+        setDeleteLoading(false);
     }
 
 
-    render() {
-        const {index, extra} = this.props;
-        const {deleteLoading, goEditExtra} = this.state;
-
-
-        if(goEditExtra) return <Navigate to={`/edit-extra?id=${extra.id}`} />;
-        return (
-            <tr>
-                <td>{index + 1}</td>
-                <td>{extra.name}</td>
-                <td>{extra.price}</td>
-                <td><IconButton color="orange" icon="edit" onClick={this.handleEditExtra} /></td>
-                <td><IconButton color="red" icon="delete" loading={deleteLoading} onClick={this.handleDeleteExtra} /></td>
-            </tr>
-        );
-    }
+    if(goEditExtra) return <Navigate to={`/edit-extra?id=${extra.id}`} />;
+    return (
+        <tr>
+            <td>{index + 1}</td>
+            <td>{extra.name}</td>
+            <td>{extra.price}</td>
+            <td><IconButton color="orange" icon="edit" onClick={handleEditExtra} /></td>
+            <td><IconButton color="red" icon="delete" loading={deleteLoading} onClick={handleDeleteExtra} /></td>
+        </tr>
+    );
 
 }
 

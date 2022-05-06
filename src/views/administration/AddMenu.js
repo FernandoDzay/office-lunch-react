@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {useEffect} from 'react';
 import ViewTitle from '../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../components/globals/ViewDescription/ViewDescription';
 import FoodCard from '../../components/globals/FoodCard/AdminFoodCard';
@@ -11,42 +11,35 @@ import {connect} from 'react-redux';
 import {getFoods} from '../container/actions';
 
 
-class AddMenu extends Component {
+const AddMenu = ({foods, goLogin, getFoods, loadingFoods}) => {
+    useEffect(() => getFoods(), [getFoods]);
 
-    componentDidMount() {
-        this.props.getFoods();
-    }
+    const viewLoadingFoods = foods.length > 0 ? false : loadingFoods;
+    const queryString = new URLSearchParams({error: 'Tu sesión ha expirado'}).toString();
 
+    if(goLogin) return <Navigate to={`/login?${queryString}`} />;
+    return (
+        <>
+            <ViewTitle>Agregar al menú</ViewTitle>
+            <ViewDescription>En esta sección puedes agregar las comidas disponibles que hayas configurado.</ViewDescription>
+            <Tabs
+                tabsText={['Comidas agregadas al menú', 'Extras']}
+                tabsContent={[
+                    <MenuTable />,
+                    <ExtrasTable />,
+                ]}
+            />
 
-    render() {
-        const {foods, goLogin} = this.props;
-        const loadingFoods = foods.length > 0 ? false : this.props.loadingFoods;
+            <ViewTitle>Comidas</ViewTitle>
+            <div className="food-cards-container">{
+                viewLoadingFoods ? 
+                    <Loader color="blue" size="3" />
+                :
+                    foods.map(food => <FoodCard key={food.id} {...food} />)
+            }</div>
 
-
-        if(goLogin) return <Navigate to={`/login?${new URLSearchParams({error: 'Tu sesión ha expirado'}).toString()}`} />;
-        return (
-            <>
-                <ViewTitle>Agregar al menú</ViewTitle>
-                <ViewDescription>En esta sección puedes agregar las comidas disponibles que hayas configurado.</ViewDescription>
-                <Tabs
-                    tabsText={['Comidas agregadas al menú', 'Extras']}
-                    tabsContent={[
-                        <MenuTable />,
-                        <ExtrasTable />,
-                    ]}
-                />
-
-                <ViewTitle>Comidas</ViewTitle>
-                <div className="food-cards-container">{
-                    loadingFoods ? 
-                        <Loader color="blue" size="3" />
-                    :
-                        foods.map(food => <FoodCard key={food.id} mainClick={this.getMenu} deleteClick={this.getFoods} {...food} />)
-                }</div>
-
-            </>
-        );
-    }
+        </>
+    );
 }
 
 

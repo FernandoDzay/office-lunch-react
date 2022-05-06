@@ -1,27 +1,23 @@
-import {Component} from 'react';
+import {useEffect} from 'react';
 import Table from '../../../components/globals/Table/Table';
 import {connect} from 'react-redux';
 import {getExtras} from '../../container/actions';
 import ExtraTableRow from './ExtraTableRow';
 
 
-class ExtraTable extends Component {
+const ExtraTable = ({getExtras, extras}) => {
 
-    componentDidMount() {
-        this.props.getExtras();
-    }
+    useEffect(() => {
+        getExtras();
+    }, [getExtras])
 
-    render() {
-        const {extras} = this.props;
-        const thead = ['#', 'Nombre', 'Precio', 'Editar', 'Quitar'];
+    const thead = ['#', 'Nombre', 'Precio', 'Editar', 'Quitar'];
 
-
-        return (
-            <Table thead={thead} >
-                {extras.map((extra, index) => <ExtraTableRow key={extra.id} index={index} extra={extra} />)}
-            </Table>
-        );
-    }
+    return (
+        <Table thead={thead} >
+            {extras.map((extra, index) => <ExtraTableRow key={extra.id} index={index} extra={extra} />)}
+        </Table>
+    );
 }
 
 

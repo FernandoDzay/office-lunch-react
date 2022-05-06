@@ -6,7 +6,7 @@ export default function ExtraTable({extras}) {
 
     return (
         <Table thead={['#', 'Nombre', 'Precio', 'Agregar']} >
-            {extras.map((extra, index) => <TableRow key={extra.id} extra={extra} index={index} />)}
+            {extras.map((extra, index) => <TableRow key={extra.id} extra={extra} index={index + 1} />)}
         </Table>
     );
 }

@@ -1,47 +1,31 @@
-import {Component} from 'react';
+import {useState} from 'react';
 import IconButton from '../../../components/globals/IconButton/IconButton';
 import {getMenu} from '../../container/actions';
 import {connect} from 'react-redux';
 
 
-class MenuTableRow extends Component {
+const MenuTableRow = ({id, index, food, getMenu}) => {
+    const api_url = process.env.REACT_APP_API_URL;
+    const token = localStorage.getItem('token');
 
-    constructor(props) {
-        super(props);
+    const [loading, setLoading] = useState(false);
 
-        this.api_url = process.env.REACT_APP_API_URL;
-        this.token = localStorage.getItem('token');
-
-        this.state = {
-            loading: false
-        }
+    const handleDeleteMenu = async () => {
+        setLoading(true);
+        await fetch(`${api_url}/menu/remove-food/${id}`, {method: 'DELETE', headers: {Authorization: `bearer ${token}`}});
+        await getMenu();
+        setLoading(false);
     }
 
-
-    handleDeleteMenu = async () => {
-        const id = this.props.id;
-        this.setState({loading: true});
-        await fetch(`${this.api_url}/menu/remove-food/${id}`, {method: 'DELETE', headers: {Authorization: `bearer ${this.token}`}});
-        await this.props.getMenu();
-        this.setState({loading: false});
-    }
-
-
-    render() {
-        const {index, food} = this.props;
-        const {loading} = this.state;
-
-
-        return (
-            <tr>
-                <td>{index + 1}</td>
-                <td>{food.full_name}</td>
-                <td>{food.price}</td>
-                <td>{food.discount}</td>
-                <td><IconButton loading={loading} onClick={this.handleDeleteMenu} icon="delete" color="red" /></td>
-            </tr>
-        );
-    }
+    return (
+        <tr>
+            <td>{index + 1}</td>
+            <td>{food.full_name}</td>
+            <td>{food.price}</td>
+            <td>{food.discount}</td>
+            <td><IconButton loading={loading} onClick={handleDeleteMenu} icon="delete" color="red" /></td>
+        </tr>
+    );
 }
 
 

@@ -1,27 +1,19 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import Table from '../../../components/globals/Table/Table';
 import MenuTableRow from './MenuTableRow';
 import { connect } from 'react-redux';
 import {getMenu} from '../../container/actions';
 
 
-class MenuTable extends Component {
+const MenuTable = ({getMenu, menu, loadingMenu}) => {
+    useEffect(() => getMenu(), [getMenu])
+    const thead = ['#', 'Nombre', 'Precio', 'Descuento', 'Quitar'];
 
-    componentDidMount() {
-        this.props.getMenu();
-    }
-
-    render() {
-        const {menu, loadingMenu} = this.props;
-        const thead = ['#', 'Nombre', 'Precio', 'Descuento', 'Quitar'];
-
-    
-        return (
-            <Table thead={thead} loading={menu.length > 0 ? false : loadingMenu}>
-                {menu.map((menu, index) => <MenuTableRow key={menu.id} index={index} id={menu.id} food={menu.food} />)}
-            </Table>
-        );
-    }
+    return (
+        <Table thead={thead} loading={menu.length > 0 ? false : loadingMenu}>
+            {menu.map((menu, index) => <MenuTableRow key={menu.id} index={index} id={menu.id} food={menu.food} />)}
+        </Table>
+    );
 }
 
 
