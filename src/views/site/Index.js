@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {useEffect} from 'react';
 import ViewTitle from '../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../components/globals/ViewDescription/ViewDescription';
 import FoodCard from '../../components/globals/FoodCard/FoodCard';
@@ -8,13 +8,11 @@ import {connect} from 'react-redux';
 import {getMenu} from '../container/actions';
 import ExtrasSection from './components/ExtrasSection';
 
-class Index extends Component {
+const Index = ({getMenu, menu, loadingMenu, goLogin, menuStatus}) => {
 
-    componentDidMount() {
-        this.props.getMenu();
-    }
+    useEffect(() => {getMenu()}, [getMenu])
 
-    getViewText = () => {
+    const getViewText = () => {
         const loadingMenuText = {
             title: 'Cargando menú...',
             description: '...',
@@ -32,7 +30,6 @@ class Index extends Component {
             description: 'Añade tu comida del día!',
         }
 
-        const {loadingMenu, menuStatus} = this.props;
         const menuTextOptions = [emptyMenu, menuClosed, menuFound]
 
         const viewText = loadingMenu ? loadingMenuText :  menuTextOptions[menuStatus];
@@ -40,37 +37,30 @@ class Index extends Component {
 
     }
 
+    const viewText = getViewText();
 
-    render() {
-        const {menu, loadingMenu, goLogin} = this.props;
+    if(goLogin) return <Navigate to={`/login?${new URLSearchParams({error: 'Tu sesión ha expirado'}).toString()}`} />;
+    return (
+        <>
+            <ViewTitle>{viewText.title}</ViewTitle>
+            <ViewDescription>{viewText.description}</ViewDescription>
+            <div className="food-cards-container">{
+                loadingMenu ? 
+                    <Loader size="3" color="blue" />
+                :
+                    menu.map(item => 
+                        <FoodCard 
+                            key={item.food.id}
+                            id={item.food.id}
+                            full_name={item.food.full_name}
+                            image={item.food.image}
+                        />
+                    )
+            }</div>
 
-
-        const viewText = this.getViewText();
-    
-        if(goLogin) return <Navigate to={`/login?${new URLSearchParams({error: 'Tu sesión ha expirado'}).toString()}`} />;
-        return (
-            <>
-                <ViewTitle>{viewText.title}</ViewTitle>
-                <ViewDescription>{viewText.description}</ViewDescription>
-                <div className="food-cards-container">{
-                    loadingMenu ? 
-                        <Loader size="3" color="blue" />
-                    :
-                        menu.map(item => 
-                            <FoodCard 
-                                key={item.food.id}
-                                id={item.food.id}
-                                full_name={item.food.full_name}
-                                image={item.food.image}
-                            />
-                        )
-                }</div>
-
-                <ExtrasSection />
-        
-            </>
-        );
-    }
+            <ExtrasSection />
+        </>
+    );
 }
 
 

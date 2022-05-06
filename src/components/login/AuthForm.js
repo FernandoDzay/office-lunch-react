@@ -16,5 +16,4 @@ export default function AuthForm({title, href, linkText, submitText, submitHandl
             <Button color="red" loading={loading} onClick={submitHandler}>{submitText}</Button>
         </form>
     );
-
 }

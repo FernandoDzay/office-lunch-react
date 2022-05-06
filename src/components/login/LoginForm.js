@@ -1,4 +1,4 @@
-import {Component} from "react";
+import {useState} from "react";
 import AuthForm from "./AuthForm";
 import FormGroup from "../globals/Inputs/FormGroup";
 import Input from "../globals/Inputs/Input";
@@ -8,98 +8,96 @@ import isLength from 'validator/lib/isLength';
 import {Navigate} from "react-router-dom";
 
 
-class LoginForm extends Component {
+const LoginForm = () => {
 
-    constructor(props) {
-        super(props);
+    const initialErrors = {
+        email: "",
+        password: ""
+    };
 
-        this.api_url = process.env.REACT_APP_API_URL;
-        this.initialErrors = {
-            email: "",
-            password: ""
-        };
+    const [values, setValues] = useState({
+        email: "",
+        password: ""
+    });
+    const [validationErrors, setValidationErrors] = useState({...initialErrors});
+    const [openModal, setOpenModal] = useState(false);
+    const [modalError, setModalError] = useState("Ocurrió un error inesperado");
+    const [loading, setLoading] = useState(false);
+    const [goToApplication, setGoToApplication] = useState(false);
 
-        this.state = {
-            values: {
-                email: "",
-                password: "",
-            },
-            goToApplication: false,
-            validationErrors: this.initialErrors,
-            openModal: false,
-            modalError: "Ocurrió un error inesperado",
-        };
-    }
 
-    changeHandler = (e) => {
-        const values = {...this.state.values};
-        values[e.target.name] = e.target.value;
-        this.setState({values});
-    }
+    const api_url = process.env.REACT_APP_API_URL;
+    const changeHandler = (e) => setValues({...values, [e.target.name]: e.target.value});
 
-    validateForm = () => {
-        const {email, password} = this.state.values;
-        const validationErrors = {...this.initialErrors};
+    
+
+    const validateForm = () => {
+        const {email, password} = values;
+        const currentValidationErrors = {...initialErrors};
         
-        if(!isEmail(email)) validationErrors.email = "Debe de ser email válido";
-        if(!isLength(password, {min: 4, max: 30})) validationErrors.password = "Debe tener longitud entre 4 y 30";
+        if(!isEmail(email)) currentValidationErrors.email = "Debe de ser email válido";
+        if(!isLength(password, {min: 4, max: 30})) currentValidationErrors.password = "Debe tener longitud entre 4 y 30";
 
-        this.setState({validationErrors});
-        return JSON.stringify(validationErrors) !== JSON.stringify(this.initialErrors);
+        setValidationErrors({...currentValidationErrors});
+        return JSON.stringify(currentValidationErrors) !== JSON.stringify(initialErrors);
     }
 
-    onSubmitHandler = (e) => {
+    const onSubmitHandler = (e) => {
         e.preventDefault();
-        if(this.validateForm()) return;
+        if(validateForm()) return;
 
-        this.setState({loading: true});
-        fetch(`${this.api_url}/auth/login`, {
+        setLoading(true);
+        fetch(`${api_url}/auth/login`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state.values)
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(values)
         })
         .then(r => r.json())
         .then(data => {
-            if(data.error) return this.setState({loading: false, openModal: true, modalError: data.error});
+            if(data.error) {
+                setLoading(false);
+                setOpenModal(true);
+                setModalError(data.error);
+            }
             if(!data.token) throw new Error('Ocurrió un error inseperado');
             localStorage.setItem('token', data.token);
-            this.setState({loading: false, goToApplication: true});
+            setLoading(false);
+            setGoToApplication(true);
         })
-        .catch(e => this.setState({loading: false, openModal: true, modalError: 'Ocurrió un error inseperado'}));
+        .catch(e => {
+            setLoading(false);
+            setOpenModal(true);
+            setModalError("Ocurrió un error inesperado");
+        });
     }
-
-    render() {
-        const {values, validationErrors, modalError, openModal, loading, goToApplication} = this.state;
         
-        if(goToApplication) return <Navigate to="/" />
-        return (
-            <>
-                <AuthForm title="Inicia sesión con tu cuenta" href="/register" linkText="Regístrate" submitText="Iniciar sesión" loading={loading} submitHandler={this.onSubmitHandler}>
+    if(goToApplication) return <Navigate to="/" />
+    return (
+        <>
+            <AuthForm title="Inicia sesión con tu cuenta" href="/register" linkText="Regístrate" submitText="Iniciar sesión" loading={loading} submitHandler={onSubmitHandler}>
 
-                    <FormGroup message="Escribe tu Username" error={validationErrors.email}>
-                        <label htmlFor="username">Email</label>
-                        <Input value={ values.email } onChangeHandler={ this.changeHandler } name="email" />
-                    </FormGroup>
+                <FormGroup message="Escribe tu Username" error={validationErrors.email}>
+                    <label htmlFor="username">Email</label>
+                    <Input value={ values.email } onChangeHandler={ changeHandler } name="email" />
+                </FormGroup>
 
-                    <FormGroup message="Escribe tu Password" error={validationErrors.password}>
-                        <label htmlFor="password">Password</label>
-                        <Input value={ values.password } onChangeHandler={ this.changeHandler } name="password" type="password" />
-                    </FormGroup>
+                <FormGroup message="Escribe tu Password" error={validationErrors.password}>
+                    <label htmlFor="password">Password</label>
+                    <Input value={ values.password } onChangeHandler={ changeHandler } name="password" type="password" />
+                </FormGroup>
 
-                </AuthForm>
+            </AuthForm>
 
-                <InfoModal
-                    active={openModal}
-                    type='fail'
-                    title='Ups!'
-                    description={modalError}
-                    handleCloseModal={() => this.setState({openModal: false})}
-                />
-            </>
-        );
-    }
+            <InfoModal
+                active={openModal}
+                type='fail'
+                title='Ups!'
+                description={modalError}
+                handleCloseModal={() => setOpenModal(false)}
+            />
+        </>
+    );
 }
+
 
 export default LoginForm;

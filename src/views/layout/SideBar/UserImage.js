@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { useState } from "react";
 import Modal from "../../../components/globals/Modal/Modal";
 import Button from "../../../components/globals/Button/Button";
 import FormGroup from "../../../components/globals/Inputs/FormGroup";
@@ -7,81 +7,72 @@ import {connect} from 'react-redux';
 import {getLoggedUser} from '../../../redux/actions/layoutActions';
 
 
-class UserImage extends Component {
+const UserImage = ({avatar, getUser}) => {
+    const api_url = process.env.REACT_APP_API_URL;
+    const token = localStorage.getItem('token');
 
-    constructor(props) {
-        super(props);
+    const [modal, setModal] = useState(false);
+    const [file, setFile] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-        this.api_url = process.env.REACT_APP_API_URL;
-        this.token = localStorage.getItem('token');
-
-        this.state = {
-            modal: false,
-            file: '',
-            errorMessage: '',
-        }
+    const handleClick = () => setModal(true);
+    const handleCloseModal = () => {
+        setModal(false);
+        setFile('');
     }
 
-    handleClick = () => this.setState({modal: true});
-    handleCloseModal = () => this.setState({modal: false, file: ''});
-
-    handleChange = (e) => {
-        const file = e.target.files[0];
-        if(file === undefined) return false;
-        this.setState({file});
+    const handleChange = (e) => {
+        const inputFile = e.target.files[0];
+        if(inputFile === undefined) return false;
+        setFile(inputFile);
     }
 
-    handleSubmit = () => {
-        const {file} = this.state
-        if(file === '') return this.setState({errorMessage: 'Elige una imagen'});
-        if( !['image/jpeg', 'image/png'].includes(file.type) ) return this.setState({errorMessage: 'El archivo debe de ser tipo imagen'});
+    const handleSubmit = () => {
+        if(file === '') setErrorMessage('Elige una imagen');
+        if( !['image/jpeg', 'image/png'].includes(file.type) ) return setErrorMessage('El archivo debe de ser tipo imagen');
 
         const body = new FormData();
         body.append('image', file);
 
-        fetch(`${this.api_url}/users/update-logged-user-image`, {
+        fetch(`${api_url}/users/update-logged-user-image`, {
             method: 'PATCH',
-            headers: {
-                Authorization: `bearer ${this.token}`
-            },
+            headers: {Authorization: `bearer ${token}`},
             body
         })
         .then(r => r.json())
         .then(data => {
             if(!data.message) throw new Error('No se pudo guardar la imagen');
-            this.props.getUser();
-            this.setState({modal: false, file: ''});
+            getUser();
+            setModal(false);
+            setFile('');
         })
-        .catch(e => this.setState({modal: false, file: ''}));
+        .catch(e => {
+            setModal(false);
+            setFile('');
+        });
     }
 
 
-    render() {
-        const {modal, file, errorMessage} = this.state;
-        const {avatar} = this.props;
+    return (
+        <>
+            <div onClick={handleClick}>{
+                avatar ? <img src={ avatar } alt="Avatar" title="Avatar" /> :
+                <i className="zmdi zmdi-account-circle zmdi-hc-5x"></i>
+            }</div>
+            <Modal active={modal} handleCloseModal={handleCloseModal}>
+                <p className="title center mb">Cambia tu Avatar!</p>
+                <FormGroup error={errorMessage}>
+                    <label id="image">Selecciona tu imagen</label>
+                    <InputFile value={file} onChangeHandler={handleChange} />
+                </FormGroup>
 
-        
-        return (
-            <>
-                <div onClick={this.handleClick}>{
-                    avatar ? <img src={ avatar } alt="Avatar" title="Avatar" /> :
-                    <i className="zmdi zmdi-account-circle zmdi-hc-5x"></i>
-                }</div>
-                <Modal active={modal} handleCloseModal={this.handleCloseModal}>
-                    <p className="title center mb">Cambia tu Avatar!</p>
-                    <FormGroup error={errorMessage}>
-                        <label id="image">Selecciona tu imagen</label>
-                        <InputFile value={file} onChangeHandler={this.handleChange} />
-                    </FormGroup>
-
-                    <div className="bot">
-                        <Button color='blue' onClick={this.handleSubmit}>Guardar</Button>
-                        <Button color='red' onClick={this.handleCloseModal}>Cancelar</Button>
-                    </div>
-                </Modal>
-            </>
-        );
-    }
+                <div className="bot">
+                    <Button color='blue' onClick={handleSubmit}>Guardar</Button>
+                    <Button color='red' onClick={handleCloseModal}>Cancelar</Button>
+                </div>
+            </Modal>
+        </>
+    );
 }
 
 

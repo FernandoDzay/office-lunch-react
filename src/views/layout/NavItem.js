@@ -1,40 +1,31 @@
-import {Component} from 'react';
+import {useState} from 'react';
 import "../../styles/layout/nav-item.scss";
 import {Link} from 'react-router-dom';
 
 
-class NavItem extends Component {
+export default function NavItem({children, icon, text, href}) {
+    const [active, setActive] = useState(false);
 
-    constructor(props) {
-        super(props);
-        this.state = {active: false};
-    }
-
-    onClickHandler = () => this.setState({active: !this.state.active});
-
-    render() {
-        const {active} = this.state;
-        const {children, icon, text, href} = this.props;
-        const {onClickHandler} = this;
-        const isDropDown = children == null ? false : true;
-        const rotate = active ? " rotate" : "";
-        const hidden = active ? "" : " hidden";
-        
-        return (
+    const onClickHandler = () => setActive(!active);
     
-            <div className="nav-item">
-                <MainItem isDropDown={isDropDown}
-                    className={rotate}
-                    icon={icon}
-                    href={href}
-                    onClick={onClickHandler}
-                >
-                    <p>{text}</p>
-                </MainItem>
-                { isDropDown && <div className={"dropdown-container" + hidden}>{ children }</div> }
-            </div>
-        );
-    }
+    const isDropDown = children == null ? false : true;
+    const rotate = active ? " rotate" : "";
+    const hidden = active ? "" : " hidden";
+    
+    return (
+        <div className="nav-item">
+            <MainItem
+                isDropDown={isDropDown}
+                className={rotate}
+                icon={icon}
+                href={href}
+                onClick={onClickHandler}
+            >
+                <p>{text}</p>
+            </MainItem>
+            { isDropDown && <div className={"dropdown-container" + hidden}>{ children }</div> }
+        </div>
+    );
 }
 
 
@@ -58,6 +49,3 @@ function MainItem({isDropDown, href, icon, children, className, onClick}) {
         );
     }
 }
-
-
-export default NavItem;

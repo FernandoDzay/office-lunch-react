@@ -1,52 +1,39 @@
-import {Component} from 'react';
+import {useState} from 'react';
 import IconButton from '../../../components/globals/IconButton/IconButton';
 import {connect} from 'react-redux';
 import {getUserOrders} from '../../../redux/actions/layoutActions';
 
 
-class TableRow extends Component {
+const TableRow = ({index, extra, getUserOrders}) => {
+    const api_url = process.env.REACT_APP_API_URL;
+    const token = localStorage.getItem('token');
 
-    constructor(props) {
-        super(props);
+    const [loading, setLoading] = useState(false);
 
-        this.api_url = process.env.REACT_APP_API_URL;
-        this.token = localStorage.getItem('token');
 
-        this.state = {
-            loading: false
-        }
-    }
-
-    handleClick = () => {
-        this.setState({loading: true});
-        fetch(`${this.api_url}/orders/create-user-order`, {
+    const handleClick = () => {
+        setLoading(true);
+        fetch(`${api_url}/orders/create-user-order`, {
             method: 'POST',
-            headers: {Authorization: `bearer ${this.token}`, 'Content-Type': 'application/json'},
-            body: JSON.stringify({extra_id: this.props.extra.id})
+            headers: {Authorization: `bearer ${token}`, 'Content-Type': 'application/json'},
+            body: JSON.stringify({extra_id: extra.id})
         })
         .then(r => r.json())
         .then(async data => {
-            await this.props.getUserOrders();
-            this.setState({loading: false});
+            await getUserOrders();
+            setLoading(false);
         })
-        .catch(error => this.setState({loading: false}));
+        .catch(error => setLoading(false));
     }
 
-    render() {
-        const {index, extra} = this.props;
-        const {loading} = this.state;
-
-
-        return (
-
-            <tr>
-                <td>{index}</td>
-                <td>{extra.name}</td>
-                <td>{extra.price}</td>
-                <td><IconButton color="blue" icon="plus" loading={loading} onClick={this.handleClick} /></td>
-            </tr>
-        );
-    }
+    return (
+        <tr>
+            <td>{index}</td>
+            <td>{extra.name}</td>
+            <td>{extra.price}</td>
+            <td><IconButton color="blue" icon="plus" loading={loading} onClick={handleClick} /></td>
+        </tr>
+    );
 }
 
 

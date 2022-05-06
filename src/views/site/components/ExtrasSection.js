@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { getExtras } from '../../container/actions';
 import ViewTitle from '../../../components/globals/ViewTitle/ViewTitle';
@@ -7,36 +7,21 @@ import Tabs from '../../../components/globals/Tabs/Tabs';
 import ExtraTable from './ExtraTable';
 
 
-class ExtrasSection extends Component {
+const ExtrasSection = ({extras, getExtras}) => {
+    useEffect(() => {getExtras()}, [getExtras]);
 
-    constructor(props) {
-        super(props);
-
-        this.state = {extras: []};
-    }
-    
-    componentDidMount() {
-        this.props.getExtras();
-    }
-
-
-    render() {
-        const {extras} = this.props;
-        
-        
-        if(extras.length === 0) return null;
-        return (
-            <>
-                <ViewTitle>Extras</ViewTitle>
-                <ViewDescription>Añade un extra si lo deseas.</ViewDescription>
-                
-                <Tabs
-                    tabsText={['Extras']}
-                    tabsContent={[<ExtraTable extras={extras} />]}
-                />
-            </>
-        );
-    }
+    if(extras.length === 0) return null;
+    return (
+        <>
+            <ViewTitle>Extras</ViewTitle>
+            <ViewDescription>Añade un extra si lo deseas.</ViewDescription>
+            
+            <Tabs
+                tabsText={['Extras']}
+                tabsContent={[<ExtraTable extras={extras} />]}
+            />
+        </>
+    );
 }
 
 
