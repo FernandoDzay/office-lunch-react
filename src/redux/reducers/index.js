@@ -1,4 +1,4 @@
-import {layoutReducers} from './layoutReducers';
+import { layoutReducers } from './layoutReducers';
 import { viewReducers } from '../../views/container/reducers';
 import { combineReducers } from 'redux';
 

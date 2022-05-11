@@ -5,7 +5,7 @@ import FullScreenShadow from '../../../components/globals/FullScreenShadow/FullS
 import Loader from '../../../components/globals/Loader/Loader';
 import Notification from './Notification';
 import {connect} from 'react-redux';
-import {closeNotifications, getNotifications} from '../../../redux/actions/layoutActions';
+import { closeNotifications, getNotifications } from '../../../store/slices/layoutSlice';
 
 
 class Notifications extends Component {
@@ -119,10 +119,11 @@ class Notifications extends Component {
     }
 }
 
+
 const mapStateToProps = state => ({
-    active: state.layoutReducers.activeNotifications,
-    notifications: state.layoutReducers.notifications,
-    loading: state.layoutReducers.loadingNotifications
+    active: state.layout.activeNotifications,
+    notifications: state.layout.notifications,
+    loading: state.layout.loadingNotifications
 });
 const mapDispatchToProps = dispatch => ({
     handleCloseNotifications: () => dispatch(closeNotifications()),

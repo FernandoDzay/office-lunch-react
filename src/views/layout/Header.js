@@ -1,29 +1,39 @@
 import Notifications from './Notifications/Notifications';
-import {connect} from 'react-redux';
-import {toggleSideBar, openNotifications, openMakeOrdersModal} from '../../redux/actions/layoutActions';
+import { toggleSideBar, openNotifications, openMakeOrdersModal } from '../../store/slices/layoutSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 
-function Header({handleToggleSideBar, handleOpenNotifications, handleOpenMakeOrdersModal, notifications, user}) {
+function Header() {
+    const dispatch = useDispatch();
+    const { notifications } = useSelector(state => state.layout);
+    
     const notificationsWithoutReadCount = notifications.filter(notification => !notification.has_been_read).length;
+
+    const user = {is_admin: true};
+
+    useEffect((prevProps) => {
+
+    })
 
 
     return (
         <header>
             <div className="left">
-                <button className="header-btn" onClick={handleToggleSideBar}>
+                <button className="header-btn" onClick={() => dispatch(toggleSideBar())}>
                     <i className="zmdi zmdi-more-vert"></i>
                 </button>
             </div>
             <div className="right">
                 {
                     user.is_admin &&
-                    <button className="header-btn" onClick={handleOpenMakeOrdersModal}>
+                    <button className="header-btn" onClick={() => dispatch(openMakeOrdersModal())}>
                         <i className="zmdi zmdi-cutlery"></i>
                     </button>
                 }
-                <button className="header-btn" onClick={handleOpenNotifications}>{
-                    notificationsWithoutReadCount > 0 ? 
-                        <>
+                <button className="header-btn" onClick={() => dispatch(openNotifications())}>
+                    { notificationsWithoutReadCount > 0 ? 
+                         <>
                             <i className="zmdi zmdi-notifications"></i>
                             <div className="number-of-notifications">{notificationsWithoutReadCount}</div>
                         </>
@@ -32,7 +42,8 @@ function Header({handleToggleSideBar, handleOpenNotifications, handleOpenMakeOrd
                             <i className="zmdi zmdi-notifications-none"></i>
                             <div className="number-of-notifications without"></div>
                         </>
-                }</button>
+                    }
+                </button>
             </div>
             <Notifications />
         </header>
@@ -40,10 +51,4 @@ function Header({handleToggleSideBar, handleOpenNotifications, handleOpenMakeOrd
 }
 
 
-const mapStateToProps = state => ({notifications: state.layoutReducers.notifications, user: state.layoutReducers.user});
-const mapDispatchToProps = (dispatch) => ({
-    handleToggleSideBar: () => dispatch(toggleSideBar()),
-    handleOpenNotifications: () => dispatch(openNotifications()),
-    handleOpenMakeOrdersModal: () => dispatch(openMakeOrdersModal())
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;
