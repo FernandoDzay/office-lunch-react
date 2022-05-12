@@ -1,92 +1,73 @@
-import {Component} from 'react';
-import {Navigate} from 'react-router-dom';
 import GenericFoodCard from './inheritance/FoodCard';
 import IconButton from '../../../components/globals/IconButton/IconButton';
 import Modal from '../../../components/globals/Modal/InfoModal';
-import {connect} from 'react-redux';
-import {getMenu, getFoods} from '../../../views/container/actions';
-import {getUserOrders} from '../../../redux/actions/layoutActions';
+import { getMenu } from '../../../store/slices/menuSlice';
+import { getFoods } from '../../../store/slices/foodsSlice';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
-class AdminFoodCard extends Component {
+const AdminFoodCard = ({id, full_name, image}) => {
+    const [mainLoading, setMainLoading] = useState(false);
+    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [modal, setModal] = useState({
+        active: false,
+        title: '',
+        description: '',
+    });
 
-    constructor(props) {
-        super(props);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const api_url = process.env.REACT_APP_API_URL;
+    const token = localStorage.getItem('token');
 
-        this.api_url = process.env.REACT_APP_API_URL;
-        this.token = localStorage.getItem('token');
-        this.state = {
-            mainLoading: false,
-            deleteLoading: false,
-            editFoodPath: null,
-            modal: {
-                active: false,
-                title: '',
-                description: '',
-            },
-        };
+
+    const addToMenu = async () => {
+        setMainLoading(true);
+        fetch(`${api_url}/menu/add-food/${id}`, {method: 'POST', headers: {Authorization: `bearer ${token}`}})
+        .then(r => dispatch(getMenu()))
+        .finally(e => setMainLoading(false));
     }
 
-    addToMenu = async () => {
-        const {id, getMenu} = this.props;
-        this.setState({mainLoading: true});
-        await fetch(`${this.api_url}/menu/add-food/${id}`, {method: 'POST', headers: {Authorization: `bearer ${this.token}`}});
-        await getMenu();
-        this.setState({mainLoading: false});
-    }
-
-    editFood = () => {
-        this.setState({editFoodPath: `/edit-food/?id=${this.props.id}`});
+    const editFood = () => {
+        navigate(`/edit-food/?id=${id}`, {replace: true});
     }
     
-    deleteFood = () => {
-        this.setState({deleteLoading: true});
-        const {id, getFoods} = this.props;
-        fetch(`${this.api_url}/foods/delete/${id}`, {method: 'DELETE', headers: {Authorization: `bearer ${this.token}`}})
+    const deleteFood = () => {
+        setDeleteLoading(true);
+        fetch(`${api_url}/foods/delete/${id}`, {method: 'DELETE', headers: {Authorization: `bearer ${token}`}})
         .then(r => r.json())
         .then(data => {
-            if(data.deleteError) {
-                return this.setState({
-                    deleteLoading: false,
-                    modal: {active: true, title: 'Error al borrar', description: data.deleteError}
-                });
-            }
+            if(data.deleteError) return Promise.reject(data);
         })
-        .then(r => getFoods())
-        .then(r => this.setState({deleteLoading: false}))
-        .catch(e => this.setState({deleteLoading: false}));
+        .then(r => dispatch(getFoods()))
+        .catch(e => {
+            setDeleteLoading(false);
+            const description = e.deleteError ? e.deleteError : '';
+            setModal({active: true, title: 'Error al borrar', description});
+        });
     }
 
 
-    render() {
-        const {full_name, image} = this.props;
-        const {mainLoading, deleteLoading, modal, editFoodPath} = this.state;
+    return (
+        <GenericFoodCard full_name={full_name} image={image} loading={mainLoading} mainClick={addToMenu} btnText="Agregar al menú" >
 
-        if(editFoodPath) return <Navigate to={editFoodPath} />
-        return (
-            <GenericFoodCard full_name={full_name} image={image} loading={mainLoading} mainClick={this.addToMenu} btnText="Agregar al menú" >
+            <div className="admin-buttons">
+                <IconButton color='blue' icon="edit" onClick={editFood} />
+                <IconButton loading={deleteLoading} color='red' icon="delete" onClick={deleteFood} />
+            </div>
 
-                <div className="admin-buttons">
-                    <IconButton color='blue' icon="edit" onClick={this.editFood} />
-                    <IconButton loading={deleteLoading} color='red' icon="delete" onClick={this.deleteFood} />
-                </div>
-
-                <Modal
-                    active={modal.active}
-                    type="fail"
-                    title={modal.title}
-                    description={modal.description}
-                    handleCloseModal={() => this.setState({modal: {...modal, active: false}})}
-                />
-            </GenericFoodCard>
-        );
-    }
+            <Modal
+                active={modal.active}
+                type="fail"
+                title={modal.title}
+                description={modal.description}
+                handleCloseModal={() => setModal({...modal, active: false})}
+            />
+        </GenericFoodCard>
+    );
 }
 
 
-const mapDispatchToProps = dispatch => ({
-    getMenu: () => dispatch(getMenu()),
-    getFoods: () => dispatch(getFoods()),
-    getUserOrders: () => dispatch(getUserOrders())
-});
-export default connect(null, mapDispatchToProps)(AdminFoodCard);
+export default AdminFoodCard;

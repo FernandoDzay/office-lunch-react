@@ -1,10 +1,12 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import IconButton from '../../../components/globals/IconButton/IconButton';
-import {connect} from 'react-redux';
-import {getUserOrders} from '../../../redux/actions/layoutActions';
+import { getUserOrders } from '../../../store/slices/layoutSlice';
+import { useDispatch } from 'react-redux';
 
 
-const TableRow = ({index, extra, getUserOrders}) => {
+const TableRow = ({index, extra}) => {
+    const dispatch = useDispatch();
+
     const api_url = process.env.REACT_APP_API_URL;
     const token = localStorage.getItem('token');
 
@@ -20,7 +22,7 @@ const TableRow = ({index, extra, getUserOrders}) => {
         })
         .then(r => r.json())
         .then(async data => {
-            await getUserOrders();
+            await dispatch(getUserOrders());
             setLoading(false);
         })
         .catch(error => setLoading(false));
@@ -37,5 +39,4 @@ const TableRow = ({index, extra, getUserOrders}) => {
 }
 
 
-const mapDispatchToProps = dispatch => ({getUserOrders: () => dispatch(getUserOrders())});
-export default connect(null, mapDispatchToProps)(TableRow);
+export default TableRow;

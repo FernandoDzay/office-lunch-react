@@ -3,17 +3,20 @@ import Modal from "../../../components/globals/Modal/Modal";
 import Button from "../../../components/globals/Button/Button";
 import FormGroup from "../../../components/globals/Inputs/FormGroup";
 import InputFile from "../../../components/globals/Inputs/InputFile";
-import {connect} from 'react-redux';
-import {getLoggedUser} from '../../../redux/actions/layoutActions';
+import { getLoggedUser } from '../../../store/slices/layoutSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-const UserImage = ({avatar, getUser}) => {
+const UserImage = () => {
     const api_url = process.env.REACT_APP_API_URL;
     const token = localStorage.getItem('token');
 
     const [modal, setModal] = useState(false);
     const [file, setFile] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    const avatar = useSelector(state => state.layout.user.image);
+    const dispatch = useDispatch();
 
     const handleClick = () => setModal(true);
     const handleCloseModal = () => {
@@ -42,7 +45,7 @@ const UserImage = ({avatar, getUser}) => {
         .then(r => r.json())
         .then(data => {
             if(!data.message) throw new Error('No se pudo guardar la imagen');
-            getUser();
+            dispatch(getLoggedUser());
             setModal(false);
             setFile('');
         })
@@ -76,6 +79,4 @@ const UserImage = ({avatar, getUser}) => {
 }
 
 
-const mapStateToProps = state => ({avatar: state.layoutReducers.user.image, loading: state.layoutReducers.loadingUser});
-const mapDispatchToProps = dispatch => ({getUser: () => dispatch(getLoggedUser())})
-export default connect(mapStateToProps, mapDispatchToProps)(UserImage);
+export default UserImage;

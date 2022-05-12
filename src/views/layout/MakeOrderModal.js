@@ -1,10 +1,14 @@
 import Modal from '../../components/globals/Modal/Modal';
 import Button from '../../components/globals/Button/Button';
-import {connect} from 'react-redux';
-import {closeMakeOrdersModal} from '../../redux/actions/layoutActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { closeMakeOrdersModal } from '../../store/slices/layoutSlice';
 
 
-const MakeOrderModal = ({active, nextStep, handleCloseModal, handleNextStep}) => {
+const MakeOrderModal = ({nextStep, handleNextStep}) => {
+    const active = useSelector(state => state.layout.activeMakeOrdersModal);
+    const dispatch = useDispatch();
+
+    const handleCloseModal = () => dispatch(closeMakeOrdersModal());
 
     return (
         <Modal active={active} nextStep={nextStep} handleCloseModal={handleCloseModal} >
@@ -17,6 +21,4 @@ const MakeOrderModal = ({active, nextStep, handleCloseModal, handleNextStep}) =>
 }
 
 
-const mapStateToProps = state => ({active: state.layoutReducers.activeMakeOrdersModal});
-const mapDispatchToProps = dispatch => ({handleCloseModal: () => dispatch(closeMakeOrdersModal())});
-export default connect(mapStateToProps, mapDispatchToProps)(MakeOrderModal);
+export default MakeOrderModal;

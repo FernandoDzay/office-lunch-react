@@ -2,22 +2,21 @@ import {useEffect} from 'react';
 import ViewTitle from '../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../components/globals/ViewDescription/ViewDescription';
 import FoodCard from '../../components/globals/FoodCard/AdminFoodCard';
-import {Navigate} from "react-router-dom";
 import Loader from '../../components/globals/Loader/Loader';
 import Tabs from '../../components/globals/Tabs/Tabs';
 import MenuTable from './components/MenuTable';
 import ExtrasTable from './components/ExtrasTable';
-import {connect} from 'react-redux';
-import {getFoods} from '../container/actions';
+import { getFoods } from '../../store/slices/foodsSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-const AddMenu = ({foods, goLogin, getFoods, loadingFoods}) => {
-    useEffect(() => getFoods(), [getFoods]);
-
+const AddMenu = () => {
+    const { foods, loadingFoods } = useSelector(state => state.foods);
+    const dispatch = useDispatch();
     const viewLoadingFoods = foods.length > 0 ? false : loadingFoods;
-    const queryString = new URLSearchParams({error: 'Tu sesión ha expirado'}).toString();
+    useEffect(() => { dispatch(getFoods()) }, [dispatch]);
 
-    if(goLogin) return <Navigate to={`/login?${queryString}`} />;
+
     return (
         <>
             <ViewTitle>Agregar al menú</ViewTitle>
@@ -37,18 +36,9 @@ const AddMenu = ({foods, goLogin, getFoods, loadingFoods}) => {
                 :
                     foods.map(food => <FoodCard key={food.id} {...food} />)
             }</div>
-
         </>
     );
 }
 
 
-const mapStateToProps = state => ({
-    goLogin: state.viewReducers.goLogin,
-    loadingFoods: state.viewReducers.loadingFoods,
-    foods: state.viewReducers.foods
-});
-const mapDispatchToProps = dispatch => ({
-    getFoods: () => dispatch(getFoods()),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(AddMenu);
+export default AddMenu;

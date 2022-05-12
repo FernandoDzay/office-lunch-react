@@ -3,7 +3,7 @@ import API from '../../class/API';
 
 // ------------- initialState
 const initialState = {
-    activeSideBar: false,
+    activeSideBar: true,
     activeNotifications: false,
     activeMakeOrdersModal: false,
     loadingUser: false,
@@ -22,7 +22,15 @@ export const getNotifications = createAsyncThunk(
     async (param, {dispatch}) => API('GET', '/notifications/get', null, dispatch)
 )
 
-// export cons
+export const getLoggedUser = createAsyncThunk(
+    'users/logged',
+    async (param, {dispatch}) => API('GET', '/users/logged', null, dispatch)
+)
+
+export const getUserOrders = createAsyncThunk(
+    'orders/get-todays-orders',
+    async (user_id, {dispatch}) => API('GET', '/orders/get-todays-orders', {user_id}, dispatch)
+)
 
 
 // ------------- slice
@@ -38,13 +46,30 @@ const layoutSlice = createSlice({
         goLogin: state => {state.expiredSession = true},
     },
     extraReducers: {
+        // Notifications
         [getNotifications.pending]: state => {state.loadingNotifications = true},
         [getNotifications.fulfilled]: (state, action) => {
-            // console.log(action.payload);
             state.notifications = action.payload.data;
             state.loadingNotifications = false;
         },
-        [getNotifications.rejected]: (state, action) => {state.loadingNotifications = false}
+        [getNotifications.rejected]: state => {state.loadingNotifications = false},
+
+        // User
+        [getLoggedUser.pending]: state => { state.loadingUser = true; },
+        [getLoggedUser.fulfilled]: (state, action) => {
+            const image = action.payload.data.image && `${process.env.REACT_APP_API_URL}/images/users/${action.payload.data.image}`;
+            state.user = {...action.payload.data, image};
+            state.loadingUser = false;
+        },
+        [getLoggedUser.rejected]: state => { state.loadingUser = false; },
+
+        // User orders
+        [getUserOrders.pending]: state => { state.loadingUserOrders = true; },
+        [getUserOrders.fulfilled]: (state, action) => {
+            state.userOrders = action.payload.data;
+            state.loadingUserOrders = false;
+        },
+        [getUserOrders.rejected]: state => { state.loadingUserOrders = false; },
     }
 });
 

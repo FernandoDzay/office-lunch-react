@@ -100,6 +100,7 @@ const ExtraForm = ({forceNotEmpty, initialState}) => {
 
     const {active, title, description, type} = modal;
     const {name, price} = extra;
+    const icon = initialState ? 'edit'  : 'plus';
 
     if(goBack) return <Navigate to="/add-menu" />;
     return (
@@ -115,7 +116,7 @@ const ExtraForm = ({forceNotEmpty, initialState}) => {
                 <Input name="price" onChangeHandler={handleChange} value={price} />
             </FormGroup>
 
-            <Button color="blue" icon="plus" loading={loading} onClick={handleClick}>{ initialState ? 'Editar extra'  : 'Agregar extra' }</Button>
+            <Button color="blue" icon={icon} loading={loading} onClick={handleClick}>{ initialState ? 'Editar extra'  : 'Agregar extra' }</Button>
             <Modal active={active} title={title} description={description} type={type} handleCloseModal={handleCloseModal} />
 
         </ViewForm>

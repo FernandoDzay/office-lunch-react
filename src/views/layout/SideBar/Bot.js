@@ -1,18 +1,23 @@
 import { useEffect } from "react";
 import NavItem from '../NavItem';
 import NavSubItem from '../NavSubItem';
-import {connect} from 'react-redux';
-import {getUserOrders} from '../../../redux/actions/layoutActions';
+import { getUserOrders } from '../../../store/slices/layoutSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-const Bot = ({userOrders, getUserOrders, user}) => {
+const Bot = () => {
 
     const foods = [];
     const extras = [];
 
+    const { user, userOrders } = useSelector(state => state.layout);
+    const dispatch = useDispatch();
+
     useEffect(() => {
-        getUserOrders(user.id);
-    }, [getUserOrders, user.id]);
+        if(user.id !== undefined) {
+            dispatch(getUserOrders(user.id));
+        }
+    }, [dispatch, user.id]);
 
     if(userOrders.orders) {
         foods.push(...userOrders.orders.foods);
@@ -51,10 +56,4 @@ const Bot = ({userOrders, getUserOrders, user}) => {
 }
 
 
-const mapStateToProps = state => ({
-    loading: state.layoutReducers.loadingUserOrders,
-    userOrders: state.layoutReducers.userOrders,
-    user: state.layoutReducers.user
-});
-const mapDispatchToProps = (dispatch) => ({getUserOrders: (user_id) => dispatch(getUserOrders(user_id))});
-export default connect(mapStateToProps, mapDispatchToProps)(Bot);
+export default Bot;

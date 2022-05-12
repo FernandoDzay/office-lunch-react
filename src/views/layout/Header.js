@@ -1,20 +1,13 @@
 import Notifications from './Notifications/Notifications';
 import { toggleSideBar, openNotifications, openMakeOrdersModal } from '../../store/slices/layoutSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 
 
-function Header() {
+const Header = () => {
     const dispatch = useDispatch();
     const { notifications } = useSelector(state => state.layout);
-    
     const notificationsWithoutReadCount = notifications.filter(notification => !notification.has_been_read).length;
-
     const user = {is_admin: true};
-
-    useEffect((prevProps) => {
-
-    })
 
 
     return (
@@ -32,7 +25,7 @@ function Header() {
                     </button>
                 }
                 <button className="header-btn" onClick={() => dispatch(openNotifications())}>
-                    { notificationsWithoutReadCount > 0 ? 
+                    { notificationsWithoutReadCount > 0 ?
                          <>
                             <i className="zmdi zmdi-notifications"></i>
                             <div className="number-of-notifications">{notificationsWithoutReadCount}</div>

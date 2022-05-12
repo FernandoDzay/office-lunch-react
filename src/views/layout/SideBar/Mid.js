@@ -3,17 +3,21 @@ import {Navigate} from "react-router-dom";
 import Modal from "../../../components/globals/Modal/Modal";
 import Button from "../../../components/globals/Button/Button";
 import UserImage from "./UserImage";
-import {connect} from 'react-redux';
-import {getLoggedUser} from '../../../redux/actions/layoutActions';
+import { getLoggedUser } from '../../../store/slices/layoutSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-const Mid = ({getLoggedUser, loading, user: {username, is_admin}}) => {
+const Mid = () => {
     const [schedule, setSchedule] = useState('Horario: ');
     const [logout, setLogout] = useState(false);
     const [modal, setModal] = useState(false);
 
     const api_url = process.env.REACT_APP_API_URL;
     const token = localStorage.getItem('token');
+
+    const loading = useSelector(state => state.layout.loadingUser);
+    const { username, is_admin } = useSelector(state => state.layout.user);
+    const dispatch = useDispatch();
 
     const getGroup = () => {
         fetch(`${api_url}/groups/get-user-group`, {
@@ -31,7 +35,10 @@ const Mid = ({getLoggedUser, loading, user: {username, is_admin}}) => {
     }
     
     useEffect(getGroup, [api_url, token]);
-    useEffect(getLoggedUser, [getLoggedUser]);
+
+    useEffect(() => {
+        dispatch(getLoggedUser());
+    }, [dispatch]);
 
     const handleLogoutClick = () => {
         setModal(true);
@@ -54,7 +61,7 @@ const Mid = ({getLoggedUser, loading, user: {username, is_admin}}) => {
             <p className="schedule">{ schedule }</p>
 
             <div className="icons">
-                {is_admin && <button><i className="zmdi zmdi-settings"></i></button>}
+                {is_admin ? <button><i className="zmdi zmdi-settings"></i></button> : null}
                 <button onClick={handleLogoutClick}><i className="zmdi zmdi-power"></i></button>
             </div>
 
@@ -71,6 +78,4 @@ const Mid = ({getLoggedUser, loading, user: {username, is_admin}}) => {
 }
 
 
-const mapStateToProps = state => ({user: state.layoutReducers.user, loading: state.layoutReducers.loadingUser});
-const mapDispatchToProps = dispatch => ({ getLoggedUser: () => dispatch(getLoggedUser()) });
-export default connect(mapStateToProps, mapDispatchToProps)(Mid);
+export default Mid;

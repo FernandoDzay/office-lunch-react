@@ -1,14 +1,18 @@
 import {useEffect} from 'react';
-import { connect } from 'react-redux';
-import { getExtras } from '../../container/actions';
+import { getExtras } from '../../../store/slices/extrasSlice';
 import ViewTitle from '../../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../../components/globals/ViewDescription/ViewDescription';
 import Tabs from '../../../components/globals/Tabs/Tabs';
 import ExtraTable from './ExtraTable';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-const ExtrasSection = ({extras, getExtras}) => {
-    useEffect(() => {getExtras()}, [getExtras]);
+const ExtrasSection = () => {
+
+    const dispatch = useDispatch();
+    const { extras } = useSelector(state => state.extras);
+
+    useEffect(() => {dispatch(getExtras())}, [dispatch]);
 
     if(extras.length === 0) return null;
     return (
@@ -25,9 +29,4 @@ const ExtrasSection = ({extras, getExtras}) => {
 }
 
 
-const mapStateToProps = state => ({
-    loadingExtras: state.viewReducers.loadingExtras,
-    extras: state.viewReducers.extras
-});
-const mapDispatchToProps = dispatch => ({getExtras: () => dispatch(getExtras())});
-export default connect(mapStateToProps, mapDispatchToProps)(ExtrasSection);
+export default ExtrasSection;

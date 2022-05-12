@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import Table from '../../../components/globals/Table/Table';
 import MenuTableRow from './MenuTableRow';
-import { connect } from 'react-redux';
-import {getMenu} from '../../container/actions';
+import { getMenu } from '../../../store/slices/menuSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-const MenuTable = ({getMenu, menu, loadingMenu}) => {
-    useEffect(() => getMenu(), [getMenu])
+const MenuTable = () => {
+    const {menu, loadingMenu} = useSelector(state => state.menu);
+    const dispatch = useDispatch();
+    useEffect(() => { dispatch(getMenu()) }, [dispatch]);
+
     const thead = ['#', 'Nombre', 'Precio', 'Descuento', 'Quitar'];
 
     return (
@@ -17,7 +20,4 @@ const MenuTable = ({getMenu, menu, loadingMenu}) => {
 }
 
 
-
-const mapStateToProps = state => ({menu: state.viewReducers.menu, loadingMenu: state.viewReducers.loadingMenu});
-const mapDispatchToProps = dispatch => ({getMenu: () => dispatch(getMenu())});
-export default connect(mapStateToProps, mapDispatchToProps)(MenuTable);
+export default MenuTable;

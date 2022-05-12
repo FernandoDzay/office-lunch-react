@@ -59,7 +59,6 @@ export const getNotifications = () => dispatch => {
 }
 
 export const getUserOrders = user_id => dispatch => {
-    // console.log(user_id);
     dispatch({type: 'GET_USER_ORDERS_PENDING'});
     fetch(`${api_url}/orders/get-todays-orders?user_id=${user_id}`, {
         headers: {Authorization: `bearer ${token}`}

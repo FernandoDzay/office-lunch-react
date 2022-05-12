@@ -1,46 +1,33 @@
-import {Component} from 'react';
+import { useState } from 'react';
 import GenericFoodCard from './inheritance/FoodCard';
-import {connect} from 'react-redux';
-import {getUserOrders} from '../../../redux/actions/layoutActions';
+import { getUserOrders } from '../../../store/slices/layoutSlice';
+import { useDispatch } from 'react-redux';
 
-class FoodCard extends Component {
+const FoodCard = ({id, full_name, image}) => {
+    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
 
-    constructor(props) {
-        super(props);
+    const api_url = process.env.REACT_APP_API_URL;
+    const token = localStorage.getItem('token');
 
-        this.api_url = process.env.REACT_APP_API_URL;
-        this.token = localStorage.getItem('token');
-        this.state = {
-            loading: false
-        }
-    }
-
-    addFood = () => {
-        this.setState({loading: true});
-        fetch(`${this.api_url}/orders/create-user-order`, {
+    const addFood = () => {
+        setLoading(true);
+        fetch(`${api_url}/orders/create-user-order`, {
             method: 'POST',
             headers: {
-                Authorization: `bearer ${this.token}`,
+                Authorization: `bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({food_id: this.props.id})
+            body: JSON.stringify({food_id: id})
         })
         .then(r => r.json())
-        .then(r => this.props.getUserOrders())
+        .then(r => dispatch(getUserOrders()))
         .catch(e => console.log(e))
-        .finally(r => this.setState({loading: false}));
+        .finally(r =>setLoading(false));
     }
-
-
-    render() {
-        const {full_name, image} = this.props;
-        const {loading} = this.state;
-        
-        return <GenericFoodCard full_name={full_name} image={image} loading={loading} mainClick={this.addFood} btnText="Agregar" />;
-    }
-
+    
+    return <GenericFoodCard full_name={full_name} image={image} loading={loading} mainClick={addFood} btnText="Agregar" />;
 }
 
 
-const mapDispatchToProps = dispatch => ({getUserOrders: () => dispatch(getUserOrders())});
-export default connect(null, mapDispatchToProps)(FoodCard);
+export default FoodCard;

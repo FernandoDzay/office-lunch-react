@@ -1,15 +1,14 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import Table from '../../../components/globals/Table/Table';
-import {connect} from 'react-redux';
-import {getExtras} from '../../container/actions';
 import ExtraTableRow from './ExtraTableRow';
+import { getExtras } from '../../../store/slices/extrasSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-const ExtraTable = ({getExtras, extras}) => {
-
-    useEffect(() => {
-        getExtras();
-    }, [getExtras])
+const ExtraTable = () => {
+    const { extras } = useSelector(state => state.extras);
+    const dispatch = useDispatch();
+    useEffect(() => { dispatch(getExtras()) }, [dispatch]);
 
     const thead = ['#', 'Nombre', 'Precio', 'Editar', 'Quitar'];
 
@@ -21,6 +20,4 @@ const ExtraTable = ({getExtras, extras}) => {
 }
 
 
-const mapStateToProps = state => ({extras: state.viewReducers.extras});
-const mapDispatchToProps = dispatch => ({getExtras: () => dispatch(getExtras())});
-export default connect(mapStateToProps, mapDispatchToProps)(ExtraTable);
+export default ExtraTable;

@@ -82,5 +82,5 @@ class SideBar extends Component {
 }
 
 
-const mapStateToProps = state => ({active: state.layoutReducers.activeSideBar});
+const mapStateToProps = state => ({active: state.layout.activeSideBar});
 export default connect(mapStateToProps)(SideBar);

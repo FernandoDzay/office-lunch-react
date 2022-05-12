@@ -37,7 +37,8 @@ const FoodForm = ({initialState, forceNotEmpty}) => {
 
     useEffect(() => {
         if(!initialState) return;
-        setFood(initialState);
+        const short_name = initialState.short_name ? initialState.short_name : '';
+        setFood({...initialState, short_name});
     }, [initialState])
 
     const handleChange = (e) => {
@@ -120,6 +121,9 @@ const FoodForm = ({initialState, forceNotEmpty}) => {
 
     const {active, title, description, type} = modal;
     const {full_name, short_name, price, image} = food;
+    const icon = initialState ? 'edit'  : 'plus';
+
+    console.log(short_name);
 
     if(goBack) return <Navigate to="/add-menu" />;
     return (
@@ -145,7 +149,7 @@ const FoodForm = ({initialState, forceNotEmpty}) => {
                 <InputFile name="image" onChangeHandler={handleChange} value={image} />
             </FormGroup>
 
-            <Button color="blue" icon={initialState ? 'edit'  : 'plus'} loading={loading} onClick={handleClick}>{ initialState ? 'Editar comida'  : 'Agregar comida' }</Button>
+            <Button color="blue" icon={icon} loading={loading} onClick={handleClick}>{ initialState ? 'Editar comida'  : 'Agregar comida' }</Button>
             <Modal active={active} title={title} description={description} type={type} handleCloseModal={handleCloseModal} />
 
         </ViewForm>

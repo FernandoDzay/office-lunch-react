@@ -36,6 +36,12 @@ const API = (method, request = '', params = {}, dispatch) => {
         if(requestStatus === 401) {
             if(enviroment === 'development') console.log(data.authError);
             response.authError = data.authError;
+
+            if(data.authError === 2) {
+                response.message = 'Tu sessión ha expirado';
+                if(dispatch !== undefined) dispatch(goLogin());
+            }
+
             return Promise.reject(response);
         }
 
@@ -45,15 +51,8 @@ const API = (method, request = '', params = {}, dispatch) => {
             return Promise.reject(response);
         }
 
-        if(data.authError === 2) {
-            response.authError = data.authError;
-            response.message = 'Tu sessión ha expirado';
-            // do something for expiration
-            if(dispatch !== undefined) dispatch(goLogin());
-            return;
-        }
-
         if(data.message) response.message = data.message;
+        if(data.status !== undefined) response.data = data;
 
         if(requestStatus === 200 || requestStatus === 201) {
             response.data = data;
