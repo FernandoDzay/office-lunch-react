@@ -1,28 +1,18 @@
-import { useState } from 'react';
+import API from '../../../class/API';
 import GenericFoodCard from './inheritance/FoodCard';
 import { getUserOrders } from '../../../store/slices/layoutSlice';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
 const FoodCard = ({id, full_name, image}) => {
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
-    const api_url = process.env.REACT_APP_API_URL;
-    const token = localStorage.getItem('token');
-
     const addFood = () => {
         setLoading(true);
-        fetch(`${api_url}/orders/create-user-order`, {
-            method: 'POST',
-            headers: {
-                Authorization: `bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({food_id: id})
-        })
-        .then(r => r.json())
+        API('POST', '/orders/create-user-order', {food_id: id})
         .then(r => dispatch(getUserOrders()))
-        .catch(e => console.log(e))
+        .catch(e => {})
         .finally(r =>setLoading(false));
     }
     

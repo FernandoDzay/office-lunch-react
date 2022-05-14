@@ -2,18 +2,16 @@ import {useState} from 'react';
 import IconButton from '../../../components/globals/IconButton/IconButton';
 import { getMenu } from '../../../store/slices/menuSlice';
 import { useDispatch } from 'react-redux';
+import API from '../../../class/API';
 
 
 const MenuTableRow = ({id, index, food}) => {
-    const api_url = process.env.REACT_APP_API_URL;
-    const token = localStorage.getItem('token');
-
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     const handleDeleteMenu = () => {
         setLoading(true);
-        fetch(`${api_url}/menu/remove-food/${id}`, {method: 'DELETE', headers: {Authorization: `bearer ${token}`}})
+        API('DELETE', `/menu/remove-food/${id}`)
         .then(r => dispatch(getMenu()))
         .catch(e => setLoading(false));
     }

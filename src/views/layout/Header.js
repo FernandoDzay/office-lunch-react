@@ -5,9 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { notifications } = useSelector(state => state.layout);
+    const { notifications, user } = useSelector(state => state.layout);
     const notificationsWithoutReadCount = notifications.filter(notification => !notification.has_been_read).length;
-    const user = {is_admin: true};
 
 
     return (

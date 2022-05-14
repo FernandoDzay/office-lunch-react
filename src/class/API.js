@@ -1,4 +1,3 @@
-// import Store from '../store/store';
 import { goLogin } from '../store/slices/layoutSlice';
 
 
@@ -32,9 +31,11 @@ const API = (method, request = '', params = {}, dispatch) => {
 
     const handleData = (data) => {
         const {requestStatus} = response;
+        response.data = data;
+        if(data.message) response.message = data.message;
 
         if(requestStatus === 401) {
-            if(enviroment === 'development') console.log(data.authError);
+            if(enviroment === 'development') console.log(`Error de Auth: ${data.authError}`);
             response.authError = data.authError;
 
             if(data.authError === 2) {
@@ -46,28 +47,31 @@ const API = (method, request = '', params = {}, dispatch) => {
         }
 
         if(data.validation) {
-            if(enviroment === 'development') console.log(data.validation);
+            if(enviroment === 'development') {
+                console.log('Error de validación:');
+                console.log(data.validation);
+            }
             response.validationErrors = data.validation;
             return Promise.reject(response);
         }
 
-        if(data.message) response.message = data.message;
-        if(data.status !== undefined) response.data = data;
-
-        if(requestStatus === 200 || requestStatus === 201) {
-            response.data = data;
-            return response;
-        }
+        if(requestStatus === 200 || requestStatus === 201) return Promise.resolve(response);
         else return Promise.reject(response);
     }
 
     const handleCatchedError = (e) => {
         if(response.requestStatus === 500) {
-            if(enviroment === 'development') console.log(e);
+            if(enviroment === 'development') {
+                console.log('Error de servidor:');
+                console.log(e);
+            }
             return Promise.reject(response);
         }
 
-        if(enviroment === 'development' && !e.requestStatus) console.log(e);
+        if(enviroment === 'development' && !e.requestStatus) {
+            console.log('No se está obteniendo ningún parámetro conocido');
+            console.log(e);
+        }
         return Promise.reject(response);
     }
 
@@ -91,7 +95,7 @@ const API = (method, request = '', params = {}, dispatch) => {
             'Content-Type': 'application/json',
             Authorization: `bearer ${token}`
         },
-        body: params
+        body: JSON.stringify(params)
     })
     .then(r => handleBeforeData(r))
     .then(data => handleData(data))

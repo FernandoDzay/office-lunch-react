@@ -4,21 +4,21 @@ import ViewDescription from '../../components/globals/ViewDescription/ViewDescri
 import FoodForm from './components/FoodForm';
 import Loader from '../../components/globals/Loader/Loader';
 import Modal from '../../components/globals/Modal/InfoModal';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import API from '../../class/API';
 
 
 const EditFood = () => {
-    const api_url = process.env.REACT_APP_API_URL;
-    const token = localStorage.getItem('token');
-
     const [initialFormState, setInitialFormState] = useState({});
     const [loading, setLoading] = useState(true);
-    const [goBack, setGoBack] = useState(false);
     const [modal, setModal] = useState({
         active: false,
         title: '',
         description: '',
     });
+    const {active, title, description} = modal;
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
@@ -36,25 +36,22 @@ const EditFood = () => {
 
         if(!(id >= 0)) return setModal(foodNotFoundState);
 
-        fetch(`${api_url}/foods/${id}`, {headers: {Authorization: `bearer ${token}`}})
-        .then(r => r.json())
-        .then(data => {
-            if(!data.id) return setModal(foodNotFoundState)
-            setInitialFormState(data)
+        API('GET', `/foods/${id}`)
+        .then(response => {
+            if(!response.data.id) return setModal(foodNotFoundState)
+            setInitialFormState(response.data)
             setLoading(false);
         })
         .catch(e => this.setState(errorState));
 
-    }, [api_url, token])
+    }, [])
 
     const handleCloseModal = () => {
         setModal({...modal, active: false});
-        setGoBack(true);
+        navigate('/add-menu', {replace: true})
     }
 
-    const {active, title, description} = modal;
 
-    if(goBack) return <Navigate to="/add-menu" />;
     return (
         <>
             <ViewTitle>Editar Comida</ViewTitle>

@@ -6,6 +6,7 @@ import Loader from '../../../components/globals/Loader/Loader';
 import Notification from './Notification';
 import {connect} from 'react-redux';
 import { closeNotifications, getNotifications } from '../../../store/slices/layoutSlice';
+import API from '../../../class/API';
 
 
 class Notifications extends Component {
@@ -18,10 +19,6 @@ class Notifications extends Component {
                 transform: "300"
             }
         }
-
-        this.api_url = process.env.REACT_APP_API_URL;
-        this.token = localStorage.getItem('token');
-
         this.config = [
             {
                 style: 'opacity',
@@ -66,12 +63,7 @@ class Notifications extends Component {
 
     markReadAllNotifications = async () => {
         this.props.notifications.forEach(async notification => {
-            fetch(`${this.api_url}/notifications/mark-read/${notification.id}`, {
-                method: 'PATCH',
-                headers: {
-                    Authorization: `bearer ${this.token}`
-                }
-            });
+            API('PATCH', `/notifications/mark-read/${notification.id}`);
         });
     }
 

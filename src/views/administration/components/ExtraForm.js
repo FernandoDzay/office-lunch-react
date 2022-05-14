@@ -6,12 +6,11 @@ import Input from '../../../components/globals/Inputs/Input';
 import Button from '../../../components/globals/Button/Button';
 import isEmpty from 'validator/lib/isEmpty';
 import isLength from 'validator/lib/isLength';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import API from '../../../class/API';
 
 
 const ExtraForm = ({forceNotEmpty, initialState}) => {
-    const api_url = process.env.REACT_APP_API_URL;
-    const token = localStorage.getItem('token');
     const initialExtraState = {
         name: '',
         price: '',
@@ -26,10 +25,10 @@ const ExtraForm = ({forceNotEmpty, initialState}) => {
     };
 
     const [loading, setLoading] = useState(false);
-    const [goBack, setGoBack] = useState(false);
     const [modal, setModal] = useState(modalInitialState);
     const [extra, setExtra] = useState(initialExtraState);
     const [errors, setErrors] = useState(initialExtraState);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(!initialState) return;
@@ -42,26 +41,20 @@ const ExtraForm = ({forceNotEmpty, initialState}) => {
         e.preventDefault();
         if(!validateForm()) return;
         
-        const body = JSON.stringify(extra);
+        const fetchUrl = `/extras/${initialState ? 'update' : 'create'}`;
+        const method = initialState ? 'PUT' : 'POST';
+
         setLoading(true);
 
-        const fetchUrl = `${api_url}/extras/${initialState ? 'update' : 'create'}`;
-        const method = initialState ? 'PUT' : 'POST';
-        const headers = {Authorization: `bearer ${token}`, 'Content-Type': 'application/json'};
-
-        fetch(fetchUrl, {method, headers, body})
+        API(method, fetchUrl, extra)
         .then(r => {
-            if(r.status === 201 || r.status === 200) {
-                setLoading(false);
-                setModal({
-                    active: true,
-                    title: 'Listo!',
-                    description: `Tu extra ha sido ${initialState ? 'editada' : 'creada'} con éxito`,
-                    type: 'success',
-                });
-                return;
-            }
-            throw new Error('No se pudo crear el extra');
+            setLoading(false);
+            setModal({
+                active: true,
+                title: 'Listo!',
+                description: `Tu extra ha sido ${initialState ? 'editada' : 'creada'} con éxito`,
+                type: 'success',
+            });
         })
         .catch(e => {
             setLoading(false);
@@ -93,7 +86,7 @@ const ExtraForm = ({forceNotEmpty, initialState}) => {
         e.preventDefault();
         if(initialState) {
             setModal(modalInitialState);
-            setGoBack(true);
+            navigate('/add-menu', {replace: true});
         }
         else setModal(modalInitialState);
     }
@@ -102,7 +95,7 @@ const ExtraForm = ({forceNotEmpty, initialState}) => {
     const {name, price} = extra;
     const icon = initialState ? 'edit'  : 'plus';
 
-    if(goBack) return <Navigate to="/add-menu" />;
+
     return (
         <ViewForm>
 

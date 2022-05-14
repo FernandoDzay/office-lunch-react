@@ -6,9 +6,12 @@ import { getFoods } from '../../../store/slices/foodsSlice';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API from '../../../class/API';
 
 
 const AdminFoodCard = ({id, full_name, image}) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [mainLoading, setMainLoading] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false);
     const [modal, setModal] = useState({
@@ -17,15 +20,9 @@ const AdminFoodCard = ({id, full_name, image}) => {
         description: '',
     });
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const api_url = process.env.REACT_APP_API_URL;
-    const token = localStorage.getItem('token');
-
-
-    const addToMenu = async () => {
+    function addToMenu() {
         setMainLoading(true);
-        fetch(`${api_url}/menu/add-food/${id}`, {method: 'POST', headers: {Authorization: `bearer ${token}`}})
+        API('POST', `/menu/add-food/${id}`)
         .then(r => dispatch(getMenu()))
         .finally(e => setMainLoading(false));
     }
@@ -36,15 +33,11 @@ const AdminFoodCard = ({id, full_name, image}) => {
     
     const deleteFood = () => {
         setDeleteLoading(true);
-        fetch(`${api_url}/foods/delete/${id}`, {method: 'DELETE', headers: {Authorization: `bearer ${token}`}})
-        .then(r => r.json())
-        .then(data => {
-            if(data.deleteError) return Promise.reject(data);
-        })
+        API('DELETE', `/foods/delete/${id}`)
         .then(r => dispatch(getFoods()))
         .catch(e => {
             setDeleteLoading(false);
-            const description = e.deleteError ? e.deleteError : '';
+            const description = e.data.deleteError ? e.data.deleteError : '';
             setModal({active: true, title: 'Error al borrar', description});
         });
     }
@@ -52,7 +45,6 @@ const AdminFoodCard = ({id, full_name, image}) => {
 
     return (
         <GenericFoodCard full_name={full_name} image={image} loading={mainLoading} mainClick={addToMenu} btnText="Agregar al menú" >
-
             <div className="admin-buttons">
                 <IconButton color='blue' icon="edit" onClick={editFood} />
                 <IconButton loading={deleteLoading} color='red' icon="delete" onClick={deleteFood} />

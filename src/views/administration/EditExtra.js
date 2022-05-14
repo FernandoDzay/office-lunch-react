@@ -4,21 +4,23 @@ import ViewDescription from '../../components/globals/ViewDescription/ViewDescri
 import ExtraForm from './components/ExtraForm';
 import Loader from '../../components/globals/Loader/Loader';
 import Modal from '../../components/globals/Modal/InfoModal';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import API from '../../class/API';
 
 
 const EditExtra = () => {
-    const api_url = process.env.REACT_APP_API_URL;
-    const token = localStorage.getItem('token');
-
     const [initialFormState, setInitialFormState] = useState({});
     const [loading, setLoading] = useState(true);
-    const [goBack, setGoBack] = useState(false);
     const [modal, setModal] = useState({
         active: false,
         title: '',
         description: '',
     });
+    const navigate = useNavigate();
+    const {active, title, description} = modal;
+    
+    
+    
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
@@ -36,25 +38,23 @@ const EditExtra = () => {
 
         if(!(id >= 0)) return setModal(extraNotFoundState);
 
-        fetch(`${api_url}/extras/${id}`, {headers: {Authorization: `bearer ${token}`}})
-        .then(r => r.json())
-        .then(data => {
-            if(!data.id) return setModal(extraNotFoundState);
-            setInitialFormState(data);
+        API('GET', `/extras/${id}`)
+        .then(response => {
+            if(!response.data.id) return setModal(extraNotFoundState);
+            setInitialFormState(response.data);
             setLoading(false);
         })
         .catch(e => setModal(errorState));
-    }, [token, api_url])
+    }, [])
 
     const handleCloseModal = () => {
         setModal({...modal, active: false});
-        setGoBack(true);
+        navigate('/add-menu', {replace: true})
     }
 
-    const {active, title, description} = modal;
+    
 
 
-    if(goBack) return <Navigate to="/add-menu" />;
     return (
         <>
             <ViewTitle>Editar Extra</ViewTitle>

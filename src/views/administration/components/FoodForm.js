@@ -7,7 +7,7 @@ import InputFile from '../../../components/globals/Inputs/InputFile';
 import Button from '../../../components/globals/Button/Button';
 import isEmpty from 'validator/lib/isEmpty';
 import isLength from 'validator/lib/isLength';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const FoodForm = ({initialState, forceNotEmpty}) => {
@@ -29,10 +29,10 @@ const FoodForm = ({initialState, forceNotEmpty}) => {
     };
 
     const [loading, setLoading] = useState(false);
-    const [goBack, setGoBack] = useState(false);
     const [modal, setModal] = useState(modalInitialState);
     const [food, setFood] = useState(initialFoodState);
     const [errors, setErrors] = useState(initialFoodState);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -114,7 +114,7 @@ const FoodForm = ({initialState, forceNotEmpty}) => {
         e.preventDefault();
         if(initialState) {
             setModal(modalInitialState);
-            setGoBack(true);
+            navigate('/add-menu', {replace: true})
         }
         else setModal(modalInitialState);
     }
@@ -123,9 +123,7 @@ const FoodForm = ({initialState, forceNotEmpty}) => {
     const {full_name, short_name, price, image} = food;
     const icon = initialState ? 'edit'  : 'plus';
 
-    console.log(short_name);
 
-    if(goBack) return <Navigate to="/add-menu" />;
     return (
         <ViewForm>
 
