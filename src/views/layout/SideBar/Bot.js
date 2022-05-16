@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 const Bot = () => {
-
     const foods = [];
     const extras = [];
 
@@ -28,6 +27,10 @@ const Bot = () => {
         <>
             <nav className="bot">
                 <NavItem icon="zmdi-view-dashboard" text="Dashboard" href="/" />
+                <NavItem icon="zmdi-cutlery" text="Pedidos">
+                    <NavSubItem icon="zmdi-account" text="Mis pedidos" href="/my-orders" />
+                    <NavSubItem icon="zmdi-accounts" text="Pedidos de todos" href="/orders" />
+                </NavItem>
                 {
                     user.is_admin && 
                     <NavItem icon="zmdi-shield-security" text="Administración">

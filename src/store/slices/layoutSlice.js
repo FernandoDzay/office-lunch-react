@@ -11,7 +11,7 @@ const initialState = {
     loadingNotifications: false,
     notifications: [],
     loadingUserOrders: false,
-    userOrders: [],
+    userOrders: {discount: 0, net_total: 0, total: 0, orders: {foods: [], extras: []}},
     expiredSession: false,
 };
 
@@ -28,8 +28,10 @@ export const getLoggedUser = createAsyncThunk(
 )
 
 export const getUserOrders = createAsyncThunk(
-    'orders/get-todays-orders',
-    async (user_id, {dispatch}) => API('GET', '/orders/get-todays-orders', {user_id}, dispatch)
+    'orders/get-todays-orders/:user_id',
+    async (user_id, {dispatch}) => 
+        API('GET', `/orders/get-todays-orders/${user_id}`, null, dispatch)
+        .catch(error => error.requestStatus === 404 ? Promise.resolve({data: initialState.userOrders}) : Promise.reject(error))
 )
 
 

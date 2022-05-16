@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
+import { getMenu } from '../../store/slices/menuSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import ViewTitle from '../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../components/globals/ViewDescription/ViewDescription';
 import FoodCard from '../../components/globals/FoodCard/FoodCard';
 import Loader from '../../components/globals/Loader/Loader';
-import { getMenu } from '../../store/slices/menuSlice';
 import ExtrasSection from './components/ExtrasSection';
 
 const Index = () => {
@@ -32,7 +32,7 @@ const Index = () => {
             description: 'Añade tu comida del día!',
         }
 
-        const menuTextOptions = [emptyMenu, menuClosed, menuFound]
+        const menuTextOptions = [emptyMenu, menuClosed, menuFound];
 
         const viewText = loadingMenu ? loadingMenuText :  menuTextOptions[menuStatus];
         return viewText;

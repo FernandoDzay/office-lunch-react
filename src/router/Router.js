@@ -9,6 +9,8 @@ import CreateFood from "../views/administration/CreateFood";
 import EditFood from "../views/administration/EditFood";
 import CreateExtra from "../views/administration/CreateExtra";
 import EditExtra from "../views/administration/EditExtra";
+import MyOrders from "../views/orders/MyOrders";
+import Orders from "../views/orders/Orders";
 import Layout from "../views/layout/Layout";
 
 
@@ -25,6 +27,9 @@ export default function Router() {
                 {/* SITE */}
                 <Route path="/" element={ <Index /> } />
 
+                {/* ORDERS */}
+                <Route path="/my-orders" element={ <MyOrders /> } />
+                <Route path="/orders" element={ <Orders /> } />
 
                 {/* ADMINISTRATION */}
                 <Route path="/add-menu" element={ <AddMenu /> } />

@@ -1,7 +1,7 @@
 import Loader from "../Loader/Loader";
 import './table.scss';
 
-const Table = ({thead, loading, children}) => {
+const Table = ({thead, loading, caption, children}) => {
 
     if(loading) return <Loader withContainer={true} size="2" color="blue" />;
     return (
@@ -21,6 +21,7 @@ const Table = ({thead, loading, children}) => {
                 :
                 children
             }
+            { caption && <caption>{ caption }</caption> }
         </table>
     );
 
