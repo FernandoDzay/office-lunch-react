@@ -1,4 +1,5 @@
 import "../../styles/layout/layout.scss";
+import "../../styles/views/view-styles.scss";
 import SideBar from './SideBar/SideBar';
 import Header from './Header';
 import SessionExpired from './SessionExpired';

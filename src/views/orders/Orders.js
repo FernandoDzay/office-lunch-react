@@ -7,7 +7,7 @@ import { getTodaysOrders } from '../../store/slices/ordersSlice';
 import { useEffect } from 'react';
 
 
-const CreateExtra = () => {
+const Orders = () => {
     const { todaysOrders, loadingTodaysOrders } = useSelector(state => state.orders);
     const isOrdersEmpty = todaysOrders.orders.length === 0;
     const loading = isOrdersEmpty ? loadingTodaysOrders : false;
@@ -32,4 +32,4 @@ const CreateExtra = () => {
 }
 
 
-export default CreateExtra;
+export default Orders;

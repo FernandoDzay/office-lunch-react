@@ -11,6 +11,8 @@ import CreateExtra from "../views/administration/CreateExtra";
 import EditExtra from "../views/administration/EditExtra";
 import MyOrders from "../views/orders/MyOrders";
 import Orders from "../views/orders/Orders";
+import WeekOrders from "../views/orders/WeekOrders";
+import Payments from "../views/administration/Payments";
 import Layout from "../views/layout/Layout";
 
 
@@ -30,6 +32,7 @@ export default function Router() {
                 {/* ORDERS */}
                 <Route path="/my-orders" element={ <MyOrders /> } />
                 <Route path="/orders" element={ <Orders /> } />
+                <Route path="/week-orders" element={ <WeekOrders /> } />
 
                 {/* ADMINISTRATION */}
                 <Route path="/add-menu" element={ <AddMenu /> } />
@@ -37,6 +40,8 @@ export default function Router() {
                 <Route path="/edit-food" element={ <EditFood /> } />
                 <Route path="/create-extra" element={ <CreateExtra /> } />
                 <Route path="/edit-extra" element={ <EditExtra /> } />
+
+                <Route path="/payments" element={ <Payments /> } />
             </Route>
 
             {/* NOT FOUND */}

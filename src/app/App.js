@@ -5,6 +5,7 @@ import "normalize-scss/sass/normalize/_import-now.scss";
 import "../libraries/icons/css/icons.scss";
 import "../styles/globals/App.scss";
 import "../styles/globals/fonts.scss";
+import "../styles/globals/global-styles.scss";
 
 
 function App() {

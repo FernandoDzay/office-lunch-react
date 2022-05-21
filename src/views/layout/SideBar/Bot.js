@@ -28,15 +28,17 @@ const Bot = () => {
             <nav className="bot">
                 <NavItem icon="zmdi-view-dashboard" text="Dashboard" href="/" />
                 <NavItem icon="zmdi-cutlery" text="Pedidos">
-                    <NavSubItem icon="zmdi-account" text="Mis pedidos" href="/my-orders" />
-                    <NavSubItem icon="zmdi-accounts" text="Pedidos de todos" href="/orders" />
+                    <NavSubItem icon="zmdi-shopping-basket" text="Mis pedidos" href="/my-orders" />
+                    <NavSubItem icon="zmdi-shopping-cart" text="Pedidos de todos" href="/orders" />
+                    <NavSubItem icon="zmdi-calendar-note" text="De la semana" href="/week-orders" />
                 </NavItem>
                 {
-                    user.is_admin && 
+                    user.is_admin &&
                     <NavItem icon="zmdi-shield-security" text="Administración">
                         <NavSubItem icon="zmdi-cutlery" text="Insertar comidas del día" href="/add-menu" />
                         <NavSubItem icon="zmdi-local-pizza" text="Crear comida" href="/create-food" />
                         <NavSubItem icon="zmdi-local-cafe" text="Crear extra" href="/create-extra" />
+                        <NavSubItem icon="zmdi-money" text="Pagos" href="/payments" />
                     </NavItem>
                 }
             </nav>
