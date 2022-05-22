@@ -28,6 +28,9 @@
             display: none;
         }
     }
+    select {
+        cursor: pointer;
+    }
     select option {
         background-color: transparent;
         color: black;
@@ -38,6 +41,11 @@
         color: #636363;
         font-size: 12px;
         display: none;
+    }
+    .loader {
+        position: relative;
+        height: 38px;
+        width: 38px;
     }
 
     &.focused {

@@ -40,6 +40,10 @@ class TabContent extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.props.handleUnmountContent();
+    }
+
     render() {
         const {component} = this.props;
 

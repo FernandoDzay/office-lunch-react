@@ -32,6 +32,12 @@ class Tabs extends React.Component {
         this.setState({tabs});
     }
 
+    handleUnmountContent = () => {
+        if(this.props.tabsContent.length !== 0) {
+            this.setState({tabs: this.getTabsState(0)});
+        }
+    }
+
 
     render () {
         const {tabs} = this.state;
@@ -56,7 +62,7 @@ class Tabs extends React.Component {
                         { tabsText.map((tabText, i) => <TabText key={i} hasEventClick={this.hasEventClick()} id={i} active={tabs[i]} text={tabText} handleClick={this.handleClick} />) }
                     </div>
                     <div className="content">
-                        { tabsContent.map((tabContent, i) => <TabContent key={i} active={tabs[i]} component={tabContent} />) }
+                        { tabsContent.map((tabContent, i) => <TabContent key={i} active={tabs[i]} component={tabContent} handleUnmountContent={this.handleUnmountContent} />) }
                     </div>
                 </>
             }</div>

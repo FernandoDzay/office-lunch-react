@@ -1,5 +1,10 @@
-function Select({name, value, onFocus, onBlur, children, onChangeHandler}) {
+import Loader from "../Loader/Loader";
 
+function Select({name, value, onFocus, onBlur, children, onChangeHandler, loading}) {
+
+    if(loading) return (
+        <Loader color="blue" size="1" />
+    );
     return (
         <select
             name={name}
