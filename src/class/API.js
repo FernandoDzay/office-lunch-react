@@ -10,6 +10,7 @@ const API = (method, request = '', params = {}, dispatch) => {
     const response = {
         requestStatus: 500,
         data: null,
+        params,
         message: '',
         authError: null,
         validationErrors: null,
@@ -80,6 +81,15 @@ const API = (method, request = '', params = {}, dispatch) => {
         return '?' + new URLSearchParams(params).toString();
     }
 
+    const fetchOptions = {
+        method,
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `bearer ${token}`
+        },
+    }
+    if(params !== null) fetchOptions.body = JSON.stringify(params);
+
     return method === 'GET' ?
 
     fetch(`${api_url}${request}${getQueryParams()}`, { headers: { Authorization: `bearer ${token}` } })
@@ -89,14 +99,7 @@ const API = (method, request = '', params = {}, dispatch) => {
 
     :
 
-    fetch(`${api_url}${request}`, {
-        method,
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `bearer ${token}`
-        },
-        body: JSON.stringify(params)
-    })
+    fetch(`${api_url}${request}`, fetchOptions)
     .then(r => handleBeforeData(r))
     .then(data => handleData(data))
     .catch(e => handleCatchedError(e));

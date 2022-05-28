@@ -32,6 +32,9 @@ const Bot = () => {
                     <NavSubItem icon="zmdi-shopping-cart" text="Pedidos de todos" href="/orders" />
                     <NavSubItem icon="zmdi-calendar-note" text="De la semana" href="/week-orders" />
                 </NavItem>
+                <NavItem icon="zmdi-accounts" text="Grupos">
+                    <NavSubItem icon="zmdi-accounts" text="Grupos" href="/groups" />
+                </NavItem>
                 {
                     user.is_admin &&
                     <NavItem icon="zmdi-shield-security" text="Administración">
@@ -40,6 +43,7 @@ const Bot = () => {
                         <NavSubItem icon="zmdi-local-cafe" text="Crear extra" href="/create-extra" />
                         <NavSubItem icon="zmdi-accounts" text="Grupos" href="/administration/groups" />
                         <NavSubItem icon="zmdi-money" text="Pagos" href="/payments" />
+                        <NavSubItem icon="zmdi-money-box" text="Pagos" href="/pay" />
                     </NavItem>
                 }
             </nav>

@@ -1,0 +1,32 @@
+.switch {
+    width: 60px;
+    height: 30px;
+    position: relative;
+    background-color: #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: .3s all;
+    
+    &::before {
+        content: "";
+        width: 23px;
+        height: 23px;
+        border-radius: 50%;
+        background-color: white;
+        position: absolute;
+        left: 0;
+        right: auto;
+        top: 0;
+        bottom: 0;
+        margin: auto 5px;
+        transition: .3s all;
+    }
+
+    &.active {
+        background-color: blue;
+
+        &::before {
+            left: 27px;
+        }
+    }
+}

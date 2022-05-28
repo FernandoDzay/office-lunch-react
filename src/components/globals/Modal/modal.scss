@@ -12,6 +12,20 @@
     display: flex;
     flex-direction: column;
     
+    .exit {
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        display: grid;
+        place-content: center;
+
+        i {
+            color: black;
+        }
+    }
     &.modalShow {
         animation: modalShow 0.3s;
     }
@@ -40,8 +54,12 @@
         line-height: normal;
         color: #545454;
     }
-
-    .title, .description {
+    .subtitle {
+        font-size: 20px;
+        font-weight: 700;
+        color: black;
+    }
+    .title, .description, .subtitle {
         &.center {
             text-align: center;
         }
@@ -49,7 +67,19 @@
             margin-bottom: 15px;
         }
     }
-
+    table {
+        margin-bottom: 30px;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        
+        button {
+            align-self: center;
+            width: 100%;
+            max-width: 200px;
+        }
+    }
     .bot {
         display: flex;
         justify-content: center;

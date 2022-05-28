@@ -15,7 +15,9 @@ export const getSundayLastTime = (date = undefined) => {
 }
 
 export const getLastWeekMonday = () => {
-    return moment().startOf('week').subtract(6, 'day').format();
+    return moment().format('d') === '0' ?
+    moment().startOf('week').subtract(13, 'day').format() :
+    moment().startOf('week').subtract(6, 'day').format();
 }
 
 export const getDayOfWeek = (date) => {

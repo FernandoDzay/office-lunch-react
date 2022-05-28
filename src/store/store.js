@@ -6,6 +6,7 @@ import extrasReducer from './slices/extrasSlice';
 import ordersReducer from './slices/ordersSlice';
 import groupsReducer from './slices/groupsSlice';
 import usersReducer from './slices/usersSlice';
+import paymentsReducer from './slices/paymentsSlice';
 
 
 const store = configureStore({
@@ -17,6 +18,7 @@ const store = configureStore({
         orders: ordersReducer,
         groups: groupsReducer,
         users: usersReducer,
+        payments: paymentsReducer,
     }
 })
 

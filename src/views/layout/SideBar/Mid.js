@@ -40,6 +40,10 @@ const Mid = () => {
         setTimeout(() => { navigate('/login', {replace: true}); }, 250);
     }
 
+    const handleConfigClick = () => {
+        navigate('/config', {replace: true});
+    }
+
     const handleCloseModal = () => setModal(false);
 
     
@@ -50,7 +54,7 @@ const Mid = () => {
             <p className="schedule">{ schedule }</p>
 
             <div className="icons">
-                {is_admin ? <button><i className="zmdi zmdi-settings"></i></button> : null}
+                {is_admin ? <button onClick={handleConfigClick}><i className="zmdi zmdi-settings"></i></button> : null}
                 <button onClick={handleLogoutClick}><i className="zmdi zmdi-power"></i></button>
             </div>
 

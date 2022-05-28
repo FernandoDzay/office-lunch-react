@@ -37,14 +37,19 @@ class Modal extends React.Component {
 
     render() {
 
-        const {handleCloseModal, nextStepTitle, nextStepDescription, children } = this.props;
+        const {handleCloseModal, nextStepTitle, nextStepDescription, children, withExit } = this.props;
         const {animationClass, nextStep} = this.state;
 
         if(this.state.active) {
             return (
                 <>
                     <div className={`modal ${animationClass}`} onAnimationEnd={ this.handleAnimationEnd } ref={this.animationRef} >
-                        { nextStep === null && children }
+                        { nextStep === null && 
+                            <>
+                                {withExit && <div className='exit' onClick={handleCloseModal}><i className={`zmdi zmdi-close`}></i></div>}
+                                {children}
+                            </>
+                        }
                         <NextStep 
                             nextStep={nextStep}
                             title={nextStepTitle}

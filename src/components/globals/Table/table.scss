@@ -9,11 +9,24 @@
     }
     tbody {
         tr {
+            transition: .3s all;
             &:hover {
                 background-color: #f5f5f5;
             }
             td {
                 border-top: 1px solid #ddd;
+            }
+        }
+        tr.highlight {
+            background-color: #b9f6ca;
+            .icon-button.green {
+                background-color: #546e7a;
+                &:hover {
+                    background-color: #455a64;
+                }
+            }
+            &:hover {
+                background-color: #69f0ae;
             }
         }
         .no-border-top td {

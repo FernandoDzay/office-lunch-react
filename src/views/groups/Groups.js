@@ -1,7 +1,6 @@
 import ViewTitle from "../../components/globals/ViewTitle/ViewTitle";
 import ViewDescription from "../../components/globals/ViewDescription/ViewDescription";
 import GroupsTabs from '../../components/views/GroupsTabs/GroupsTabs';
-import GroupsSelectors from "./components/GroupsSelectors";
 
 
 const Groups = () => {
@@ -10,11 +9,9 @@ const Groups = () => {
     return (
         <>
             <ViewTitle>Grupos</ViewTitle>
-            <ViewDescription>Aquí puedes asignar grupos a usuarios</ViewDescription>
+            <ViewDescription>Aquí puedes visualizar a qué grupo pertenecen todos los usuarios</ViewDescription>
 
-            <GroupsTabs is_admin={true} />
-
-            <GroupsSelectors />
+            <GroupsTabs is_admin={false} />
         </>
     );
 }

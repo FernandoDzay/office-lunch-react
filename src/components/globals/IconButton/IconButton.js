@@ -1,9 +1,9 @@
 import "./icon-button.scss";
 import Loader from "../Loader/Loader";
 
-export default function IconButton({color, icon, onClick, loading}) {
-
-    const classes = ['icon-button', color].join(' ');
+export default function IconButton({color, icon, onClick, loading, disabled}) {
+    const disabledClass = disabled ? 'disabled' : '';
+    const classes = ['icon-button', color, disabledClass].join(' ');
 
     if(loading) {
         return (

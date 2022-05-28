@@ -14,7 +14,9 @@ import Orders from "../views/orders/Orders";
 import WeekOrders from "../views/orders/WeekOrders";
 import Payments from "../views/administration/Payments";
 import AdminGroups from "../views/administration/Groups";
-// import Groups from "../views/groups/Groups";
+import Config from "../views/administration/config/Config";
+import Pay from "../views/administration/Pay/Pay";
+import Groups from "../views/groups/Groups";
 import Layout from "../views/layout/Layout";
 
 
@@ -35,7 +37,7 @@ export default function Router() {
                 <Route path="/my-orders" element={ <MyOrders /> } />
                 <Route path="/orders" element={ <Orders /> } />
                 <Route path="/week-orders" element={ <WeekOrders /> } />
-                {/* <Route path="/groups" element={ <Groups /> } /> */}
+                <Route path="/groups" element={ <Groups /> } />
 
                 {/* ADMINISTRATION */}
                 <Route path="/add-menu" element={ <AddMenu /> } />
@@ -46,6 +48,9 @@ export default function Router() {
                 <Route path="/administration/groups" element={ <AdminGroups /> } />
 
                 <Route path="/payments" element={ <Payments /> } />
+                <Route path="/pay" element={ <Pay /> } />
+
+                <Route path="/config" element={ <Config /> } />
             </Route>
 
             {/* NOT FOUND */}
