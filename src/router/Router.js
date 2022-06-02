@@ -16,6 +16,7 @@ import Payments from "../views/administration/Payments";
 import AdminGroups from "../views/administration/Groups";
 import Config from "../views/administration/config/Config";
 import Pay from "../views/administration/Pay/Pay";
+import Users from "../views/administration/Users/Users";
 import Groups from "../views/groups/Groups";
 import Layout from "../views/layout/Layout";
 
@@ -49,6 +50,8 @@ export default function Router() {
 
                 <Route path="/payments" element={ <Payments /> } />
                 <Route path="/pay" element={ <Pay /> } />
+
+                <Route path="/users" element={ <Users /> } />
 
                 <Route path="/config" element={ <Config /> } />
             </Route>

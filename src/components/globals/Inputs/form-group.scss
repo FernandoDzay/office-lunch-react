@@ -74,6 +74,11 @@
             color: #ff6060;
         }
     }
+    &.no-border-bottom {
+        border-bottom: none;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
 
     &::before {
         content: "";

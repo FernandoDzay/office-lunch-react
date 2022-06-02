@@ -67,7 +67,7 @@ const Config = () => {
     }
 
 
-    if(loading) return <Loader color="blue" size="3" />
+    if(loading) return <Loader color="blue" size="3" withContainer={true} />
     if(!settings) {
         return (
             <>
@@ -79,9 +79,6 @@ const Config = () => {
     return (
         <>
             <ViewTitle>Configuración</ViewTitle>
-            <ViewDescription>En esta sección puedes configurar partes de la aplicación</ViewDescription>
-
-            <hr />
 
             <div className="switch-container">
                 <ViewDescription>Activar o desactivar el menú</ViewDescription>

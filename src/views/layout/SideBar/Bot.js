@@ -41,6 +41,7 @@ const Bot = () => {
                         <NavSubItem icon="zmdi-cutlery" text="Insertar comidas del día" href="/add-menu" />
                         <NavSubItem icon="zmdi-local-pizza" text="Crear comida" href="/create-food" />
                         <NavSubItem icon="zmdi-local-cafe" text="Crear extra" href="/create-extra" />
+                        <NavSubItem icon="zmdi-account" text="Usuarios" href="/users" />
                         <NavSubItem icon="zmdi-accounts" text="Grupos" href="/administration/groups" />
                         <NavSubItem icon="zmdi-money" text="Pagos" href="/payments" />
                         <NavSubItem icon="zmdi-money-box" text="Pagos" href="/pay" />

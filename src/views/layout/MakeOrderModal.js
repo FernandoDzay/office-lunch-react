@@ -5,7 +5,7 @@ import { closeMakeOrdersModal } from '../../store/slices/layoutSlice';
 
 
 const MakeOrderModal = ({nextStep, handleNextStep}) => {
-    const active = useSelector(state => state.layout.activeMakeOrdersModal);
+    const { active } = useSelector(state => state.layout.activeMakeOrdersModal);
     const dispatch = useDispatch();
 
     const handleCloseModal = () => dispatch(closeMakeOrdersModal());

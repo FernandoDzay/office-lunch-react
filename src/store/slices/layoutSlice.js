@@ -5,7 +5,13 @@ import API from '../../class/API';
 const initialState = {
     activeSideBar: true,
     activeNotifications: false,
-    activeMakeOrdersModal: false,
+    activeMakeOrdersModal: {
+        active: false,
+        nextStep: null,
+        title: '',
+        description: '',
+
+    },
     loadingUser: false,
     user: {},
     loadingNotifications: false,
@@ -43,8 +49,12 @@ const layoutSlice = createSlice({
         toggleSideBar: state => {state.activeSideBar = !state.activeSideBar},
         openNotifications: state => {state.activeNotifications = true},
         closeNotifications: state => {state.activeNotifications = false},
-        openMakeOrdersModal: state => {state.activeMakeOrdersModal = true},
-        closeMakeOrdersModal: state => {state.activeMakeOrdersModal = false},
+        openMakeOrdersModal: state => {
+            state.activeMakeOrdersModal = {...state.activeMakeOrdersModal, active: true}
+        },
+        closeMakeOrdersModal: state => {
+            state.activeMakeOrdersModal = {...state.activeMakeOrdersModal, active: false}
+        },
         goLogin: state => {state.expiredSession = true},
     },
     extraReducers: {
