@@ -6,10 +6,12 @@ import InfoModal from "../../components/globals/Modal/InfoModal";
 import isEmail from 'validator/lib/isEmail';
 import isLength from 'validator/lib/isLength';
 import {Navigate} from "react-router-dom";
+import { login } from "../../store/slices/layoutSlice";
+import { useDispatch } from "react-redux";
 
 
 const LoginForm = () => {
-
+    const dispatch = useDispatch();
     const initialErrors = {
         email: "",
         password: ""
@@ -60,6 +62,7 @@ const LoginForm = () => {
                 setModalError(data.error);
             }
             if(!data.token) throw new Error('Ocurrió un error inseperado');
+            dispatch(login());
             localStorage.setItem('token', data.token);
             setLoading(false);
             setGoToApplication(true);

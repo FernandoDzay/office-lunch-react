@@ -10,7 +10,6 @@ import isLength from 'validator/lib/isLength';
 
 const UserModal = () => {
     const { modal: {active, title, user, nextStep, updateLoading} } = useSelector(state => state.users);
-    const stateTesting = useSelector(state => state.users);
     const logged_user_id = useSelector(state => state.layout.user.id);
     const dispatch = useDispatch();
 

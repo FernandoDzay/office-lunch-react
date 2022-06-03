@@ -29,11 +29,18 @@ class Modal extends React.Component {
             this.setState({active: true, animationClass: "modalShow"});
         }
         if( nextStep !== prevProps.nextStep ) {
-            if(nextStep !== null) this.setState({nextStep: nextStep, animationClass: 'modalShow'});
+            if(nextStep !== null) this.setState({nextStep, animationClass: 'modalShow'});
         }
     }
 
-    handleAnimationEnd = () => !this.props.active ? this.setState({active: false, nextStep: null}) : this.setState({animationClass: ""});
+    handleAnimationEnd = () => {
+        if(this.props.active) {
+            this.setState({animationClass: ""});
+        }
+        else {
+            this.setState({active: false, nextStep: null})
+        }
+    }
 
     render() {
 

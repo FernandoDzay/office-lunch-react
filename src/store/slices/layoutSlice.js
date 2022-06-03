@@ -5,13 +5,6 @@ import API from '../../class/API';
 const initialState = {
     activeSideBar: true,
     activeNotifications: false,
-    activeMakeOrdersModal: {
-        active: false,
-        nextStep: null,
-        title: '',
-        description: '',
-
-    },
     loadingUser: false,
     user: {},
     loadingNotifications: false,
@@ -19,6 +12,22 @@ const initialState = {
     loadingUserOrders: false,
     userOrders: {discount: 0, net_total: 0, total: 0, orders: {foods: [], extras: []}},
     expiredSession: false,
+    loadingMakeOrders: false,
+    makeOrdersModal: {
+        active: false,
+        nextStep: null,
+        nextStepTitle: '',
+        nextStepDescription: '',
+    },
+    makeOrders: {
+        total: 0,
+        discount: 0,
+        net_total: 0,
+        orders: {
+            foods: [],
+            extras: []
+        }
+    }
 };
 
 
@@ -40,6 +49,11 @@ export const getUserOrders = createAsyncThunk(
         .catch(error => error.requestStatus === 404 ? Promise.resolve({data: initialState.userOrders}) : Promise.reject(error))
 )
 
+export const makeOrders = createAsyncThunk(
+    'orders/make',
+    async (params, {dispatch}) => API('GET', '/orders/make', null, dispatch)
+)
+
 
 // ------------- slice
 const layoutSlice = createSlice({
@@ -50,12 +64,15 @@ const layoutSlice = createSlice({
         openNotifications: state => {state.activeNotifications = true},
         closeNotifications: state => {state.activeNotifications = false},
         openMakeOrdersModal: state => {
-            state.activeMakeOrdersModal = {...state.activeMakeOrdersModal, active: true}
+            state.makeOrdersModal = {...initialState.makeOrdersModal, active: true}
+            state.makeOrders = {...initialState.makeOrders};
         },
         closeMakeOrdersModal: state => {
-            state.activeMakeOrdersModal = {...state.activeMakeOrdersModal, active: false}
+            state.makeOrdersModal = {...state.makeOrdersModal, active: false};
         },
         goLogin: state => {state.expiredSession = true},
+        login: state => {state.expiredSession = false},
+        copySuccess: state => {state.makeOrdersModal = {...state.makeOrdersModal, nextStep: 'success', nextStepTitle: 'Órdenes copiadas!'}},
     },
     extraReducers: {
         // Notifications
@@ -82,18 +99,31 @@ const layoutSlice = createSlice({
             state.loadingUserOrders = false;
         },
         [getUserOrders.rejected]: state => { state.loadingUserOrders = false; },
+
+        // makeOrders
+        [makeOrders.pending]: state => { state.loadingMakeOrders = true; },
+        [makeOrders.fulfilled]: (state, action) => {
+            state.loadingMakeOrders = false;
+            state.makeOrders = action.payload.data;
+        },
+        [makeOrders.rejected]: state => {
+            state.loadingMakeOrders = false;
+            state.makeOrders = initialState.makeOrders;
+        },
     }
 });
 
 
 
 export const { 
-    toggleSideBar, 
+    toggleSideBar,
     openNotifications,
     closeNotifications,
     openMakeOrdersModal,
     closeMakeOrdersModal,
     goLogin,
+    login,
+    copySuccess,
 } = layoutSlice.actions;
 
 export default layoutSlice.reducer;

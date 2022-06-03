@@ -3,7 +3,7 @@ import "../../styles/views/view-styles.scss";
 import SideBar from './SideBar/SideBar';
 import Header from './Header';
 import SessionExpired from './SessionExpired';
-import MakeOrderModal from './MakeOrderModal';
+import MakeOrdersModal from './MakeOrdersModal/MakeOrdersModal';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -27,7 +27,7 @@ export default function Layout() {
                     <Outlet />
                 </main>
             </div>
-            <MakeOrderModal />
+            <MakeOrdersModal />
             <SessionExpired />
         </div>
     );
