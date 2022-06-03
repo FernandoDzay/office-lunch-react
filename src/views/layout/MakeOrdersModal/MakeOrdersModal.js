@@ -10,7 +10,6 @@ import './make-orders-modal.scss';
 
 
 const MakeOrdersModal = () => {
-    const thead = ['Cantidad', 'Nombre'];
     const { active } = useSelector(state => state.layout.makeOrdersModal);
     const { makeOrders: {total, discount, net_total, orders}, makeOrdersModal: {nextStep, nextStepTitle}, loadingMakeOrders } = useSelector(state => state.layout);
     const areFoodsEmpty = orders.foods.length === 0;
@@ -59,51 +58,10 @@ const MakeOrdersModal = () => {
     }
     return (
         <Modal active={active} handleCloseModal={handleCloseModal} nextStep={nextStep} nextStepTitle={nextStepTitle}>
-
-            {/* <p className="description mb"><strong>Comidas</strong></p>
-            <Table thead={thead}>
-                {orders.foods.map((food, index) => (
-                    <tr key={index}>
-                        <td>{ food.quantity }</td>
-                        <td>{ food.name }</td>
-                    </tr>
-                ))}
-            </Table>
-            
-            {areExtrasEmpty ? null :
-                <>
-                    <p className="description mb"><strong>Extras</strong></p>
-                    <Table thead={thead}>
-                        {orders.extras.map((extra, index) => (
-                            <tr key={index}>
-                                <td>{ extra.quantity }</td>
-                                <td>{ extra.name }</td>
-                            </tr>
-                        ))}
-                    </Table>
-                </>
-            }
-            
-            <p className="description mb"><strong>Totales</strong></p>
-            <Table thead={['Total', 'Cantidad']}>
-                <tr>
-                    <td>Para pagar:</td>
-                    <td>{ total }</td>
-                </tr>
-                <tr>
-                    <td>Descuentos:</td>
-                    <td>{ discount }</td>
-                </tr>
-                <tr>
-                    <td>Precio usuarios:</td>
-                    <td>{ net_total }</td>
-                </tr>
-            </Table> */}
-
             <p className="title center">Texto a copiar:</p>
 
             <div className="text-to-copy">
-                <p className="copy-title">Comida</p>
+                <p className="copy-title">Comidas</p>
                 {orders.foods.map((food, index) => <p key={index}>{food.quantity} {food.name}</p>)}
 
                 {areExtrasEmpty ? null :

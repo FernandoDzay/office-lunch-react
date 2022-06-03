@@ -71,7 +71,7 @@ const layoutSlice = createSlice({
             state.makeOrdersModal = {...state.makeOrdersModal, active: false};
         },
         goLogin: state => {state.expiredSession = true},
-        login: state => {state.expiredSession = false},
+        login: state => {state = {...initialState}},
         copySuccess: state => {state.makeOrdersModal = {...state.makeOrdersModal, nextStep: 'success', nextStepTitle: 'Órdenes copiadas!'}},
     },
     extraReducers: {
