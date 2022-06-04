@@ -1,7 +1,7 @@
 body, html {
     font-family: 'RobotoCondensed';
     width: 100vw;
-    height: 100%;
+    min-height: 100vh;
 }
 body {
     overflow-x: hidden;
@@ -20,12 +20,12 @@ button {
 
 #root {
     width: inherit;
-    height: inherit;
+    min-height: inherit;
     position: inherit;
 
     > div {
         width: inherit;
-        height: inherit;
+        min-height: inherit;
         position: inherit;
     }
 }

@@ -1,6 +1,17 @@
 .login-layout {
     display: grid;
     place-content: center;
-    background-image: url("../../../public/img/loginFont.jpg");
-    background-size: cover;
+    position: relative;
+    
+    &::before {
+        content: '';
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        z-index: -1;
+        background-image: url("../../../public/img/loginFont.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 }
