@@ -1,86 +1,53 @@
-import {Component} from 'react';
 import Mid from './Mid';
 import Bot from './Bot';
-import Animation from "../../../class/Animation";
 import "../../../styles/layout/side-bar.scss";
-import {connect} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCallback, useEffect} from 'react';
+import { toggleSideBar } from '../../../store/slices/layoutSlice';
+import FullScreenShadow from '../../../components/globals/FullScreenShadow/FullScreenShadow';
 
 
-class SideBar extends Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = {
-            styles: {
-                opacity: 1,
-                transform: 0,
-                paddingRight: "270"
-            }
-        }
+const SideBar = () => {
+    const active = useSelector(state => state.layout.activeSideBar);
+    const isFullScreenShadowActive = active && (window.innerWidth < 800);
+    const dispatch = useDispatch();
 
-        this.config = [
-            {
-                style: 'opacity',
-                from: 1,
-                to: 0
-            },
-            {
-                style: 'transform',
-                from: 0,
-                to: -300
-            },
-            {
-                style: 'paddingRight',
-                from: 270,
-                to: 0
-            }
-        ];
-        this.Animation = new Animation(this.config, .2, true);
-    }
 
-    componentDidUpdate(prevProps) {
-        if(this.props.active !== prevProps.active || this.Animation.isRuning()) {
-            if(this.props.active !== prevProps.active) {
-                if(this.Animation.isRuning()) this.Animation.setClockwise(false);
-                else this.Animation = new Animation(this.config, .2, !this.props.active);
-            }
-    
-            if( !this.Animation.hasEnd() ) {
-                this.Animation.run()
-                .then(styles => this.setState({styles}));
-            }
-        }
+    const windowEvent = useCallback((event) => {
+        const width = event.target.innerWidth;
+        if(width < 800 && active) dispatch(toggleSideBar());
+    }, [active, dispatch]);
+
+    useEffect(() => {
+        if(window.innerWidth < 800) dispatch(toggleSideBar());
+    }, [dispatch]);
+
+    useEffect(() => {
+        window.addEventListener('resize', windowEvent);
+        return () => window.removeEventListener('resize', windowEvent);
+    }, [windowEvent]);
+
+    const handleCloseSideBarClick = () => {
+        if(active) dispatch(toggleSideBar());
     }
     
-    render() {
-        const {styles} = this.state;
-        const {username, avatar, isAdminUser, refreshUser} = this.props;
-        const display = styles.opacity === 0 ? 'none' : 'block';
-        let sideBarStyles = {};
-        let paddingRightStyles = {};
-
-        sideBarStyles.display = display;
-        sideBarStyles.opacity = styles.opacity;
-        sideBarStyles.transform = styles.transform === 0 ? '' : `translateX(${styles.transform}px)`;
-        
-        paddingRightStyles.display = display;
-        paddingRightStyles.paddingRight = styles.paddingRight;
-        
-        return (
-            <>
-                <div className="side-bar" style={sideBarStyles}>
-                    <div className="top">
-                        <h1>COMPANY</h1>
-                    </div>
-                    <Mid username={username} avatar={avatar} isAdminUser={isAdminUser} refreshUser={refreshUser} />
-                    <Bot />
+    
+    return (
+        <>
+            <div className={`side-bar${active ? ' active' : ''}`}>
+                <div className="top" onClick={handleCloseSideBarClick}>
+                    <h1>COMPANY</h1>
+                    <i className='zmdi zmdi-arrow-left'></i>
                 </div>
-                <div className="padding-right" style={paddingRightStyles}></div>
-            </>
-        );
-    }
+                <Mid />
+                <Bot />
+            </div>
+
+            <div className={`padding-right${active ? ' active' : ''}`}></div>
+            <FullScreenShadow active={isFullScreenShadowActive} onClick={handleCloseSideBarClick} />
+        </>
+    );
 }
 
 
-const mapStateToProps = state => ({active: state.layout.activeSideBar});
-export default connect(mapStateToProps)(SideBar);
+export default SideBar;
