@@ -2,28 +2,28 @@ import Mid from './Mid';
 import Bot from './Bot';
 import "../../../styles/layout/side-bar.scss";
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toggleSideBar } from '../../../store/slices/layoutSlice';
 import FullScreenShadow from '../../../components/globals/FullScreenShadow/FullScreenShadow';
+import usePrevious from '../../../hooks/usePrevious';
 
 
 const SideBar = () => {
     const active = useSelector(state => state.layout.activeSideBar);
     const isFullScreenShadowActive = active && (window.innerWidth < 800);
     const dispatch = useDispatch();
-
-    const [widthState, setWidthState] = useState(window.innerWidth);
-
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const prevWindowWidth = usePrevious(windowWidth);
 
     const windowEvent = useCallback(() => {
-        const width = window.innerWidth;
-        setWidthState(width);
-        if(width < 800 && active) dispatch(toggleSideBar());
-    }, [active, dispatch]);
+        setWindowWidth(window.innerWidth);
+    }, []);
 
     useEffect(() => {
-        if(window.innerWidth < 800) dispatch(toggleSideBar());
-    }, [dispatch]);
+        if((windowWidth !== prevWindowWidth) && (windowWidth < 800 && active)) {
+            dispatch(toggleSideBar());
+        }
+    }, [windowWidth, active, prevWindowWidth, dispatch]);
 
     useEffect(() => {
         window.addEventListener('resize', windowEvent);
@@ -39,7 +39,7 @@ const SideBar = () => {
         <>
             <div className={`side-bar${active ? ' active' : ''}`}>
                 <div className="top" onClick={handleCloseSideBarClick}>
-                    <h1>{ widthState }</h1>
+                    <h1>COMPANY</h1>
                     <i className='zmdi zmdi-arrow-left'></i>
                 </div>
                 <Mid />
