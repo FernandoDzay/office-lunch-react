@@ -9,6 +9,10 @@
     background-color: white;
     overflow-y: hidden;
     z-index: 3;
+    transition: .3s linear all;
+    opacity: 0;
+    transform: translateX(300px);
+    pointer-events: none;
 
     .top {
         height: 50px;
@@ -39,6 +43,15 @@
     .notifications-container {
         height: calc(99vh - 50px);
         overflow: auto;
+    }
+
+    &.active {
+        opacity: 1;
+        transform: translateX(0px);
+        pointer-events: initial;
+    }
+    @media screen and (max-width: 400px) {
+        max-width: initial;
     }
 }
 
