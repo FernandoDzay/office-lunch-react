@@ -3,7 +3,7 @@ import API from '../../class/API';
 
 // ------------- initialState
 const initialState = {
-    activeSideBar: true,
+    activeSideBar: window.innerWidth > 849,
     activeNotifications: false,
     loadingUser: false,
     user: {},
@@ -13,6 +13,10 @@ const initialState = {
     userOrders: {discount: 0, net_total: 0, total: 0, orders: {foods: [], extras: []}},
     expiredSession: false,
     loadingMakeOrders: false,
+
+    // Esto es para saber cuándo limpiar el bloqueo de pantalla en 'body' -> overflow: hidden;... (Se limpiará sólo cuando esta variable sea falsa)
+    isFullScreenShadowActive: false,
+
     makeOrdersModal: {
         active: false,
         nextStep: null,
@@ -75,7 +79,8 @@ const layoutSlice = createSlice({
         copySuccess: state => {state.makeOrdersModal = {...state.makeOrdersModal, nextStep: 'success', nextStepTitle: 'Órdenes copiadas!'}},
         markReadAllNotifications: state => {
             state.notifications = state.notifications.map(notification => ({...notification, has_been_read: 1}));
-        }
+        },
+        setFullScreenShadowActive: (state, action) => { state.isFullScreenShadowActive = action.payload; },
     },
     extraReducers: {
         // Notifications
@@ -127,7 +132,8 @@ export const {
     goLogin,
     login,
     copySuccess,
-    markReadAllNotifications
+    markReadAllNotifications,
+    setFullScreenShadowActive,
 } = layoutSlice.actions;
 
 export default layoutSlice.reducer;

@@ -3,14 +3,14 @@ import Bot from './Bot';
 import "../../../styles/layout/side-bar.scss";
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect, useState } from 'react';
-import { toggleSideBar } from '../../../store/slices/layoutSlice';
+import { toggleSideBar, setFullScreenShadowActive } from '../../../store/slices/layoutSlice';
 import FullScreenShadow from '../../../components/globals/FullScreenShadow/FullScreenShadow';
 import usePrevious from '../../../hooks/usePrevious';
 
 
 const SideBar = () => {
     const active = useSelector(state => state.layout.activeSideBar);
-    const isFullScreenShadowActive = active && (window.innerWidth < 800);
+    const { isFullScreenShadowActive } = useSelector(state => state.layout);
     const dispatch = useDispatch();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const prevWindowWidth = usePrevious(windowWidth);
@@ -20,7 +20,7 @@ const SideBar = () => {
     }, []);
 
     useEffect(() => {
-        if((windowWidth !== prevWindowWidth) && (windowWidth < 800 && active)) {
+        if((windowWidth !== prevWindowWidth) && (windowWidth < 850 && active)) {
             dispatch(toggleSideBar());
         }
     }, [windowWidth, active, prevWindowWidth, dispatch]);
@@ -30,6 +30,10 @@ const SideBar = () => {
         return () => window.removeEventListener('resize', windowEvent);
     }, [windowEvent]);
 
+    useEffect(() => {
+        dispatch(setFullScreenShadowActive(active && (window.innerWidth < 800)));
+    }, [active, dispatch]);
+
     const handleCloseSideBarClick = () => {
         if(active) dispatch(toggleSideBar());
     }
@@ -38,12 +42,14 @@ const SideBar = () => {
     return (
         <>
             <div className={`side-bar${active ? ' active' : ''}`}>
-                <div className="top" onClick={handleCloseSideBarClick}>
-                    <h1>COMPANY</h1>
-                    <i className='zmdi zmdi-arrow-left'></i>
+                <div className="content">
+                    <div className="top" onClick={handleCloseSideBarClick}>
+                        <h1>COMPANY</h1>
+                        <i className='zmdi zmdi-arrow-left'></i>
+                    </div>
+                    <Mid />
+                    <Bot />
                 </div>
-                <Mid />
-                <Bot />
             </div>
 
             <div className={`padding-right${active ? ' active' : ''}`}></div>

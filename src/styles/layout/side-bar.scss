@@ -1,8 +1,6 @@
 .side-bar {
     background-color: black;
     height: 100%;
-    padding: 0 10px;
-    padding-bottom: 30px;
     background-size: cover;
     width: 100%;
     max-width: 270px;
@@ -78,35 +76,46 @@
             margin-left: 4px;
         }
     }
-    > .top {
-        padding-top: 14px;
-        padding-bottom: 13px;
-        position: relative;
-        pointer-events: none;
-        i {
-            color: white;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-            left: 10px;
-            height: 20px;
-            display: none;
+    > .content {
+        overflow: auto;
+        padding: 0 10px;
+        padding-bottom: 30px;
+        height: inherit;
+
+        > .top {
+            padding-top: 14px;
+            padding-bottom: 13px;
+            position: relative;
+            pointer-events: none;
+            i {
+                color: white;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                left: 10px;
+                height: 20px;
+                display: none;
+            }
         }
-    }
-    > .mid {
-        border-top: 1px solid rgba(255, 255, 255, .3);
-        border-bottom: 1px solid rgba(255, 255, 255, .3);
-        padding: 20px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    > .bot {
-        display: grid;
-        grid-template-columns: 1fr;
-        row-gap: 3px;
-        padding-top: 13px;
+        > .mid {
+            border-top: 1px solid rgba(255, 255, 255, .3);
+            border-bottom: 1px solid rgba(255, 255, 255, .3);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        > .bot {
+            display: grid;
+            grid-template-columns: 1fr;
+            row-gap: 3px;
+            padding-top: 13px;
+        }
+        &::-webkit-scrollbar {
+            width: 0;
+            position: absolute;
+        }
     }
     &::before {
         content: "";
@@ -124,7 +133,7 @@
 
     &.active {
         opacity: 1;
-        transform: translateX(0px);
+        transform: initial;
         pointer-events: initial;
     }
 

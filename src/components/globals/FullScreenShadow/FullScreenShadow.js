@@ -1,51 +1,34 @@
-import {Component} from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import "./FullScreenShadow.scss";
 
-class FullScreenShadow extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { styles: {display: 'none'} }
-    }
-
-    handleAnimationEnd = () => !this.props.active ? this.setState({styles: {display: 'none'}}) : null;
-
-    componentDidMount() {
-        if(this.props.active) {
-            this.setState({
-                styles: {display: "block"}
-            });
-        }
-    }
-
-    componentDidUpdate (prevProps) {
-        if(this.props.active !== prevProps.active) {
-            if(this.props.active) {
-                this.setState({
-                    styles: {display: "block"}
-                });
-            }
-        }
-    }
+const FullScreenShadow = ({active, onClick}) => {
+    const [styles, setStyles] = useState({display: 'none'});
+    const className = active ? " active" : "";
+    const handleAnimationEnd = () => !active ? setStyles({display: 'none'}) : null;
+    const { isFullScreenShadowActive } = useSelector(state => state.layout);
 
 
-    render() {
-        const {active, onClick} = this.props;
-        const {styles} = this.state;
-        const className = active ? " active" : "";
+    useEffect(() => {
+        if(active) setStyles({display: "block"});
+    }, [active]);
+
+    useEffect(() => {
+        if(active) document.querySelector('body').style = 'overflow: hidden;';
+        else { if(!isFullScreenShadowActive) document.querySelector('body').removeAttribute('style'); }
+        return () => { if(!isFullScreenShadowActive) document.querySelector('body').removeAttribute('style'); }
+    }, [active, isFullScreenShadowActive]);
 
 
-        return (
-            <div onAnimationEnd={this.handleAnimationEnd} 
-                className={"full-screen-shadow" + className}
-                style={styles}
-                onClick={onClick} >
-            </div>
-        );
-    }
-
-
-
+    return (
+        <div onAnimationEnd={handleAnimationEnd}
+            className={"full-screen-shadow" + className}
+            style={styles}
+            onClick={onClick} >
+        </div>
+    );
 }
+
 
 export default FullScreenShadow;
