@@ -75,12 +75,13 @@ const layoutSlice = createSlice({
             state.makeOrdersModal = {...state.makeOrdersModal, active: false};
         },
         goLogin: state => {state.expiredSession = true},
-        login: state => {state = {...initialState}},
+        login: state => {state = initialState;},
         copySuccess: state => {state.makeOrdersModal = {...state.makeOrdersModal, nextStep: 'success', nextStepTitle: 'Órdenes copiadas!'}},
         markReadAllNotifications: state => {
             state.notifications = state.notifications.map(notification => ({...notification, has_been_read: 1}));
         },
         setFullScreenShadowActive: (state, action) => { state.isFullScreenShadowActive = action.payload; },
+        closeSideBar: state => { state.activeSideBar = false; }
     },
     extraReducers: {
         // Notifications
@@ -134,6 +135,7 @@ export const {
     copySuccess,
     markReadAllNotifications,
     setFullScreenShadowActive,
+    closeSideBar
 } = layoutSlice.actions;
 
 export default layoutSlice.reducer;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../../../components/globals/Modal/Modal";
 import Button from "../../../components/globals/Button/Button";
 import UserImage from "./UserImage";
-import { getLoggedUser } from '../../../store/slices/layoutSlice';
+import { getLoggedUser, closeSideBar } from '../../../store/slices/layoutSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import API from "../../../class/API";
 
@@ -42,6 +42,7 @@ const Mid = () => {
 
     const handleConfigClick = () => {
         navigate('/config', {replace: true});
+        if(window.innerWidth < 800) dispatch(closeSideBar());
     }
 
     const handleCloseModal = () => setModal(false);

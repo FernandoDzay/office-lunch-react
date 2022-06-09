@@ -1,6 +1,8 @@
 import {useState} from 'react';
 import "../../styles/layout/nav-item.scss";
 import {Link} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { closeSideBar } from '../../store/slices/layoutSlice';
 
 
 export default function NavItem({children, icon, text, href}) {
@@ -30,6 +32,11 @@ export default function NavItem({children, icon, text, href}) {
 
 
 function MainItem({isDropDown, href, icon, children, className, onClick}) {
+    const dispatch = useDispatch();
+
+    const handleLinkClick = () => {
+        if(window.innerWidth < 800) dispatch(closeSideBar());
+    }
     
     if(isDropDown) {
         return (
@@ -42,7 +49,7 @@ function MainItem({isDropDown, href, icon, children, className, onClick}) {
     }
     else {
         return (
-            <Link className="main-item icon-container" to={href}>
+            <Link className="main-item icon-container" to={href} onClick={handleLinkClick}>
                 <i className={"zmdi zmdi-hc-fw " + icon}></i>
                 { children }
             </Link>
