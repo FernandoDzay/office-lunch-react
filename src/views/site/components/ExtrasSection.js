@@ -2,7 +2,6 @@ import {useEffect} from 'react';
 import { getExtras } from '../../../store/slices/extrasSlice';
 import ViewTitle from '../../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../../components/globals/ViewDescription/ViewDescription';
-import Tabs from '../../../components/globals/Tabs/Tabs';
 import ExtraTable from './ExtraTable';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -20,10 +19,7 @@ const ExtrasSection = () => {
             <ViewTitle>Extras</ViewTitle>
             <ViewDescription>Añade un extra si lo deseas.</ViewDescription>
             
-            <Tabs
-                tabsText={['Extras']}
-                tabsContent={[<ExtraTable extras={extras} />]}
-            />
+            <ExtraTable extras={extras} />
         </>
     );
 }

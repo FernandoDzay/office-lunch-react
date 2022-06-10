@@ -26,7 +26,7 @@ const Users = () => {
             <ViewTitle>Usuarios</ViewTitle>
             <ViewDescription>Administrar a todos los usuarios</ViewDescription>
 
-            <Table thead={thead} caption="Usuarios" loading={loading}>
+            <Table thead={thead} caption="Usuarios" loading={loading} responsive={true}>
                 {users.map(user => <UsersRow key={user.id} user={user} />)}
             </Table>
 

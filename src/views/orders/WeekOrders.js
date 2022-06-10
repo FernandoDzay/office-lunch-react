@@ -30,7 +30,7 @@ const WeekOrders = () => {
                 'Estos son los pedidos de esta semana:'
             }</ViewDescription>
 
-            <Table thead={['Usuario', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']} caption="Pedidos de la semana" loading={loading} >
+            <Table thead={['Usuario', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']} caption="Pedidos de la semana" loading={loading} responsive={true}>
                 { weekOrders.orders.map((userWeek, index) => <WeekOrdersRow key={index} userWeek={userWeek} />) }
             </Table>
 

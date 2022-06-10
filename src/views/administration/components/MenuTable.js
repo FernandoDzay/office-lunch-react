@@ -13,7 +13,7 @@ const MenuTable = () => {
     const thead = ['#', 'Nombre', 'Precio', 'Descuento', 'Quitar'];
 
     return (
-        <Table thead={thead} loading={menu.length > 0 ? false : loadingMenu}>
+        <Table thead={thead} loading={menu.length > 0 ? false : loadingMenu} responsive={true}>
             {menu.map((menu, index) => <MenuTableRow key={menu.id} index={index} id={menu.id} food={menu.food} />)}
         </Table>
     );

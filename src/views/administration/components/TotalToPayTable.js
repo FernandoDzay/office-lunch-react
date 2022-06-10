@@ -17,7 +17,7 @@ const TotalToPayTable = () => {
 
 
     return (
-        <Table thead={ ['Día de la semana', 'Total'] } loading={loading} caption='Pagos sin descuento' >
+        <Table thead={ ['Día de la semana', 'Total'] } loading={loading} caption='Pagos sin descuento'>
             {Object.entries(week).map(([key, value]) => (
                 <tr key={key}>
                     <td>{ value }</td>

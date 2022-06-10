@@ -9,7 +9,7 @@ const PaymentsTable = () => {
     
 
     return (
-        <Table thead={['Usuario', 'Total pagado', 'Total a pagar', 'Pagos', 'Pagar todo']} caption="Pagar" loading={loading} >
+        <Table thead={['Usuario', 'Total pagado', 'Total a pagar', 'Pagos', 'Pagar todo']} caption="Pagar" loading={loading} responsive={true}>
             {pendingPayments.map(pendingPayment => (
                 <PaymentsRow key={pendingPayment.id} pendingPayment={pendingPayment} />
             ))}

@@ -12,7 +12,6 @@ const Mid = () => {
     const [schedule, setSchedule] = useState('Horario: ');
     const [modal, setModal] = useState(false);
     const navigate = useNavigate();
-
     const loading = useSelector(state => state.layout.loadingUser);
     const { username, is_admin } = useSelector(state => state.layout.user);
     const dispatch = useDispatch();
