@@ -3,13 +3,13 @@ import ViewDescription from '../../components/globals/ViewDescription/ViewDescri
 import Table from '../../components/globals/Table/Table';
 import UserOrdersRow from './components/UserOrdersRow';
 import { useSelector } from 'react-redux';
+import OrdersModal from './components/OrdersModal';
 
 
 const MyOrders = () => {
     const { userOrders, loadingUserOrders } = useSelector(state => state.layout);
     const isOrdersEmpty = userOrders.orders.foods.length === 0 || userOrders.orders.foods === 0;
     const loading = isOrdersEmpty ? loadingUserOrders : false;
-
 
     return (
         <>
@@ -29,6 +29,8 @@ const MyOrders = () => {
                     <td><strong>${ userOrders.net_total }</strong></td>
                 </tr>
             </Table>
+
+            <OrdersModal />
         </>
     );
 }

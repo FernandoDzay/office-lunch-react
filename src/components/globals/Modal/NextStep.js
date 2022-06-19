@@ -24,8 +24,8 @@ const NextStep = ({nextStep, title, description, onClick}) => {
                     </>
                 }
             </div>
-            <p className="title">{title}</p>
-            <p className="description">{description}</p>
+            <p className="title center">{title}</p>
+            <p className="description center">{description}</p>
             <Button color="blue" icon="check" onClick={onClick}>OK</Button>
         </div>
     );

@@ -20,8 +20,8 @@ const initialState = {
     makeOrdersModal: {
         active: false,
         nextStep: null,
-        nextStepTitle: '',
-        nextStepDescription: '',
+        title: '',
+        description: '',
     },
     makeOrders: {
         total: 0,
@@ -75,8 +75,15 @@ const layoutSlice = createSlice({
             state.makeOrdersModal = {...state.makeOrdersModal, active: false};
         },
         goLogin: state => {state.expiredSession = true},
-        login: state => {state = initialState;},
-        copySuccess: state => {state.makeOrdersModal = {...state.makeOrdersModal, nextStep: 'success', nextStepTitle: 'Órdenes copiadas!'}},
+        login: () => initialState,
+        copySuccess: state => {
+            state.makeOrdersModal = {
+                ...state.makeOrdersModal,
+                nextStep: 'success',
+                nextStepTitle: 'Órdenes copiadas!',
+                nextStepDescription: 'El menú ha sido cerrado',
+            }
+        },
         markReadAllNotifications: state => {
             state.notifications = state.notifications.map(notification => ({...notification, has_been_read: 1}));
         },

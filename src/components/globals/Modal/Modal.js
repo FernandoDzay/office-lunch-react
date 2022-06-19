@@ -38,7 +38,7 @@ class Modal extends React.Component {
             this.setState({animationClass: ""});
         }
         else {
-            this.setState({active: false, nextStep: null})
+            this.setState({active: false, nextStep: null});
         }
     }
 

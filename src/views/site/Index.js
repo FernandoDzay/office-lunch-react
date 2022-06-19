@@ -6,13 +6,13 @@ import ViewDescription from '../../components/globals/ViewDescription/ViewDescri
 import FoodCard from '../../components/globals/FoodCard/FoodCard';
 import Loader from '../../components/globals/Loader/Loader';
 import ExtrasSection from './components/ExtrasSection';
+import OrdersModal from '../orders/components/OrdersModal';
+
 
 const Index = () => {
-
     const dispatch = useDispatch();
     const { menu, menuStatus, loadingMenu } = useSelector(state => state.menu);
-
-    useEffect(() => {dispatch(getMenu())}, [dispatch])
+    useEffect(() => {dispatch(getMenu())}, [dispatch]);
 
     const getViewText = () => {
         const loadingMenuText = {
@@ -33,10 +33,8 @@ const Index = () => {
         }
 
         const menuTextOptions = [emptyMenu, menuClosed, menuFound];
-
         const viewText = loadingMenu ? loadingMenuText :  menuTextOptions[menuStatus];
         return viewText;
-
     }
 
     const viewText = getViewText();
@@ -59,7 +57,9 @@ const Index = () => {
                     )
             }</div>
 
-            <ExtrasSection />
+            <ExtrasSection display={menuStatus === 2 ? true : false} />
+
+            <OrdersModal />
         </>
     );
 }

@@ -6,14 +6,13 @@ import ExtraTable from './ExtraTable';
 import { useSelector, useDispatch } from 'react-redux';
 
 
-const ExtrasSection = () => {
-
+const ExtrasSection = ({display}) => {
     const dispatch = useDispatch();
     const { extras } = useSelector(state => state.extras);
-
     useEffect(() => {dispatch(getExtras())}, [dispatch]);
+    
 
-    if(extras.length === 0) return null;
+    if(extras.length === 0 || display === false) return null;
     return (
         <>
             <ViewTitle>Extras</ViewTitle>

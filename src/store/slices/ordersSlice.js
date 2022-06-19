@@ -25,6 +25,12 @@ const initialState = {
             sunday: {total: 0, discount: 0, net_total: 0}
         },
         orders: []
+    },
+    modal: {
+        active: false,
+        title: '',
+        description: '',
+        nextStep: null
     }
 }
 
@@ -45,7 +51,17 @@ export const getWeekOrders = createAsyncThunk(
 const ordersSlice = createSlice({
     name: 'orders',
     initialState,
-    reducers: {},
+    reducers: {
+        closeModal: state => { state.modal = initialState.modal; },
+        openModal: (state, action) => {
+            state.modal = {
+                active: true,
+                title: action.payload.title,
+                description: action.payload.description,
+                nextStep: action.payload.nextStep
+            }
+        }
+    },
     extraReducers: {
         // getTodaysOrders
         [getTodaysOrders.pending]: state => { state.loadingTodaysOrders = true; },
@@ -71,4 +87,8 @@ const ordersSlice = createSlice({
     }
 })
 
+export const {
+    closeModal,
+    openModal,
+} = ordersSlice.actions;
 export default ordersSlice.reducer;
