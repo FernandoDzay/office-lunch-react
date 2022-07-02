@@ -8,6 +8,7 @@ import MenuTable from './components/MenuTable';
 import ExtrasTable from './components/ExtrasTable';
 import { getFoods } from '../../store/slices/foodsSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import OrdersModal from '../orders/components/OrdersModal';
 
 
 const AddMenu = () => {
@@ -36,6 +37,8 @@ const AddMenu = () => {
                 :
                     foods.map(food => <FoodCard key={food.id} {...food} />)
             }</div>
+
+            <OrdersModal />
         </>
     );
 }

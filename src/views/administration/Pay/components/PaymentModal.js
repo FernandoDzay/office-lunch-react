@@ -15,14 +15,13 @@ import isLength from 'validator/lib/isLength';
 
 
 const PaymentModal = () => {
-    const { modal, loadingUserPayments, loadingCreateUserPayment } = useSelector(state => state.payments);
+    const { modal, loadingUserPayments, loadingCreateUserPayment, dateText } = useSelector(state => state.payments);
     const dispatch = useDispatch();
     const [values, setValues] = useState({concept: '', quantity: ''});
     const [errors, setErrors] = useState({concept: '', quantity: ''});
 
     const handleChange = (e) => {
         if((e.target.name === 'quantity' && isNaN(e.target.value)) || e.nativeEvent.data === '.') return;
-        console.log(e);
         setValues({...values, [e.target.name]: e.target.value});
     }
 
@@ -33,7 +32,7 @@ const PaymentModal = () => {
         dispatch(createUserPayment({
             user_id: modal.user_id,
             concept: values.concept,
-            payment_date: getLastWeekMonday(),
+            payment_date: dateText ? dateText : getLastWeekMonday(),
             quantity: values.quantity
         }));
     }

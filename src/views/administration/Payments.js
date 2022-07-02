@@ -14,17 +14,21 @@ import { getDateString } from '../../utils/globalFunctions';
 const Payments = () => {
     const { loadingWeekOrders } = useSelector(state => state.orders);
     const dispatch = useDispatch();
+    const [dateText, setDateText] = useState(null);
     const [date, setDate] = useState(new Date(getLastWeekMonday()));
     
     const handleChange = date => setDate(date);
-    const handleClick = () => dispatch(getWeekOrders( {date: getDateString(date)} ));
+    const handleClick = () => {
+        dispatch(getWeekOrders( {date: getDateString(date)} ));
+        setDateText( getDateString(date) );
+    }
 
     useEffect(() => { dispatch(getWeekOrders( {date: getDateString(getLastWeekMonday())} )) }, [dispatch]);
 
     return (
         <>
             <ViewTitle>Pagos de todos</ViewTitle>
-            <ViewDescription>Pagos de la semana</ViewDescription>
+            <ViewDescription>{ dateText ? `Pagos de la semana ${dateText}` : 'Pagos de la semana pasada' }</ViewDescription>
 
             <PaymentsTable />
 

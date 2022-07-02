@@ -18,7 +18,8 @@ const initialState = {
         active: false,
         nextStep: null,
         nextStepTitle: '',
-    }
+    },
+    dateText: null
 };
 
 
@@ -30,7 +31,7 @@ export const getPendingPayments = createAsyncThunk(
 export const getUserPayments = createAsyncThunk(
     'payments/get-user-payments',
     async (params, {dispatch}) => {
-        return API('GET', `/payments/get-user-payments/${params.id}`, params, dispatch)
+        return API('GET', `/payments/get-user-payments/${params.id}`, {payment_date: params.payment_date}, dispatch)
         .then(response => Promise.resolve(response))
         .catch(error => error.data.message ? Promise.resolve({...error, data: []}) : Promise.reject(error))
     }
@@ -56,9 +57,8 @@ const paymentsSlice = createSlice({
     name: 'payments',
     initialState,
     reducers: {
-        closeModal: state => {
-            state.modal = {...initialState.modal};
-        },
+        closeModal: state => { state.modal = {...initialState.modal} },
+        setDateText: (state, action) => { state.dateText = action.payload },
     },
     extraReducers: {
         // getPendingPayments
@@ -80,7 +80,7 @@ const paymentsSlice = createSlice({
         [getUserPayments.fulfilled]: (state, action) => {
             state.userPayments = action.payload.data;
             state.loadingUserPayments = false;
-            state.modal = {...state.modal, user_id: action.payload.params.id}
+            state.modal = {...state.modal, user_id: action.meta.arg.id}
         },
         [getUserPayments.rejected]: state => {
             state.userPayments = initialState.userPayments;
@@ -149,5 +149,6 @@ const paymentsSlice = createSlice({
 
 export const {
     closeModal,
+    setDateText,
 } = paymentsSlice.actions;
 export default paymentsSlice.reducer;

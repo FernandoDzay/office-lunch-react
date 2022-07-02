@@ -19,6 +19,7 @@ import Pay from "../views/administration/Pay/Pay";
 import Users from "../views/administration/Users/Users";
 import Groups from "../views/groups/Groups";
 import Layout from "../views/layout/Layout";
+import RequireAdmin from './roles/RequireAdmin';
 
 
 export default function Router() {
@@ -41,19 +42,18 @@ export default function Router() {
                 <Route path="/groups" element={ <Groups /> } />
 
                 {/* ADMINISTRATION */}
-                <Route path="/add-menu" element={ <AddMenu /> } />
-                <Route path="/create-food" element={ <CreateFood /> } />
-                <Route path="/edit-food" element={ <EditFood /> } />
-                <Route path="/create-extra" element={ <CreateExtra /> } />
-                <Route path="/edit-extra" element={ <EditExtra /> } />
-                <Route path="/administration/groups" element={ <AdminGroups /> } />
-
-                <Route path="/payments" element={ <Payments /> } />
-                <Route path="/pay" element={ <Pay /> } />
-
-                <Route path="/users" element={ <Users /> } />
-
-                <Route path="/config" element={ <Config /> } />
+                <Route element={ <RequireAdmin /> }>
+                    <Route path="/add-menu" element={ <AddMenu /> } />
+                    <Route path="/create-food" element={ <CreateFood /> } />
+                    <Route path="/edit-food" element={ <EditFood /> } />
+                    <Route path="/create-extra" element={ <CreateExtra /> } />
+                    <Route path="/edit-extra" element={ <EditExtra /> } />
+                    <Route path="/administration/groups" element={ <AdminGroups /> } />
+                    <Route path="/payments" element={ <Payments /> } />
+                    <Route path="/pay" element={ <Pay /> } />
+                    <Route path="/users" element={ <Users /> } />
+                    <Route path="/config" element={ <Config /> } />
+                </Route>
             </Route>
 
             {/* NOT FOUND */}

@@ -47,66 +47,51 @@ const MakeOrdersModal = () => {
     }
 
 
-    /* if(loadingMakeOrders) {
-        return (
-            <Modal active={active} nextStepTitle="" handleCloseModal={handleJustCloseModal} nextStep={null}>
+    return (
+        <Modal active={active} handleCloseModal={areFoodsEmpty ? handleJustCloseModal : handleCustomCloseModal} nextStep={nextStep} nextStepTitle={title} nextStepDescription={description}>
+            {loadingMakeOrders ?
                 <Loader size="3" color="blue" withContainer={true} />
-            </Modal>
-        );
-    }
-    if(areFoodsEmpty) {
-        return (
-            <Modal active={active} nextStepTitle="Aún no hay comidas" handleCloseModal={handleJustCloseModal} nextStep="fail"></Modal>
-        );
-    } */
-    // else {
-        // console.log("entra");
-        return (
-            <Modal active={active} handleCloseModal={areFoodsEmpty ? handleJustCloseModal : handleCustomCloseModal} nextStep={nextStep} nextStepTitle={title} nextStepDescription={description}>
-                {loadingMakeOrders ? 
-                    <Loader size="3" color="blue" withContainer={true} /> 
-                        : 
-                    <>
-                        <p className="title center">Texto a copiar:</p>
-            
-                        <div className="text-to-copy">
-                            <p className="copy-title">Comidas</p>
-                            {orders.foods.map((food, index) => <p key={index}>{food.quantity} {food.name}</p>)}
-            
-                            {areExtrasEmpty ? null :
-                                <>
-                                    <p className="copy-title">Extras</p>
-                                    {orders.extras.map((extra, index) => <p key={index}>{extra.quantity} {extra.name}</p>)}
-                                </>
-                            }
-                        </div>
-            
-                        <Table thead={['Total', 'Cantidad']}>
-                            <tr>
-                                <td>Para pagar:</td>
-                                <td>{ total }</td>
-                            </tr>
-                            <tr>
-                                <td>Descuentos:</td>
-                                <td>{ discount }</td>
-                            </tr>
-                            <tr>
-                                <td>Precio usuarios:</td>
-                                <td>{ net_total }</td>
-                            </tr>
-                        </Table>
-            
-                        <div className="bot">
-                            <CopyToClipboard text={textToCopy} onCopy={handleCopyClick}>
-                                <Button color="blue" icon="copy">Copiar</Button>
-                            </CopyToClipboard>
-                            <Button color="red" icon="close-circle" onClick={handleCustomCloseModal}>Cerrar</Button>
-                        </div>
-                    </>
-                }
-            </Modal>
-        );
-    // }
+                    : 
+                <>
+                    <p className="title center">Texto a copiar:</p>
+        
+                    <div className="text-to-copy">
+                        <p className="copy-title">Comidas</p>
+                        {orders.foods.map((food, index) => <p key={index}>{food.quantity} {food.name}</p>)}
+        
+                        {areExtrasEmpty ? null :
+                            <>
+                                <p className="copy-title">Extras</p>
+                                {orders.extras.map((extra, index) => <p key={index}>{extra.quantity} {extra.name}</p>)}
+                            </>
+                        }
+                    </div>
+        
+                    <Table thead={['Total', 'Cantidad']}>
+                        <tr>
+                            <td>Para pagar:</td>
+                            <td>{ total }</td>
+                        </tr>
+                        <tr>
+                            <td>Descuentos:</td>
+                            <td>{ discount }</td>
+                        </tr>
+                        <tr>
+                            <td>Precio usuarios:</td>
+                            <td>{ net_total }</td>
+                        </tr>
+                    </Table>
+        
+                    <div className="bot">
+                        <CopyToClipboard text={textToCopy} onCopy={handleCopyClick}>
+                            <Button color="blue" icon="copy">Copiar</Button>
+                        </CopyToClipboard>
+                        <Button color="red" icon="close-circle" onClick={handleCustomCloseModal}>Cerrar</Button>
+                    </div>
+                </>
+            }
+        </Modal>
+    );
 }
 
 

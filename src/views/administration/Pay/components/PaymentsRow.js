@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 const PaymentsRow = ({pendingPayment}) => {
     const { id, username, total_paid, total_to_pay } = pendingPayment;
-    const { loadingCreateUserPayment } = useSelector(state => state.payments);
+    const { loadingCreateUserPayment, dateText } = useSelector(state => state.payments);
     const dispatch = useDispatch();
     const isFullPaid = total_paid === total_to_pay;
     const [loading, setLoading] = useState(false);
@@ -18,13 +18,13 @@ const PaymentsRow = ({pendingPayment}) => {
         dispatch(createUserPayment({
             user_id: id,
             concept: "Pago completo",
-            payment_date: getLastWeekMonday(),
+            payment_date: dateText ? dateText : getLastWeekMonday(),
             quantity: Number(total_to_pay) - Number(total_paid)
         }));
     }
 
     const handleOpenModal = () => {
-        dispatch(getUserPayments({id}));
+        dispatch(getUserPayments({id, payment_date: dateText ? dateText : getLastWeekMonday()}));
     }
 
     useEffect(() => {

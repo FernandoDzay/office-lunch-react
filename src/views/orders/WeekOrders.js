@@ -13,17 +13,21 @@ import Button from '../../components/globals/Button/Button';
 const WeekOrders = () => {
     const { weekOrders, loadingWeekOrders } = useSelector(state => state.orders);
     const dispatch = useDispatch();
+    const [dateText, setDateText] = useState(null);
     const isOrdersEmpty = weekOrders.orders.length === 0;
     const loading = isOrdersEmpty ? loadingWeekOrders : false;
     useEffect(() => { dispatch(getWeekOrders()) }, [dispatch]);
 
     const [date, setDate] = useState('');
     const handleChange = date => setDate(date);
-    const handleClick = () => dispatch(getWeekOrders( {date: getDateString(date)} ));
+    const handleClick = () => {
+        dispatch(getWeekOrders( {date: getDateString(date)} ));
+        setDateText( getDateString(date) );
+    }
     
     return (
         <>
-            <ViewTitle>Pedidos de la semana { getDateString(date) }</ViewTitle>
+            <ViewTitle>{ dateText ? `Pagos de la semana ${dateText}` : 'Pagos de la semana pasada' }</ViewTitle>
             <ViewDescription>{
                 isOrdersEmpty ?
                 'No hay pedidos para esta semana' :
