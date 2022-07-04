@@ -10,7 +10,7 @@ const WeekOrdersRow = ({userWeek}) => {
                 <td key={day}>
                     { userWeek.weekDays[day].orders.map((order, index) =>
                         index > 0 ? 
-                        <Fragment key={index}><br />{order.name}</Fragment> :
+                        <Fragment key={index}><br /><br />{order.name}</Fragment> :
                         <Fragment key={index}>{order.name}</Fragment>) 
                     }
                 </td>

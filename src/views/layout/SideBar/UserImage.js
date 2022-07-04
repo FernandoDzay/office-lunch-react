@@ -5,6 +5,7 @@ import FormGroup from "../../../components/globals/Inputs/FormGroup";
 import InputFile from "../../../components/globals/Inputs/InputFile";
 import { getLoggedUser } from '../../../store/slices/layoutSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from "react";
 
 
 const UserImage = () => {
@@ -14,9 +15,14 @@ const UserImage = () => {
     const [modal, setModal] = useState(false);
     const [file, setFile] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [avatar, setAvatar] = useState('');
 
-    const avatar = useSelector(state => state.layout.user.image);
+    const { image } = useSelector(state => state.layout.user);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setAvatar(image);
+    }, [image])
 
     const handleClick = () => setModal(true);
     const handleCloseModal = () => {
@@ -59,7 +65,7 @@ const UserImage = () => {
     return (
         <>
             <div onClick={handleClick}>{
-                avatar ? <img src={ avatar } alt="Avatar" title="Avatar" /> :
+                avatar ? <img src={ avatar } alt="Avatar" title="Avatar" onError={() => setAvatar(null)} /> :
                 <i className="zmdi zmdi-account-circle zmdi-hc-5x"></i>
             }</div>
             <Modal active={modal} handleCloseModal={handleCloseModal}>
