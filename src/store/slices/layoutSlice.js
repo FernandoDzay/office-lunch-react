@@ -80,8 +80,8 @@ const layoutSlice = createSlice({
             state.makeOrdersModal = {
                 ...state.makeOrdersModal,
                 nextStep: 'success',
-                nextStepTitle: 'Órdenes copiadas!',
-                nextStepDescription: 'El menú ha sido cerrado',
+                title: 'Órdenes copiadas!',
+                description: 'El menú ha sido cerrado',
             }
         },
         markReadAllNotifications: state => {
