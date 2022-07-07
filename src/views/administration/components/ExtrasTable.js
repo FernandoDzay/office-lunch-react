@@ -13,7 +13,7 @@ const ExtraTable = () => {
     const thead = ['#', 'Nombre', 'Precio', 'Editar', 'Quitar'];
 
     return (
-        <Table thead={thead} responsive={true}>
+        <Table thead={thead} responsive={true} withEnum={true}>
             {extras.map((extra, index) => <ExtraTableRow key={extra.id} index={index} extra={extra} />)}
         </Table>
     );

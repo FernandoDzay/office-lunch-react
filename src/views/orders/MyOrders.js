@@ -20,7 +20,7 @@ const MyOrders = () => {
                 'Estos son mis pedidos de hoy:'
             }</ViewDescription>
 
-            <Table thead={['Pedido', 'Precio', 'Quitar']} caption="Pedidos" loading={loading} >
+            <Table thead={['Pedido', 'Precio', 'Quitar']} caption="Pedidos" loading={loading} maxSize="1000" >
                 { userOrders.orders.foods.map(order => <UserOrdersRow key={order.id} order={order} />) }
                 { userOrders.orders.extras.map(order => <UserOrdersRow key={order.id} order={order} />) }
                 <tr>

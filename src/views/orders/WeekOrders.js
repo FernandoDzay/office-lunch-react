@@ -1,13 +1,12 @@
 import ViewTitle from '../../components/globals/ViewTitle/ViewTitle';
 import ViewDescription from '../../components/globals/ViewDescription/ViewDescription';
-import Table from '../../components/globals/Table/Table';
-import WeekOrdersRow from './components/WeekOrdersRow';
 import { useSelector, useDispatch } from 'react-redux';
 import { getWeekOrders } from '../../store/slices/ordersSlice';
 import { useEffect, useState } from 'react';
 import DatePicker from '../../components/globals/DatePicker/DatePicker';
 import { getDateString } from '../../utils/globalFunctions';
 import Button from '../../components/globals/Button/Button';
+import WeekOrdersTable from './components/WeekOrdersTable';
 
 
 const WeekOrders = () => {
@@ -15,7 +14,6 @@ const WeekOrders = () => {
     const dispatch = useDispatch();
     const [dateText, setDateText] = useState(null);
     const isOrdersEmpty = weekOrders.orders.length === 0;
-    const loading = isOrdersEmpty ? loadingWeekOrders : false;
     useEffect(() => { dispatch(getWeekOrders()) }, [dispatch]);
 
     const [date, setDate] = useState('');
@@ -34,9 +32,7 @@ const WeekOrders = () => {
                 'Estos son los pedidos de esta semana:'
             }</ViewDescription>
 
-            <Table thead={['Usuario', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']} caption="Pedidos de la semana" loading={loading} responsive={true}>
-                { weekOrders.orders.map((userWeek, index) => <WeekOrdersRow key={index} userWeek={userWeek} />) }
-            </Table>
+            <WeekOrdersTable />
 
             <div className='date-picker-under-table-container'>
                 <DatePicker date={date} onChange={handleChange} />

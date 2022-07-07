@@ -1,11 +1,15 @@
 import Loader from "../Loader/Loader";
 import './table.scss';
 
-const Table = ({thead, loading, caption, responsive, children}) => {
+const Table = ({thead, loading, caption, responsive, withEnum, maxSize, children}) => {
+    const classNames = ['table-container'];
+    if(responsive) classNames.push('responsive');
+    if(withEnum) classNames.push('with-enum');
+    if(maxSize) classNames.push(`max-size-${maxSize}`);
 
     if(loading) return <Loader withContainer={true} size="2" color="blue" />;
     return (
-        <div className={`table-container${responsive ? ' responsive' : ''}`}>
+        <div className={classNames.join(' ')}>
             <table className="table">
                 {
                     thead !== undefined ?

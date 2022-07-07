@@ -6,6 +6,10 @@
     thead {
         tr th {
             border-bottom: 2px solid #ddd;
+
+            &:first-of-type {
+                border-right: 1px solid #ddd;
+            }
         }
     }
     tbody {
@@ -16,6 +20,12 @@
             }
             td {
                 border-top: 1px solid #ddd;
+
+                &:first-of-type {
+                    border-right: 1px solid #ddd;
+                    text-align: left;
+                    font-weight: bold;
+                }
             }
         }
         tr.highlight {
@@ -59,5 +69,20 @@
         table {
             min-width: 500px;
         }
+    }
+    &.with-enum {
+        table {
+            tbody {
+                tr {
+                    td:first-of-type {
+                        text-align: center;
+                        width: 70px;
+                    }
+                }
+            }
+        }
+    }
+    &.max-size-1000 table {
+        max-width: 1000px;
     }
 }

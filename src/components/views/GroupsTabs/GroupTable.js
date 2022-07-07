@@ -8,7 +8,7 @@ const GroupTable = ({is_admin, userGroup}) => {
 
 
     return (
-        <Table thead={thead}>
+        <Table thead={thead} withEnum={true} >
             {userGroup.relations.map((relation, index) => (
                 <Row key={relation.id} is_admin={is_admin} relation={relation} index={index + 1} />
             ))}

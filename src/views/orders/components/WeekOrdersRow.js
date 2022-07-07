@@ -1,7 +1,9 @@
 import { Fragment } from "react";
 
-const WeekOrdersRow = ({userWeek}) => {
-    const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const WeekOrdersRow = ({userWeek, data}) => {
+    const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+    if(data.saturday) daysOfWeek.push('saturday');
+    if(data.sunday) daysOfWeek.push('sunday');
 
     return (
         <tr>

@@ -24,7 +24,7 @@ const Orders = () => {
                 'Estos son los pedidos de hoy:'
             }</ViewDescription>
 
-            {<Table thead={['#', 'Usuario', 'Pedido']} caption="Pedidos" loading={loading} >
+            {<Table thead={['#', 'Usuario', 'Pedido']} caption="Pedidos" loading={loading} withEnum={true}>
                 { todaysOrders.orders.map((order, index) => <TodaysOrdersRow key={index} index={index} order={order} />) }
             </Table>}
         </>
