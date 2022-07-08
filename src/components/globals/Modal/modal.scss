@@ -109,6 +109,10 @@
         }
     }
     @media screen and (max-width: 375px) {
+        .title {
+            font-size: 27px;
+            margin-bottom: 15px;
+        }
         .bot {
             > button {
                 width: 100%;

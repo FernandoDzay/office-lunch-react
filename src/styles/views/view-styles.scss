@@ -21,6 +21,7 @@
     grid-template-columns: 1fr 1fr 1fr;
 
     @media screen and (max-width: 850px) {
+        margin-top: 30px;
         grid-template-columns: 1fr 1fr;
     }
     @media screen and (max-width: 500px) {
@@ -29,5 +30,6 @@
 }
 
 .group-selectors {
+    margin-top: 50px;
     max-width: 400px;
 }

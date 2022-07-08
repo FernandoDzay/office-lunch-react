@@ -13,10 +13,9 @@
         margin-bottom: 40px;
         font-size: 18px;
         line-height: 1.4;
-
-        &:first-of-type {
-            margin-top: -15px;
-        }
+    }
+    > p:first-of-type {
+        margin-top: -15px;
     }
     .error {
         color: red;

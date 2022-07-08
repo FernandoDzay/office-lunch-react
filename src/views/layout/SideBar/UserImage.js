@@ -76,8 +76,8 @@ const UserImage = () => {
                 </FormGroup>
 
                 <div className="bot">
-                    <Button color='blue' onClick={handleSubmit}>Guardar</Button>
-                    <Button color='red' onClick={handleCloseModal}>Cancelar</Button>
+                    <Button color='blue' icon="save" onClick={handleSubmit}>Guardar</Button>
+                    <Button color='red' icon="close-circle" onClick={handleCloseModal}>Cancelar</Button>
                 </div>
             </Modal>
         </>

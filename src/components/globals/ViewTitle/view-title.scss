@@ -10,4 +10,12 @@
     & + .view-description {
         margin-top: -30px;
     }
+
+    @media screen and (max-width: 500px) {
+        font-size: 30px;
+        
+        &:first-of-type {
+            margin-top: 0px;
+        }
+    }
 }

@@ -127,7 +127,7 @@ const FoodForm = ({initialState, forceNotEmpty}) => {
     return (
         <ViewForm>
 
-            <FormGroup message="Este nombre es el que sale en la tarjeta de comida" error={errors.full_name} forceNotEmpty={forceNotEmpty} >
+            <FormGroup message="Este nombre es el que sale en la tarjeta de comida" error={errors.full_name} forceNotEmpty={forceNotEmpty} responsive={true} >
                 <label htmlFor="full_name">Nombre completo de la comida</label>
                 <Input name="full_name" onChangeHandler={handleChange} value={full_name} />
             </FormGroup>

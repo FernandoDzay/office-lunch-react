@@ -37,7 +37,7 @@
     }
     .message {
         position: absolute;
-        bottom: -25px;
+        top: 46px;
         color: #636363;
         font-size: 12px;
         display: none;
@@ -72,7 +72,7 @@
     &.has-errors {
         .message {
             display: block;
-            color: #ff6060;
+            color: #ff6060 !important;
         }
     }
     &.no-border-bottom {
@@ -92,5 +92,11 @@
         left: 0;
         right: 0;
         margin: 0 auto;
+    }
+
+    @media screen and (max-width: 350px) {
+        &.responsive {
+            margin-bottom: 65px;
+        }
     }
 }

@@ -80,18 +80,17 @@ class FormGroup extends React.Component {
 
     render() {
         const {isFocused, isEmpty} = this.state;
-        const {error, message, noBorderBottom} = this.props;
+        const {error, message, noBorderBottom, responsive} = this.props;
 
-        let classes = [
-            'form-group',
-            isFocused ? ' focused' : '',
-            isEmpty ? ' empty' : '',
-            noBorderBottom ? ' no-border-bottom' : '',
-            error !== undefined && error.length > 0 ? ' has-errors' : '',
-        ];
+        let classes = ['form-group'];
+        if(isFocused) classes.push('focused');
+        if(isEmpty) classes.push('empty');
+        if(noBorderBottom) classes.push('no-border-bottom');
+        if(responsive) classes.push('responsive');
+        if(error !== undefined && error.length > 0) classes.push('has-errors');
 
         return (
-            <div className={classes.join('')}>
+            <div className={classes.join(' ')}>
                 {this.renderChildren()}
                 <p className={"message"}>{ error ? error : message }</p>
             </div>

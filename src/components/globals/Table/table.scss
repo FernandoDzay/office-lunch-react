@@ -81,6 +81,18 @@
                 }
             }
         }
+
+        @media screen and (max-width: 500px) {
+            table {
+                tbody {
+                    tr {
+                        td:first-of-type {
+                            width: 50px;
+                        }
+                    }
+                }
+            }
+        }
     }
     &.max-size-1000 table {
         max-width: 1000px;
