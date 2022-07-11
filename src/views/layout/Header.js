@@ -17,12 +17,11 @@ const Header = () => {
                 </button>
             </div>
             <div className="right">
-                {
-                    user.is_admin &&
+                {user.is_admin ?
                     <button className="header-btn" onClick={() => dispatch(openMakeOrdersModal())}>
                         <i className="zmdi zmdi-cutlery"></i>
                     </button>
-                }
+                : null}
                 <button className="header-btn" onClick={() => dispatch(openNotifications())}>
                     { notificationsWithoutReadCount > 0 ?
                          <>

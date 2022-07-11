@@ -46,7 +46,7 @@ const Index = () => {
         <>
             <ViewTitle>{viewText.title}</ViewTitle>
             <ViewDescription>{viewText.description}</ViewDescription>
-            { user.is_admin && menuStatus === 1 && <ViewDescription>Para activar el menú, puedes ir aquí: {<Link to="/config">Configuración</Link>}</ViewDescription> }
+            { (user.is_admin && menuStatus === 1) ? <ViewDescription>Para activar el menú, puedes ir aquí: {<Link to="/config">Configuración</Link>}</ViewDescription> : null }
             
             <div className="food-cards-container">{
                 loadingMenu ? 

@@ -35,8 +35,7 @@ const Bot = () => {
                 <NavItem icon="zmdi-accounts" text="Grupos">
                     <NavSubItem icon="zmdi-accounts" text="Grupos" href="/groups" />
                 </NavItem>
-                {
-                    user.is_admin &&
+                {user.is_admin ?
                     <NavItem icon="zmdi-shield-security" text="Administración">
                         <NavSubItem icon="zmdi-cutlery" text="Insertar comidas del día" href="/add-menu" />
                         <NavSubItem icon="zmdi-local-pizza" text="Crear comida" href="/create-food" />
@@ -46,13 +45,12 @@ const Bot = () => {
                         <NavSubItem icon="zmdi-money" text="Pagos" href="/payments" />
                         <NavSubItem icon="zmdi-money-box" text="Pagos" href="/pay" />
                     </NavItem>
-                }
+                : null}
             </nav>
 
             <div className="user-orders">
                 <br />
-                {
-                    (foods.length > 0 || extras.length > 0) &&
+                {(foods.length > 0 || extras.length > 0) ?
                     <>
                         <p>Mis pedidos de hoy:</p>
                         <ul>
@@ -60,7 +58,7 @@ const Bot = () => {
                             {extras.map(extra => <li key={extra.id}>{extra.name}</li>)}
                         </ul>
                     </>
-                }
+                : null}
             </div>
         </>
     );

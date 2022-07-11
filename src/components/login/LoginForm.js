@@ -27,7 +27,6 @@ const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const [goToApplication, setGoToApplication] = useState(false);
 
-
     const api_url = process.env.REACT_APP_API_URL;
     const changeHandler = (e) => setValues({...values, [e.target.name]: e.target.value});
 
@@ -57,21 +56,20 @@ const LoginForm = () => {
         .then(r => r.json())
         .then(data => {
             if(data.error) {
-                setLoading(false);
                 setOpenModal(true);
                 setModalError(data.error);
+                return;
             }
-            if(!data.token) throw new Error('Ocurrió un error inseperado');
+            if(!data.token) throw new Error();
             dispatch(login());
             localStorage.setItem('token', data.token);
-            setLoading(false);
             setGoToApplication(true);
         })
         .catch(e => {
-            setLoading(false);
             setOpenModal(true);
-            setModalError("Ocurrió un error inesperado");
-        });
+            setModalError(e.error ? e.error : 'Ocurrió un error inseperado');
+        })
+        .finally(() => setLoading(false));
     }
         
     if(goToApplication) return <Navigate to="/" />
