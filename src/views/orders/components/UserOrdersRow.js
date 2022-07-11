@@ -12,10 +12,8 @@ const UserOrdersRow = ({ order }) => {
     const { user } = useSelector(state => state.layout);
 
     const handleClick = () => {
-        const body = order.food_id !== undefined ? {food_id: order.food_id} : {extra_id: order.extra_id};
-
         setLoading(true);
-        API('DELETE', '/orders/delete-user-order', body)
+        API('DELETE', '/orders/delete-user-order', {id: order.id})
         .then(r => dispatch(getUserOrders(user.id)))
         .catch(e => {
             if(e.data && e.data.display) dispatch(openModal({title: e.data.display, description: '', nextStep: 'fail'}));
