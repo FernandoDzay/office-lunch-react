@@ -28,4 +28,12 @@
             background-color: rgb(220, 60, 49);
         }
     }
+    &.adjust-icon {
+        padding-left: 25px;
+
+        i {
+            position: absolute;
+            left: 15px;
+        }
+    }
 }

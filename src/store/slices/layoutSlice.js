@@ -122,9 +122,15 @@ const layoutSlice = createSlice({
             state.loadingMakeOrders = false;
             state.makeOrders = action.payload.data;
         },
-        [makeOrders.rejected]: state => {
+        [makeOrders.rejected]: (state, action) => {
             state.loadingMakeOrders = false;
             state.makeOrders = initialState.makeOrders;
+            state.makeOrdersModal = {
+                active: true,
+                nextStep: 'fail',
+                title: action.error.message ? action.error.message : 'Ocurrió un error inseperado',
+                description: '',
+            };
         },
     }
 });
