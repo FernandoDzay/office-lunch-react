@@ -23,7 +23,7 @@ const Payments = () => {
         setDateText( getDateString(date) );
     }
 
-    useEffect(() => { dispatch(getWeekOrders( {date: getDateString(getLastWeekMonday())} )) }, [dispatch]);
+    useEffect(() => { dispatch(getWeekOrders( {date: getDateString(new Date(getLastWeekMonday()))} )); }, [dispatch]);
 
     return (
         <>
