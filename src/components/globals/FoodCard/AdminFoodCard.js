@@ -46,12 +46,12 @@ const AdminFoodCard = ({id, full_name, image}) => {
         API('DELETE', `/foods/delete/${id}`)
         .then(r => {
             dispatch(getFoods());
-            conditionalOpenModal({title: 'Correcto!', description: 'La comida fue borrada con éxito', nextStep: 'success'})
+            conditionalOpenModal({title: 'Correcto!', description: 'La comida fue borrada con éxito', nextStep: 'success'});
         })
         .catch(e => {
             setDeleteLoading(false);
-            const description = e.data.deleteError ? e.data.deleteError : '';
-            conditionalOpenModal({title: 'Error al borrar', description, nextStep: 'fail'});
+            const description = e.data && e.data.deleteError ? e.data.deleteError : 'Ocurrió un error interno';
+            dispatch(openModal({title: 'Error al borrar', description, nextStep: 'fail'}));
         });
     }
 
