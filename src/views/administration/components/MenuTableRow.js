@@ -3,6 +3,7 @@ import IconButton from '../../../components/globals/IconButton/IconButton';
 import { getMenu } from '../../../store/slices/menuSlice';
 import { useDispatch } from 'react-redux';
 import API from '../../../class/API';
+import { openModal } from '../../../store/slices/ordersSlice';
 
 
 const MenuTableRow = ({id, index, food}) => {
@@ -13,7 +14,14 @@ const MenuTableRow = ({id, index, food}) => {
         setLoading(true);
         API('DELETE', `/menu/remove-food/${id}`)
         .then(r => dispatch(getMenu()))
-        .catch(e => setLoading(false));
+        .catch(e => {
+            dispatch(openModal({
+                title:  'Ups!',
+                description:  e.data && e.data.error ? e.data.error : 'Ocurrió un error interno',
+                nextStep: 'fail'
+            }));
+            setLoading(false)
+        });
     }
 
     return (

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { getExtras } from '../../../store/slices/extrasSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { openModal } from '../../../store/slices/ordersSlice';
 import IconButton from '../../../components/globals/IconButton/IconButton';
 import API from '../../../class/API';
 
@@ -16,7 +17,14 @@ const ExtraTableRow = ({index, extra}) => {
         setDeleteLoading(true);
         API('DELETE', `/extras/delete/${extra.id}`)
         .then(r => dispatch(getExtras()))
-        .catch(e => setDeleteLoading(false));
+        .catch(e => {
+            dispatch(openModal({
+                title:  'Ups!',
+                description:  e.data && e.data.error ? e.data.error : 'Ocurrió un error interno',
+                nextStep: 'fail'
+            }));
+            setDeleteLoading(false)
+        });
     }
 
 
