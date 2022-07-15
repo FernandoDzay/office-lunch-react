@@ -3,8 +3,6 @@
 A React.js project, with create-react-app
 
 ## Development setup
-___
-
 First, download dependencies.
 
 ```
@@ -24,21 +22,15 @@ npm start
 And the project is going to be open in your default browser.
 
 ## Production
-___
-
 Setup your own online Backend server, and then configure **.env.production** file.
 
 ## Prerequisites
-___
-
 ```
 node@v16.15.0 or higher
 npm@8.5.5 or higher
 ```
 
 ## Features
-___
-
 * Valid HTML5 & CSS3
 * Fully Responsive
 * Minimal libraries used
@@ -48,8 +40,6 @@ ___
 The project design was taken from this page: [https://designlopers.com/resource/QnVWLzg3bVJWUmtSWHZwQTkwK0Fjdz09/](https://designlopers.com/resource/QnVWLzg3bVJWUmtSWHZwQTkwK0Fjdz09/, 'Layout design'). I didn´t use the template they provide. I copied the design with my own CSS styles and Javascript with React.js.
 
 ## Technologies
-___
-
 * React.js with create-react-app
 * SASS
 * Redux toolkit
