@@ -26,7 +26,7 @@ const Bot = () => {
     return (
         <>
             <nav className="bot">
-                <NavItem icon="zmdi-view-dashboard" text="Dashboard" href="/" />
+                <NavItem icon="zmdi-view-dashboard" text="Menú" href="/" />
                 <NavItem icon="zmdi-cutlery" text="Pedidos">
                     <NavSubItem icon="zmdi-shopping-basket" text="Mis pedidos" href="/my-orders" />
                     <NavSubItem icon="zmdi-shopping-cart" text="Pedidos de todos" href="/orders" />
