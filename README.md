@@ -23,7 +23,11 @@ In addition, due to the pandemic, we only could go to eat in groups of 5 people 
 In the project, you can find extra features, like custom image for users, custom images for food cards, notifications (for example birthday notifications) and more.
 
 ### Finally
-Feel free to play with the project: [https://office-lunch-react.luisdzay.com](https://office-lunch-react.luisdzay.com, 'Office Lunch Platform for testing'). This link is for testing, which resets all the default demo data every day. To enter as Admin, use luis@gmail.com, Pass: 1234
+Feel free to play with the project: [https://office-lunch-react.luisdzay.com](https://office-lunch-react.luisdzay.com, 'Office Lunch Platform for testing'). This link is for testing, which resets all the default demo data every day.
+
+To enter as Admin, use luis@gmail.com, Pass: 1234
+
+To enter as No-Admin, use pedro@gmail.com, laura@gmail.com, pablo@gmail.com. All with Pass: 1234
 
 ## Development setup
 First, download dependencies.
